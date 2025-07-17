@@ -34,19 +34,19 @@ import androidx.room.PrimaryKey
             parentColumns = ["id"],
             childColumns = ["death_place_id"],
             onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.CASCADE,
+            onDelete = ForeignKey.NO_ACTION,
         ),
         ForeignKey(
             entity = Weapon::class,
             parentColumns = ["id"],
             childColumns = ["death_weapon_id"],
             onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.CASCADE,
+            onDelete = ForeignKey.NO_ACTION,
         ),
     ],
 )
 data class GamePlayer(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: Long,
 
