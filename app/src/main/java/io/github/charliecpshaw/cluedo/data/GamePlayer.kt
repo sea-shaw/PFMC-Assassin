@@ -1,6 +1,5 @@
 package io.github.charliecpshaw.cluedo.data
 
-import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -24,25 +23,25 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
-            entity = Player::class,
+            entity = GamePlayer::class,
             parentColumns = ["id"],
             childColumns = ["target_id"],
             onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.SET_NULL,
+            onDelete = ForeignKey.NO_ACTION,
         ),
         ForeignKey(
             entity = Place::class,
             parentColumns = ["id"],
             childColumns = ["death_place_id"],
             onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.SET_NULL,
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = Weapon::class,
             parentColumns = ["id"],
             childColumns = ["death_weapon_id"],
             onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.SET_NULL,
+            onDelete = ForeignKey.CASCADE,
         ),
     ],
 )
@@ -61,11 +60,11 @@ data class GamePlayer(
     val isAlive: Boolean,
 
     @ColumnInfo(name = "target_id")
-    val targetId: Long?,
+    val targetId: Long,
 
     @ColumnInfo(name = "death_place_id")
-    val deathPlaceId: Long?,
+    val deathPlaceId: Long,
 
     @ColumnInfo(name = "death_weapon_id")
-    val deathWeaponId: Long?,
+    val deathWeaponId: Long,
 )
