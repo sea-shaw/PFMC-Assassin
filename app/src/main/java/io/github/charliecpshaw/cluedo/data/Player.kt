@@ -27,4 +27,7 @@ data class Player(
 
     @ColumnInfo(name = "group_id")
     val groupId: Long,
+
+    @ColumnInfo(name = "is_active")
+    val isActive: Boolean,
 )
