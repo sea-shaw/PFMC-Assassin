@@ -35,7 +35,7 @@ import java.util.Date
 data class Game(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long,
+    val id: Long = 0,
 
     @ColumnInfo(name = "name")
     val name: String,
