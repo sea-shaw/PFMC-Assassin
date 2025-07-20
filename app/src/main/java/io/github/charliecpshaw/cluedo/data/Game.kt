@@ -46,12 +46,12 @@ data class Game(
     @ColumnInfo(name = "end_date")
     val endDate: Date?,
 
-    @ColumnInfo(name = "player_group_id")
+    @ColumnInfo(name = "player_group_id", index = true)
     val playerGroupId: Long,
 
-    @ColumnInfo(name = "place_group_id")
+    @ColumnInfo(name = "place_group_id", index = true)
     val placeGroupId: Long,
 
-    @ColumnInfo(name = "weapon_group_id")
+    @ColumnInfo(name = "weapon_group_id", index = true)
     val weaponGroupId: Long,
 )

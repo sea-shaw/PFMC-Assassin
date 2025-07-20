@@ -25,7 +25,7 @@ data class Place(
     @ColumnInfo(name = "name")
     val name: String,
 
-    @ColumnInfo(name = "group_id")
+    @ColumnInfo(name = "group_id", index = true)
     val groupId: Long,
 
     @ColumnInfo(name = "is_active")

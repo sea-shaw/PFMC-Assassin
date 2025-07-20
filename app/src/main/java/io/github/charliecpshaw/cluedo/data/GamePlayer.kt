@@ -50,21 +50,21 @@ data class GamePlayer(
     @ColumnInfo(name = "id")
     val id: Long,
 
-    @ColumnInfo(name = "game_id")
+    @ColumnInfo(name = "game_id", index = true)
     val gameId: Long,
 
-    @ColumnInfo(name = "player_id")
+    @ColumnInfo(name = "player_id", index = true)
     val playerId: Long,
 
     @ColumnInfo(name = "is_alive")
     val isAlive: Boolean,
 
-    @ColumnInfo(name = "target_id")
+    @ColumnInfo(name = "target_id", index = true)
     val targetId: Long,
 
-    @ColumnInfo(name = "death_place_id")
+    @ColumnInfo(name = "death_place_id", index = true)
     val deathPlaceId: Long,
 
-    @ColumnInfo(name = "death_weapon_id")
+    @ColumnInfo(name = "death_weapon_id", index = true)
     val deathWeaponId: Long,
 )
