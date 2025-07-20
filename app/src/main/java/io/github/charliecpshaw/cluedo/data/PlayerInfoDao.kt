@@ -8,6 +8,7 @@ private const val QUERY = """
 SELECT
 game_player.id AS id,
 game_player.player_id as playerId,
+game_player.is_alive as isAlive,
 player.name as playerName,
 target_game_player.id as targetId,
 target_player.name as targetName,
@@ -26,8 +27,8 @@ LEFT JOIN weapon weapon ON weapon.id = target_game_player.death_weapon_id
 @Dao
 interface PlayerInfoDao {
     @Query(QUERY + "WHERE game_player.id = :id")
-    fun getGamePlayer(id: Int): Flow<PlayerInfo>
+    fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo>
 
-    @Query(QUERY + "WHERE game_player.game_id = :gameId")
-    fun getAllGamePlayersInGame(gameId: Int): Flow<List<PlayerInfo>>
+    @Query(QUERY + "WHERE game_player.game_id = :gameId AND game_player.is_alive")
+    fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
 }
