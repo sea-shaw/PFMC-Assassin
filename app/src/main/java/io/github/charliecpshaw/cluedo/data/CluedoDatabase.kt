@@ -29,6 +29,9 @@ abstract class CluedoDatabase : RoomDatabase() {
     abstract fun placeGroupDao(): PlaceGroupDao
     abstract fun playerDao(): PlayerDao
     abstract fun playerGroupDao(): PlayerGroupDao
+
+    abstract fun playerInfoDao(): PlayerInfoDao
+
     abstract fun weaponDao(): WeaponDao
     abstract fun weaponGroupDao(): WeaponGroupDao
 
