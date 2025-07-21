@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlaceDao {
-    @Query("SELECT * FROM place WHERE group_id = :groupId AND is_active ORDER BY name ASC")
-    suspend fun getAllActiveInGroup(groupId: Long): List<Place>
+    @Query("SELECT id FROM place WHERE group_id = :groupId AND is_active")
+    suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
     @Query("SELECT * FROM place WHERE id = :id")
     fun get(id: Long): Flow<Place>

@@ -16,8 +16,8 @@ interface PlayerDao {
     @Query("SELECT * FROM player WHERE group_id = :groupId ORDER BY name ASC")
     fun getAllInGroupStream(groupId: Long): Flow<List<Player>>
 
-    @Query("SELECT * FROM player WHERE group_id = :groupId AND is_active ORDER BY name ASC")
-    suspend fun getAllActiveInGroup(groupId: Long): List<Player>
+    @Query("SELECT id FROM player WHERE group_id = :groupId AND is_active")
+    suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(player: Player): Long

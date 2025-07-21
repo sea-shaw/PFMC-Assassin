@@ -11,10 +11,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GamePlayerDao {
     @Query("SELECT * FROM game_player WHERE id = :id")
-    fun get(id: Long): Flow<GamePlayer>
+    suspend fun get(id: Long): GamePlayer
+
+    @Query("SELECT MAX(id) FROM game_player")
+    suspend fun getMaxId(): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(gamePlayers: List<GamePlayer>): List<Long>
+    suspend fun insertAll(gamePlayers: List<GamePlayer>): List<Long>
 
     @Update(onConflict = OnConflictStrategy.ABORT)
     suspend fun update(gamePlayer: GamePlayer): Int

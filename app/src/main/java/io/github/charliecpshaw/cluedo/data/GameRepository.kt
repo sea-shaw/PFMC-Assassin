@@ -1,15 +1,31 @@
 package io.github.charliecpshaw.cluedo.data
 
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
+import java.time.Instant
 
 interface GameRepository {
-    fun getAll(): Flow<List<Game>>
 
-    fun get(id: Long): Flow<Game>
+    suspend fun createGame(
+        name: String,
+        startInstant: Instant,
+        playerGroupId: Long,
+        placeGroupId: Long,
+        weaponGroupId: Long,
+    )
 
-    suspend fun insert(game: Game): Long
+    fun getAllGamesStream(): Flow<List<Game>>
 
-    suspend fun update(game: Game): Int
+    fun getGameStream(gameId: Long): Flow<Game>
 
-    suspend fun delete(game: Game): Int
+    fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
+
+    fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo>
+
+    suspend fun killTarget(playerId: Long, instant: Instant)
+
+    suspend fun removePlayer(playerId: Long)
+
+    suspend fun shuffleGame(gameId: Long)
+
 }

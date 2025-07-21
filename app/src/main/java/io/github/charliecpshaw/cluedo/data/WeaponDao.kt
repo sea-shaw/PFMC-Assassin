@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeaponDao {
-    @Query("SELECT * FROM weapon WHERE group_id = :groupId AND is_active ORDER BY name ASC")
-    suspend fun getAllActiveInGroup(groupId: Long): List<Weapon>
+    @Query("SELECT id FROM weapon WHERE group_id = :groupId AND is_active")
+    suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
     @Query("SELECT * FROM weapon WHERE id = :id")
     fun get(id: Long): Flow<Weapon>
