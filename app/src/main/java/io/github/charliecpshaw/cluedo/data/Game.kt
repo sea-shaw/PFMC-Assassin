@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.util.Date
+import java.time.Instant
 
 @Entity(
     tableName = "game",
@@ -41,10 +41,10 @@ data class Game(
     val name: String,
 
     @ColumnInfo(name = "start_date")
-    val startDate: Date,
+    val start: Instant,
 
     @ColumnInfo(name = "end_date")
-    val endDate: Date?,
+    val end: Instant?,
 
     @ColumnInfo(name = "player_group_id", index = true)
     val playerGroupId: Long,

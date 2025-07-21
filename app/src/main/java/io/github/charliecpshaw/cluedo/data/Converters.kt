@@ -1,16 +1,16 @@
 package io.github.charliecpshaw.cluedo.data
 
 import androidx.room.TypeConverter
-import java.util.Date
+import java.time.Instant
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromTimestamp(value: Long?): Instant? {
+        return value?.let { Instant.ofEpochMilli(it) }
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+    fun dateToTimestamp(instant: Instant?): Long? {
+        return instant?.epochSecond
     }
 }
