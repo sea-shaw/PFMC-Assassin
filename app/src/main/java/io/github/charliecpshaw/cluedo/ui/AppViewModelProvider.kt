@@ -15,4 +15,4 @@ object AppViewModelProvider {
 }
 
 fun CreationExtras.cluedoApplication(): CluedoApplication =
-    this[AndroidViewModelFactory.APPLICATION_KEY] as CluedoApplication
+    (this[AndroidViewModelFactory.APPLICATION_KEY] as CluedoApplication)
