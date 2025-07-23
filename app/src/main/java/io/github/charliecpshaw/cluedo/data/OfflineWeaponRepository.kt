@@ -1,4 +1,4 @@
 package io.github.charliecpshaw.cluedo.data
 
-class OfflineWeaponRepository {
+class OfflineWeaponRepository : WeaponRepository {
 }
