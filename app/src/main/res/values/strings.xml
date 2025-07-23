@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Cluedo</string>
+    <string name="player_entry_title">Add Player</string>
+    <string name="player_group_title">Player Groups</string>
 </resources>
