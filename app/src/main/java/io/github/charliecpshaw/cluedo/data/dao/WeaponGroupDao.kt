@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,10 +18,10 @@ interface WeaponGroupDao {
     @Query("SELECT * FROM weapon_group WHERE id = :id")
     fun get(id: Long): Flow<WeaponGroup>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(weaponGroup: WeaponGroup): Long
 
-    @Update(onConflict = OnConflictStrategy.ABORT)
+    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun update(weaponGroup: WeaponGroup): Int
 
     @Delete

@@ -1,10 +1,20 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import kotlinx.coroutines.flow.Flow
 
-private const val QUERY = """
+@Dao
+interface PlayerInfoDao {
+    @Query(QUERY + "WHERE game_player.id = :gamePlayerId")
+    fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo>
+
+    @Query(QUERY + "WHERE game_player.game_id = :gameId AND game_player.is_alive")
+    fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
+
+    companion object {
+        private const val QUERY = """
 SELECT
 game_player.id AS id,
 game_player.player_id as playerId,
@@ -22,13 +32,7 @@ LEFT JOIN game_player target_game_player ON game_player.target_id = target_game_
 LEFT JOIN player target_player ON target_player.id = target_game_player.player_id
 LEFT JOIN place place ON place.id = target_game_player.death_place_id
 LEFT JOIN weapon weapon ON weapon.id = target_game_player.death_weapon_id
+
 """
-
-@Dao
-interface PlayerInfoDao {
-    @Query(QUERY + "WHERE game_player.id = :gamePlayerId")
-    fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo>
-
-    @Query(QUERY + "WHERE game_player.game_id = :gameId AND game_player.is_alive")
-    fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
+    }
 }

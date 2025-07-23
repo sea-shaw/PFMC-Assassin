@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.model
 
 data class PlayerInfo(
     val id: Long,

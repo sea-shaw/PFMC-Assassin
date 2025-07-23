@@ -2,11 +2,10 @@ package io.github.charliecpshaw.cluedo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.charliecpshaw.cluedo.data.PlayerGroup
-import io.github.charliecpshaw.cluedo.data.PlayerRepository
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 

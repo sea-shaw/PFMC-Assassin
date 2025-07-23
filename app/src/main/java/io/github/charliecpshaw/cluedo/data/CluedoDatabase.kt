@@ -5,6 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import io.github.charliecpshaw.cluedo.data.dao.GameDao
+import io.github.charliecpshaw.cluedo.data.dao.GamePlayerDao
+import io.github.charliecpshaw.cluedo.data.dao.PlaceDao
+import io.github.charliecpshaw.cluedo.data.dao.PlaceGroupDao
+import io.github.charliecpshaw.cluedo.data.dao.PlayerDao
+import io.github.charliecpshaw.cluedo.data.dao.PlayerGroupDao
+import io.github.charliecpshaw.cluedo.data.dao.PlayerInfoDao
+import io.github.charliecpshaw.cluedo.data.dao.WeaponDao
+import io.github.charliecpshaw.cluedo.data.dao.WeaponGroupDao
+import io.github.charliecpshaw.cluedo.data.model.Game
+import io.github.charliecpshaw.cluedo.data.model.GamePlayer
+import io.github.charliecpshaw.cluedo.data.model.Place
+import io.github.charliecpshaw.cluedo.data.model.PlaceGroup
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Weapon
+import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 
 @Database(
     entities = [

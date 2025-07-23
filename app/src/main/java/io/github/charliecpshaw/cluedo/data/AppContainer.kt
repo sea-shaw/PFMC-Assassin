@@ -1,6 +1,8 @@
 package io.github.charliecpshaw.cluedo.data
 
 import android.content.Context
+import io.github.charliecpshaw.cluedo.data.repository.OfflinePlayerRepository
+import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
 
 interface AppContainer {
     val playerRepository: PlayerRepository

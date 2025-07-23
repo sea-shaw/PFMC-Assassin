@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

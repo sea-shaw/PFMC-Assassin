@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,10 +6,10 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "player",
+    tableName = "place",
     foreignKeys = [
         ForeignKey(
-            entity = PlayerGroup::class,
+            entity = PlaceGroup::class,
             parentColumns = ["id"],
             childColumns = ["group_id"],
             onUpdate = ForeignKey.CASCADE,
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
         ),
     ],
 )
-data class Player(
+data class Place(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long = 0,

@@ -1,5 +1,9 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.repository
 
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.dao.PlayerDao
+import io.github.charliecpshaw.cluedo.data.dao.PlayerGroupDao
 import kotlinx.coroutines.flow.Flow
 
 class OfflinePlayerRepository(

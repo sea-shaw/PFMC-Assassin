@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -12,36 +12,36 @@ import androidx.room.PrimaryKey
             entity = Game::class,
             parentColumns = ["id"],
             childColumns = ["game_id"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.Companion.CASCADE,
+            onDelete = ForeignKey.Companion.CASCADE,
         ),
         ForeignKey(
             entity = Player::class,
             parentColumns = ["id"],
             childColumns = ["player_id"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.Companion.CASCADE,
+            onDelete = ForeignKey.Companion.CASCADE,
         ),
         ForeignKey(
             entity = GamePlayer::class,
             parentColumns = ["id"],
             childColumns = ["target_id"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.Companion.CASCADE,
+            onDelete = ForeignKey.Companion.NO_ACTION,
         ),
         ForeignKey(
             entity = Place::class,
             parentColumns = ["id"],
             childColumns = ["death_place_id"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.Companion.CASCADE,
+            onDelete = ForeignKey.Companion.NO_ACTION,
         ),
         ForeignKey(
             entity = Weapon::class,
             parentColumns = ["id"],
             childColumns = ["death_weapon_id"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.Companion.CASCADE,
+            onDelete = ForeignKey.Companion.NO_ACTION,
         ),
     ],
 )

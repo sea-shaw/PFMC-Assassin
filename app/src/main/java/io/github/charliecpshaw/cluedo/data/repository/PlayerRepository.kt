@@ -1,5 +1,7 @@
-package io.github.charliecpshaw.cluedo.data
+package io.github.charliecpshaw.cluedo.data.repository
 
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {
