@@ -1,6 +1,7 @@
 package io.github.charliecpshaw.cluedo.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -49,8 +50,8 @@ object PlayerGroupsDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayerGroupsScreen(
-    navigateToPlayerEntry: () -> Unit,
-    navigateToPlayerEdit: (Long) -> Unit,
+    navigateToPlayerGroupEntry: () -> Unit,
+    navigateToPlayerGroup: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlayerGroupsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -68,7 +69,7 @@ fun PlayerGroupsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToPlayerEntry,
+                onClick = navigateToPlayerGroupEntry,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(
@@ -85,7 +86,7 @@ fun PlayerGroupsScreen(
     ) { innerPadding ->
         PlayerGroupsBody(
             playerGroupList = playerGroupsUiState.playerGroupsList,
-            onPlayerGroupClick = navigateToPlayerEdit,
+            onPlayerGroupClick = navigateToPlayerGroup,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
@@ -146,13 +147,18 @@ private fun PlayerGroupItem(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
         ) {
-            Text(
-                text = playerGroup.name,
-                style = MaterialTheme.typography.titleLarge
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = playerGroup.name,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
         }
     }
 }

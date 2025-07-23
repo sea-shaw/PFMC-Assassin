@@ -20,8 +20,8 @@ fun CluedoNavHost(
     ) {
         composable(route = PlayerGroupsDestination.route) {
             PlayerGroupsScreen(
-                navigateToPlayerEntry = {},
-                navigateToPlayerEdit = {},
+                navigateToPlayerGroupEntry = {},
+                navigateToPlayerGroup = {},
             )
         }
     }
