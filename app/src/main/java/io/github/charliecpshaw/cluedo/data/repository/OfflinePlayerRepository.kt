@@ -11,11 +11,11 @@ class OfflinePlayerRepository(
     private val playerDao: PlayerDao,
 ) : PlayerRepository {
     override fun getPlayerGroupStream(id: Long): Flow<PlayerGroup> {
-        TODO("Not yet implemented")
+        return playerGroupDao.getStream(id)
     }
 
     override fun getAllPlayerGroupsStream(): Flow<List<PlayerGroup>> {
-        TODO("Not yet implemented")
+        return playerGroupDao.getAllStream()
     }
 
     override fun getPlayerStream(id: Long): Flow<Player> {

@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 interface PlayerGroupDao {
 
     @Query("SELECT * FROM player_group ORDER BY name ASC")
-    fun getAll(): Flow<List<PlayerGroup>>
+    fun getAllStream(): Flow<List<PlayerGroup>>
 
     @Query("SELECT * FROM player_group WHERE id = :id")
-    fun get(id: Long): Flow<PlayerGroup>
+    fun getStream(id: Long): Flow<PlayerGroup>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(playerGroup: PlayerGroup): Long
