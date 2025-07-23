@@ -26,7 +26,7 @@ LEFT JOIN weapon weapon ON weapon.id = target_game_player.death_weapon_id
 
 @Dao
 interface PlayerInfoDao {
-    @Query(QUERY + "WHERE game_player.id = :id")
+    @Query(QUERY + "WHERE game_player.id = :gamePlayerId")
     fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo>
 
     @Query(QUERY + "WHERE game_player.game_id = :gameId AND game_player.is_alive")
