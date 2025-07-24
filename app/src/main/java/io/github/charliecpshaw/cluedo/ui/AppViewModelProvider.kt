@@ -11,6 +11,9 @@ object AppViewModelProvider {
         initializer {
             PlayerGroupsViewModel(cluedoApplication().container.playerRepository)
         }
+        initializer {
+            PlayerGroupEntryViewModel(cluedoApplication().container.playerRepository)
+        }
     }
 }
 

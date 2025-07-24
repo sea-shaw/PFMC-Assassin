@@ -79,7 +79,7 @@ fun PlayerGroupsScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.player_entry_title)
+                    contentDescription = stringResource(R.string.player_group_entry_title)
                 )
             }
         },
@@ -124,16 +124,18 @@ private fun PlayerGroupsList(
         modifier = modifier,
         contentPadding = contentPadding,
     ) {
-        items(
-            items = playerGroupList,
-            key = { it.id },
-        ) { playerGroup ->
-            PlayerGroupItem(
-                playerGroup = playerGroup,
-                modifier = modifier
-                    .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onPlayerGroupClick(playerGroup) }
-            )
+        if (playerGroupList.isNotEmpty()) {
+            items(
+                items = playerGroupList,
+                key = { it.id },
+            ) { playerGroup ->
+                PlayerGroupItem(
+                    playerGroup = playerGroup,
+                    modifier = modifier
+                        .padding(dimensionResource(id = R.dimen.padding_small))
+                        .clickable { onPlayerGroupClick(playerGroup) }
+                )
+            }
         }
     }
 }

@@ -1,10 +1,13 @@
 package io.github.charliecpshaw.cluedo.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import io.github.charliecpshaw.cluedo.ui.PlayerGroupEntryDestination
+import io.github.charliecpshaw.cluedo.ui.PlayerGroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupsDestination
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupsScreen
 
@@ -20,8 +23,16 @@ fun CluedoNavHost(
     ) {
         composable(route = PlayerGroupsDestination.route) {
             PlayerGroupsScreen(
-                navigateToPlayerGroupEntry = {},
+                navigateToPlayerGroupEntry = {
+                    navController.navigate(PlayerGroupEntryDestination.route)
+                },
                 navigateToPlayerGroup = {},
+            )
+        }
+        composable(route = PlayerGroupEntryDestination.route) {
+            PlayerGroupEntryScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() },
             )
         }
     }
