@@ -24,4 +24,4 @@ class PlayerGroupsViewModel(playerRepository: PlayerRepository) : ViewModel() {
     }
 }
 
-data class PlayerGroupsUiState(val playerGroupsList: List<PlayerGroup> = listOf())
+data class PlayerGroupsUiState(val playerGroups: List<PlayerGroup> = listOf())

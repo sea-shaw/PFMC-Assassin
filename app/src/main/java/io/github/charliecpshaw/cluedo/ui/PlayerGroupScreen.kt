@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
@@ -37,56 +40,60 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
-import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
+import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
-object PlayerGroupsDestination : NavigationDestination {
-    override val route = "player_groups"
-    override val titleRes = R.string.player_groups_title
+object PlayerGroupDestination : NavigationDestination {
+    override val route = "player_group"
+    override val titleRes = R.string.player_group_title
+    const val GROUP_ID_ARG = "groupId"
+    val routeWithArgs = "$route/{$GROUP_ID_ARG}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerGroupsScreen(
-    navigateToPlayerGroupEntry: () -> Unit,
-    navigateToPlayerGroup: (Long) -> Unit,
+fun PlayerGroupScreen(
+    navigateToEdit: (Long) -> Unit,
+    navigateToPlayerEdit: (Long) -> Unit,
+    navigateToPlayerEntry: () -> Unit,
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PlayerGroupsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: PlayerGroupViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val playerGroupsUiState by viewModel.playerGroupsUiState.collectAsState()
+    val playerGroupUiState by viewModel.playerGroupUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
     Scaffold(
-        modifier = modifier,
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(PlayerGroupsDestination.titleRes),
-                canNavigateBack = false,
+                title = playerGroupUiState.name,
+                canNavigateBack = true,
+                navigateUp = navigateBack,
                 scrollBehavior = scrollBehavior,
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToPlayerGroupEntry,
+                onClick = navigateToPlayerEntry,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(
                         end = WindowInsets.safeDrawing.asPaddingValues()
                             .calculateEndPadding(LocalLayoutDirection.current)
-                    )
+                    ),
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.player_group_entry_title)
+                    contentDescription = stringResource(R.string.player_group_edit_title),
                 )
             }
         },
+        modifier = modifier,
     ) { innerPadding ->
-        PlayerGroupsBody(
-            playerGroupList = playerGroupsUiState.playerGroups,
-            onPlayerGroupClick = navigateToPlayerGroup,
+        PlayerGroupBody(
+            playerList = playerGroupUiState.players,
+            onPlayerClick = navigateToPlayerEdit,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
@@ -94,46 +101,46 @@ fun PlayerGroupsScreen(
 }
 
 @Composable
-private fun PlayerGroupsBody(
-    playerGroupList: List<PlayerGroup>,
-    onPlayerGroupClick: (Long) -> Unit,
+fun PlayerGroupBody(
+    playerList: List<Player>,
+    onPlayerClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
+    contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
-        PlayerGroupsList(
-            playerGroupList = playerGroupList,
-            onPlayerGroupClick = { onPlayerGroupClick(it.id) },
+        PlayerList(
+            playerList = playerList,
             contentPadding = contentPadding,
-            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
+            onPlayerClick = onPlayerClick,
+            modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
         )
     }
 }
 
 @Composable
-private fun PlayerGroupsList(
-    playerGroupList: List<PlayerGroup>,
-    onPlayerGroupClick: (PlayerGroup) -> Unit,
+fun PlayerList(
+    playerList: List<Player>,
     contentPadding: PaddingValues,
+    onPlayerClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = contentPadding,
     ) {
-        if (playerGroupList.isNotEmpty()) {
+        if (playerList.isNotEmpty()) {
             items(
-                items = playerGroupList,
+                items = playerList,
                 key = { it.id },
-            ) { playerGroup ->
-                PlayerGroupItem(
-                    playerGroup = playerGroup,
+            ) { player ->
+                PlayerItem(
+                    player = player,
                     modifier = modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onPlayerGroupClick(playerGroup) }
+                        .clickable { onPlayerClick(player.id) },
                 )
             }
         }
@@ -141,13 +148,13 @@ private fun PlayerGroupsList(
 }
 
 @Composable
-private fun PlayerGroupItem(
-    playerGroup: PlayerGroup,
-    modifier: Modifier = Modifier
+fun PlayerItem(
+    player: Player,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -157,8 +164,15 @@ private fun PlayerGroupItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = playerGroup.name,
+                    text = player.name,
                     style = MaterialTheme.typography.titleLarge,
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = if (player.isActive) "Active" else "Inactive"
                 )
             }
         }
@@ -167,14 +181,14 @@ private fun PlayerGroupItem(
 
 @Preview(showBackground = true)
 @Composable
-fun PlayerGroupsBodyPreview() {
+private fun PlayerGroupBodyPreview() {
     CluedoTheme {
-        PlayerGroupsBody(
-            listOf(
-                PlayerGroup(id = 0, name = "PFMC"),
-                PlayerGroup(id = 1, name = "PFMC+"),
+        PlayerGroupBody(
+            playerList = listOf(
+                Player(id = 0, name = "Player 0", isActive = true, groupId = 0),
+                Player(id = 1, name = "Player 1", isActive = false, groupId = 0),
             ),
-            onPlayerGroupClick = {},
+            onPlayerClick = {},
         )
     }
 }

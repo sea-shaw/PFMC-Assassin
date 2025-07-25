@@ -53,7 +53,7 @@ fun PlayerGroupEntryScreen(
         }
     ) { innerPadding ->
         PlayerGroupEntryBody(
-            playerGroupUiState = viewModel.playerGroupUiState,
+            playerGroupEntryUiState = viewModel.playerGroupEntryUiState,
             onNameValueChange = viewModel::updateUiState,
             onSaveClick = {
                 coroutineScope.launch {
@@ -75,7 +75,7 @@ fun PlayerGroupEntryScreen(
 
 @Composable
 fun PlayerGroupEntryBody(
-    playerGroupUiState: PlayerGroupUiState,
+    playerGroupEntryUiState: PlayerGroupEntryUiState,
     onNameValueChange: (String) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -85,13 +85,13 @@ fun PlayerGroupEntryBody(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
     ) {
         PlayerGroupEntryForm(
-            name = playerGroupUiState.name,
+            name = playerGroupEntryUiState.name,
             onValueChange = onNameValueChange,
             modifier = Modifier.fillMaxWidth(),
         )
         Button(
             onClick = onSaveClick,
-            enabled = playerGroupUiState.isEntryValid,
+            enabled = playerGroupEntryUiState.isEntryValid,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -132,7 +132,7 @@ fun PlayerGroupEntryForm(
 private fun PlayerGroupEntryScreenPreview() {
     CluedoTheme {
         PlayerGroupEntryBody(
-            playerGroupUiState = PlayerGroupUiState(name = "PFMC 2025", isEntryValid = true),
+            playerGroupEntryUiState = PlayerGroupEntryUiState(name = "PFMC 2025", isEntryValid = true),
             onNameValueChange = {},
             onSaveClick = {},
         )

@@ -9,25 +9,25 @@ import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
 class PlayerGroupEntryViewModel(
     private val playerRepository: PlayerRepository,
 ) : ViewModel() {
-    var playerGroupUiState by mutableStateOf(PlayerGroupUiState())
+    var playerGroupEntryUiState by mutableStateOf(PlayerGroupEntryUiState())
         private set
 
     fun updateUiState(name: String) {
-        playerGroupUiState = PlayerGroupUiState(name = name, isEntryValid = validateInput(name))
+        playerGroupEntryUiState = PlayerGroupEntryUiState(name = name, isEntryValid = validateInput(name))
     }
 
     suspend fun savePlayerGroup() {
         if (validateInput()) {
-            playerRepository.insertGroup(name = playerGroupUiState.name)
+            playerRepository.insertGroup(name = playerGroupEntryUiState.name)
         }
     }
 
-    private fun validateInput(name: String = playerGroupUiState.name): Boolean {
+    private fun validateInput(name: String = playerGroupEntryUiState.name): Boolean {
         return name.isNotBlank()
     }
 }
 
-data class PlayerGroupUiState(
+data class PlayerGroupEntryUiState(
     val name: String = "",
     val isEntryValid: Boolean = false,
 )

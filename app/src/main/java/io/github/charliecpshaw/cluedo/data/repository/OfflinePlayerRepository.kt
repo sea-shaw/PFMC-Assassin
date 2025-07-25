@@ -23,7 +23,7 @@ class OfflinePlayerRepository(
     }
 
     override fun getAllPlayersInGroupStream(groupId: Long): Flow<List<Player>> {
-        TODO("Not yet implemented")
+        return playerDao.getAllInGroupStream(groupId)
     }
 
     override fun getAllActivePlayersInGroupStream(groupId: Long): Flow<List<Player>> {
