@@ -16,7 +16,7 @@ class PlayerGroup
 
 class PlayerGroupViewModel(
     savedStateHandle: SavedStateHandle,
-    private val playerRepository: PlayerRepository,
+    playerRepository: PlayerRepository,
 ) : ViewModel() {
 
     private val groupId: Long =
@@ -25,7 +25,7 @@ class PlayerGroupViewModel(
     val playerGroupUiState: StateFlow<PlayerGroupUiState> =
         playerRepository.getPlayerGroupStream(groupId)
             .map {
-                PlayerGroupUiState(name = it.name)
+                PlayerGroupUiState(groupId = it.id, name = it.name)
             }.combine(
                 flow = playerRepository.getAllPlayersInGroupStream(groupId),
             ) { uiState, players ->
@@ -42,6 +42,7 @@ class PlayerGroupViewModel(
 }
 
 data class PlayerGroupUiState(
+    val groupId: Long = 0,
     val name: String = "",
     val players: List<Player> = listOf(),
 )

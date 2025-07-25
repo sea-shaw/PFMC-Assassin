@@ -71,6 +71,9 @@ fun PlayerGroupScreen(
                 canNavigateBack = true,
                 navigateUp = navigateBack,
                 scrollBehavior = scrollBehavior,
+                hasEditButton = true,
+                onEditClick = { navigateToEdit(playerGroupUiState.groupId) },
+                editContentDescription = stringResource(id = R.string.player_group_edit_title)
             )
         },
         floatingActionButton = {

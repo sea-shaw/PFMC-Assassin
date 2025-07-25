@@ -2,6 +2,7 @@ package io.github.charliecpshaw.cluedo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,7 +28,10 @@ fun CluedoTopAppBar(
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    hasEditButton: Boolean = false,
+    onEditClick: () -> Unit = {},
+    editContentDescription: String = "",
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
@@ -43,5 +47,17 @@ fun CluedoTopAppBar(
                 }
             }
         },
+        actions = {
+            if (hasEditButton) {
+                IconButton(
+                    onClick = onEditClick,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = editContentDescription,
+                    )
+                }
+            }
+        }
     )
 }

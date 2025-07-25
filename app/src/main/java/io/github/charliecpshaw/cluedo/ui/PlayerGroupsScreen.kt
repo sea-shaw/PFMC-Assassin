@@ -170,7 +170,7 @@ private fun PlayerGroupItem(
 fun PlayerGroupsBodyPreview() {
     CluedoTheme {
         PlayerGroupsBody(
-            listOf(
+            playerGroupList =listOf(
                 PlayerGroup(id = 0, name = "PFMC"),
                 PlayerGroup(id = 1, name = "PFMC+"),
             ),
