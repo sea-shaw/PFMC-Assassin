@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -49,6 +49,8 @@ import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 object PlayerGroupDestination : NavigationDestination {
     override val route = "player_group"
@@ -70,6 +72,7 @@ fun PlayerGroupScreen(
     val playerGroupUiState by viewModel.playerGroupUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             CluedoTopAppBar(
@@ -112,7 +115,13 @@ fun PlayerGroupScreen(
         if (deleteConformationRequired) {
             DeleteConfirmationDialogue(
                 deleteQuestionRes = R.string.player_group_delete_question,
-                onDeleteConfirm = { /* TODO */ },
+                onDeleteConfirm = {
+                    deleteConformationRequired = false
+                    coroutineScope.launch {
+                        viewModel.deleteGroup()
+                        navigateBack()
+                    }
+                },
                 onDeleteCancel = { deleteConformationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
