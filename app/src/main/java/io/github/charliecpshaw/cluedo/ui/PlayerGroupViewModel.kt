@@ -4,11 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
@@ -24,10 +24,11 @@ class PlayerGroupViewModel(
 
     val playerGroupUiState: StateFlow<PlayerGroupUiState> =
         playerRepository.getPlayerGroupStream(groupId)
+            .filterNotNull()
             .map {
                 PlayerGroupUiState(groupId = it.id, name = it.name)
             }.combine(
-                flow = playerRepository.getAllPlayersInGroupStream(groupId),
+                flow = playerRepository.getAllPlayersInGroupStream(groupId).filterNotNull(),
             ) { uiState, players ->
                 uiState.copy(players = players)
             }.stateIn(
@@ -41,7 +42,7 @@ class PlayerGroupViewModel(
     }
 
     suspend fun deleteGroup() {
-        TODO()
+        playerRepository.deleteGroup(groupId)
     }
 }
 

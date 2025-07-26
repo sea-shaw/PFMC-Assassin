@@ -6,12 +6,14 @@ import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class PlayerGroupsViewModel(playerRepository: PlayerRepository) : ViewModel() {
     val playerGroupsUiState: StateFlow<PlayerGroupsUiState> =
         playerRepository.getAllPlayerGroupsStream()
+            .filterNotNull()
             .map { PlayerGroupsUiState(it) }
             .stateIn(
                 scope = viewModelScope,

@@ -16,7 +16,7 @@ interface PlayerGroupDao {
     fun getAllStream(): Flow<List<PlayerGroup>>
 
     @Query("SELECT * FROM player_group WHERE id = :id")
-    fun getStream(id: Long): Flow<PlayerGroup>
+    fun getStream(id: Long): Flow<PlayerGroup?>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(playerGroup: PlayerGroup): Long
@@ -24,6 +24,6 @@ interface PlayerGroupDao {
     @Update(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun update(playerGroup: PlayerGroup): Int
 
-    @Delete
-    suspend fun delete(playerGroup: PlayerGroup): Int
+    @Query("DELETE FROM player_group WHERE id = :id")
+    suspend fun delete(id: Long): Int
 }

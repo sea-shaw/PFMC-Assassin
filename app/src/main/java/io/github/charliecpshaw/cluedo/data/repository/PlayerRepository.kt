@@ -5,11 +5,11 @@ import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {
-    fun getPlayerGroupStream(id: Long): Flow<PlayerGroup>
+    fun getPlayerGroupStream(id: Long): Flow<PlayerGroup?>
 
     fun getAllPlayerGroupsStream(): Flow<List<PlayerGroup>>
 
-    fun getPlayerStream(id: Long): Flow<Player>
+    fun getPlayerStream(id: Long): Flow<Player?>
 
     fun getAllPlayersInGroupStream(groupId: Long): Flow<List<Player>>
 
@@ -18,4 +18,6 @@ interface PlayerRepository {
     suspend fun insertGroup(name: String): Long
 
     suspend fun insertPlayer(name: String, groupId: Long): Long
+
+    suspend fun deleteGroup(id: Long)
 }
