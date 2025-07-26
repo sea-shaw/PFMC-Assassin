@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -18,6 +19,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -194,14 +197,26 @@ fun PlayerItem(
                     text = player.name,
                     style = MaterialTheme.typography.titleLarge,
                 )
+                Spacer(modifier = Modifier.weight(1f))
+                if (player.isActive) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = stringResource(id = R.string.active),
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(id = R.string.inactive),
+                    )
+                }
             }
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = if (player.isActive) "Active" else "Inactive"
-                )
-            }
+//            Row(
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Text(
+//                    text = if (player.isActive) "Active" else "Inactive"
+//                )
+//            }
         }
     }
 }
