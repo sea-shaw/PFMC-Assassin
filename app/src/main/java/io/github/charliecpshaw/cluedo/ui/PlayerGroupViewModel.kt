@@ -4,11 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
@@ -16,7 +16,7 @@ class PlayerGroup
 
 class PlayerGroupViewModel(
     savedStateHandle: SavedStateHandle,
-    playerRepository: PlayerRepository,
+    private val playerRepository: PlayerRepository,
 ) : ViewModel() {
 
     private val groupId: Long =
@@ -38,6 +38,10 @@ class PlayerGroupViewModel(
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
+    }
+
+    suspend fun deleteGroup() {
+        TODO()
     }
 }
 
