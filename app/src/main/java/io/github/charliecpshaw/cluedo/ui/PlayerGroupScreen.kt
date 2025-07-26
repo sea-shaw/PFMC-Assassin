@@ -53,7 +53,6 @@ import kotlinx.coroutines.launch
 
 object PlayerGroupDestination : NavigationDestination {
     override val route = "player_group"
-    override val titleRes = R.string.player_group_title
     const val GROUP_ID_ARG = "groupId"
     val routeWithArgs = "$route/{$GROUP_ID_ARG}"
 }

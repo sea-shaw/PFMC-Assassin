@@ -35,7 +35,6 @@ import kotlinx.coroutines.launch
 
 object PlayerGroupEntryDestination : NavigationDestination {
     override val route = "player_group_entry"
-    override val titleRes = R.string.player_group_entry_title
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

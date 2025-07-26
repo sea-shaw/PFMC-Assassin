@@ -44,7 +44,6 @@ import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 object PlayerGroupsDestination : NavigationDestination {
     override val route = "player_groups"
-    override val titleRes = R.string.player_groups_title
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +61,7 @@ fun PlayerGroupsScreen(
         modifier = modifier,
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(PlayerGroupsDestination.titleRes),
+                title = stringResource(R.string.player_groups_title),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior,
             )

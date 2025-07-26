@@ -39,7 +39,6 @@ import kotlinx.coroutines.launch
 
 object PlayerEntryDestination : NavigationDestination {
     override val route = "player_entry"
-    override val titleRes = R.string.player_entry_title
     const val GROUP_ID_ARG = "group_id"
     val routeWithArgs = "$route/{$GROUP_ID_ARG}"
 }
@@ -57,7 +56,7 @@ fun PlayerEntryScreen(
     Scaffold(
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(id = PlayerEntryDestination.titleRes),
+                title = stringResource(id = R.string.player_entry_title),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp,
             )
