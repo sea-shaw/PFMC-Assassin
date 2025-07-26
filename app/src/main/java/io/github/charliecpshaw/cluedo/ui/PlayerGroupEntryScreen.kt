@@ -16,7 +16,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
@@ -43,6 +47,7 @@ fun PlayerGroupEntryScreen(
     viewModel: PlayerGroupEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
+    var canClickSave by rememberSaveable { mutableStateOf(true) }
     Scaffold(
         topBar = {
             CluedoTopAppBar(
@@ -55,8 +60,10 @@ fun PlayerGroupEntryScreen(
         PlayerGroupEntryBody(
             playerGroupEntryUiState = viewModel.playerGroupEntryUiState,
             onNameValueChange = viewModel::updateUiState,
+            canClickSave = canClickSave,
             onSaveClick = {
                 coroutineScope.launch {
+                    canClickSave = false
                     viewModel.savePlayerGroup()
                     navigateBack()
                 }
@@ -77,6 +84,7 @@ fun PlayerGroupEntryScreen(
 fun PlayerGroupEntryBody(
     playerGroupEntryUiState: PlayerGroupEntryUiState,
     onNameValueChange: (String) -> Unit,
+    canClickSave: Boolean,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -91,7 +99,7 @@ fun PlayerGroupEntryBody(
         )
         Button(
             onClick = onSaveClick,
-            enabled = playerGroupEntryUiState.isEntryValid,
+            enabled = playerGroupEntryUiState.isEntryValid && canClickSave,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -134,6 +142,7 @@ private fun PlayerGroupEntryScreenPreview() {
         PlayerGroupEntryBody(
             playerGroupEntryUiState = PlayerGroupEntryUiState(name = "PFMC 2025", isEntryValid = true),
             onNameValueChange = {},
+            canClickSave = true,
             onSaveClick = {},
         )
     }
