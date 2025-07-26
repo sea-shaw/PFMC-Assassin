@@ -12,6 +12,8 @@ import io.github.charliecpshaw.cluedo.ui.PlayerEditScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerEntryDestination
 import io.github.charliecpshaw.cluedo.ui.PlayerEntryScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupDestination
+import io.github.charliecpshaw.cluedo.ui.PlayerGroupEditDestination
+import io.github.charliecpshaw.cluedo.ui.PlayerGroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupEntryDestination
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupScreen
@@ -52,7 +54,9 @@ fun CluedoNavHost(
         ) {
             PlayerGroupScreen(
                 navigateBack = { navController.navigateUp() },
-                navigateToEdit = { /* TODO */ },
+                navigateToEdit = {
+                    navController.navigate(route = "${PlayerGroupEditDestination.route}/$it")
+                },
                 navigateToPlayerEdit = {
                     navController.navigate(route = "${PlayerEditDestination.route}/$it")
                 },
@@ -79,6 +83,19 @@ fun CluedoNavHost(
             )
         ) {
             PlayerEditScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+        composable(
+            route = PlayerGroupEditDestination.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = PlayerGroupEditDestination.GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+            )
+        ) {
+            PlayerGroupEditScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )

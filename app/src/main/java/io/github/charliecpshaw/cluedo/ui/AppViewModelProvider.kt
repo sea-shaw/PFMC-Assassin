@@ -37,6 +37,12 @@ object AppViewModelProvider {
                 playerRepository = cluedoApplication().container.playerRepository,
             )
         }
+        initializer {
+            PlayerGroupEditViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                playerRepository = cluedoApplication().container.playerRepository,
+            )
+        }
     }
 }
 

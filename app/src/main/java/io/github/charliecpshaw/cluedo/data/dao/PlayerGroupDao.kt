@@ -21,8 +21,8 @@ interface PlayerGroupDao {
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(playerGroup: PlayerGroup): Long
 
-    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun update(playerGroup: PlayerGroup): Int
+    @Query("UPDATE player_group SET name = :name WHERE id = :id")
+    suspend fun update(id: Long, name: String): Int
 
     @Query("DELETE FROM player_group WHERE id = :id")
     suspend fun delete(id: Long): Int

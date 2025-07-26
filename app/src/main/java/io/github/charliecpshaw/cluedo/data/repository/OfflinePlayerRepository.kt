@@ -40,6 +40,10 @@ class OfflinePlayerRepository(
         return playerDao.insert(player)
     }
 
+    override suspend fun updateGroup(id: Long, name: String): Int {
+        return playerGroupDao.update(id, name)
+    }
+
     override suspend fun updatePlayer(id: Long, name: String, isActive: Boolean): Int {
         return playerDao.update(id, name, isActive)
     }

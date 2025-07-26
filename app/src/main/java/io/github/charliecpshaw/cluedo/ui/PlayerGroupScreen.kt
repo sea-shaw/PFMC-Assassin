@@ -210,13 +210,6 @@ fun PlayerItem(
                     )
                 }
             }
-//            Row(
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text(
-//                    text = if (player.isActive) "Active" else "Inactive"
-//                )
-//            }
         }
     }
 }
