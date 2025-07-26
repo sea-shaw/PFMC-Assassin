@@ -24,4 +24,27 @@ interface GamePlayerDao {
 
     @Delete
     suspend fun delete(gamePlayer: GamePlayer): Int
+
+    @Query(value = """
+        UPDATE game_player
+        SET target_id = (
+            SELECT target.target_id
+            FROM game_player target
+            WHERE target.player_id = :playerId
+            AND target.game_id = game_player.game_id
+        )
+        WHERE game_player.id IN (
+            SELECT player.id
+            FROM game_player player
+            JOIN game_player target ON player.target_id = target.id
+            WHERE target.player_id = :playerId
+        )
+    """)
+    suspend fun removePlayerFromTargets(playerId: Long)
+
+    @Query(value = """
+        DELETE FROM game_player
+        WHERE game_player.player_id = :playerId
+    """)
+    suspend fun deletePlayerInstances(playerId: Long)
 }

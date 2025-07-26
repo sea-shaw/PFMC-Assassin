@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -32,10 +33,10 @@ fun CluedoTopAppBar(
     navigateUp: () -> Unit = {},
     hasEditButton: Boolean = false,
     onEditClick: () -> Unit = {},
-    editContentDescription: String = "",
+    @StringRes editContentDescriptionRes: Int = 0,
     hasDeleteButton: Boolean = false,
     onDeleteClick: () -> Unit = {},
-    deleteContentDescription: String = "",
+    @StringRes deleteContentDescriptionRes: Int = 0,
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
@@ -58,7 +59,7 @@ fun CluedoTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Edit,
-                        contentDescription = editContentDescription,
+                        contentDescription =  stringResource(id = editContentDescriptionRes),
                     )
                 }
             }
@@ -68,7 +69,7 @@ fun CluedoTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
-                        contentDescription = deleteContentDescription,
+                        contentDescription = stringResource(id = deleteContentDescriptionRes),
                     )
                 }
             }

@@ -91,10 +91,6 @@ class OfflineGameRepository(
         }
     }
 
-    override suspend fun removePlayer(playerId: Long) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun shuffleGame(gameId: Long) {
         TODO("Not yet implemented")
     }

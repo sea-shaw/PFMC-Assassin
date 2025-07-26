@@ -28,7 +28,7 @@ class PlayerEntryViewModel(
 
     suspend fun savePlayer() {
         if (isValidInput()) {
-            val player = playerEntryUiState.details.toPlayer()
+            val player = playerEntryUiState.details.toPlayer(groupId = groupId)
             playerRepository.insertPlayer(player)
         }
     }
@@ -44,13 +44,11 @@ data class PlayerEntryUiState(
 )
 
 data class PlayerDetails(
-    val id: Long = 0,
     val name: String = "",
-    val groupId: Long = 0,
     val isActive: Boolean = true,
 )
 
-fun PlayerDetails.toPlayer(): Player {
+fun PlayerDetails.toPlayer(groupId: Long, id: Long = 0): Player {
     return Player(
         id = id,
         name = name,
@@ -68,9 +66,7 @@ fun Player.toPlayerEntryUiState(isEntryValid: Boolean): PlayerEntryUiState {
 
 fun Player.toPlayerDetails(): PlayerDetails {
     return PlayerDetails(
-        id = id,
         name = name,
-        groupId = groupId,
         isActive = isActive,
     )
 }

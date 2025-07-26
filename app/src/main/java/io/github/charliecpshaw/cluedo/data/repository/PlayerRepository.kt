@@ -19,7 +19,9 @@ interface PlayerRepository {
 
     suspend fun insertPlayer(player: Player): Long
 
-    suspend fun updatePlayer(player: Player): Int
+    suspend fun updatePlayer(id: Long, name: String, isActive: Boolean): Int
 
     suspend fun deleteGroup(id: Long): Int
+
+    suspend fun deletePlayer(id: Long)
 }

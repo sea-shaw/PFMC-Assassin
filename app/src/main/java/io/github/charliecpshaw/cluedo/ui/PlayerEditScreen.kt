@@ -16,6 +16,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
@@ -39,12 +40,16 @@ fun PlayerEditScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
+    var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
             CluedoTopAppBar(
                 title = stringResource(id = R.string.player_edit_title),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp,
+                hasDeleteButton = true,
+                deleteContentDescriptionRes = R.string.player_delete,
+                onDeleteClick = { deleteConformationRequired = true }
             )
         }
     ) { innerPadding ->
@@ -68,5 +73,19 @@ fun PlayerEditScreen(
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
         )
+        if (deleteConformationRequired) {
+            DeleteConfirmationDialogue(
+                deleteQuestionRes = R.string.player_delete_question,
+                onDeleteConfirm = {
+                    deleteConformationRequired = false
+                    coroutineScope.launch {
+                        viewModel.deletePlayer()
+                        navigateBack()
+                    }
+                },
+                onDeleteCancel = { deleteConformationRequired = false },
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+            )
+        }
     }
 }

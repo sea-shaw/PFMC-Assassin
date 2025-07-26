@@ -25,8 +25,6 @@ interface GameRepository {
 
     suspend fun killTarget(playerId: Long, instant: Instant)
 
-    suspend fun removePlayer(playerId: Long)
-
     suspend fun shuffleGame(gameId: Long)
 
 }

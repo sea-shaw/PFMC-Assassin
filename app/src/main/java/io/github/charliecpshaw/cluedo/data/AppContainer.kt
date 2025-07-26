@@ -16,6 +16,7 @@ class AppDataContainer(
         OfflinePlayerRepository(
             playerGroupDao = database.playerGroupDao(),
             playerDao = database.playerDao(),
+            gamePlayerDao = database.gamePlayerDao(),
         )
     }
 }

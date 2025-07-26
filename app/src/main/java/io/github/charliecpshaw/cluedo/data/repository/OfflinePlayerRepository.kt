@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.data.repository
 
+import io.github.charliecpshaw.cluedo.data.dao.GamePlayerDao
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.dao.PlayerDao
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 class OfflinePlayerRepository(
     private val playerGroupDao: PlayerGroupDao,
     private val playerDao: PlayerDao,
+    private val gamePlayerDao: GamePlayerDao,
 ) : PlayerRepository {
     override fun getPlayerGroupStream(id: Long): Flow<PlayerGroup?> {
         return playerGroupDao.getStream(id)
@@ -38,11 +40,21 @@ class OfflinePlayerRepository(
         return playerDao.insert(player)
     }
 
-    override suspend fun updatePlayer(player: Player): Int {
-        return playerDao.update(player)
+    override suspend fun updatePlayer(id: Long, name: String, isActive: Boolean): Int {
+        return playerDao.update(id, name, isActive)
     }
 
     override suspend fun deleteGroup(id: Long): Int {
         return playerGroupDao.delete(id)
+    }
+
+    override suspend fun deletePlayer(id: Long) {
+        deleteGamePlayerInstances(id)
+        playerDao.delete(id)
+    }
+
+    private suspend fun deleteGamePlayerInstances(playerId: Long) {
+        gamePlayerDao.removePlayerFromTargets(playerId)
+        gamePlayerDao.deletePlayerInstances(playerId)
     }
 }

@@ -41,13 +41,14 @@ class PlayerEditViewModel(
 
     suspend fun savePlayer() {
         if (isValidInput()) {
-            val player = playerEntryUiState.details.toPlayer()
-            playerRepository.updatePlayer(player)
+            with (playerEntryUiState.details) {
+                playerRepository.updatePlayer(playerId, name, isActive)
+            }
         }
     }
 
     suspend fun deletePlayer() {
-        
+        playerRepository.deletePlayer(playerId)
     }
 
     private fun isValidInput(playerDetails: PlayerDetails = playerEntryUiState.details): Boolean {

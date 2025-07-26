@@ -80,10 +80,10 @@ fun PlayerGroupScreen(
                 scrollBehavior = scrollBehavior,
                 hasEditButton = true,
                 onEditClick = { navigateToEdit(playerGroupUiState.groupId) },
-                editContentDescription = stringResource(id = R.string.player_group_edit_title),
+                editContentDescriptionRes = R.string.player_group_edit_title,
                 hasDeleteButton = true,
                 onDeleteClick = { deleteConformationRequired = true },
-                deleteContentDescription = stringResource(id = R.string.player_group_delete)
+                deleteContentDescriptionRes = R.string.player_group_delete
             )
         },
         floatingActionButton = {

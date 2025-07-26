@@ -23,9 +23,13 @@ interface PlayerDao {
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(player: Player): Long
 
-    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun update(player: Player): Int
+    @Query(value = """
+        UPDATE player
+        SET name = :name, is_active = :isActive
+        WHERE id = :id
+    """)
+    suspend fun update(id: Long, name: String, isActive: Boolean): Int
 
-    @Delete
-    suspend fun delete(player: Player): Int
+    @Query("DELETE FROM player WHERE id = :id")
+    suspend fun delete(id: Long): Int
 }
