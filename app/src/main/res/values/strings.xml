@@ -1,17 +1,18 @@
 <resources>
     <string name="app_name">Cluedo</string>
     <string name="back_button">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="group_name_req">Group Name</string>
+    <string name="is_active_req">Active?</string>
+    <string name="name_req">Name</string>
+    <string name="player_edit_title">Edit Player</string>
     <string name="player_entry_title">Add Player</string>
+    <string name="player_group_delete">Delete Player Group</string>
+    <string name="player_group_delete_question">Are you sure you want to delete this group? This will delete all games that use this group.</string>
     <string name="player_group_edit_title">Edit Player Group</string>
     <string name="player_group_entry_title">Add Player Group</string>
     <string name="player_group_title">Player Group</string>
     <string name="player_groups_title">Player Groups</string>
     <string name="save_action">Save</string>
-    <string name="player_group_delete">Delete Player Group</string>
-    <string name="cancel">Cancel</string>
-    <string name="delete">Delete</string>
-    <string name="player_group_delete_question">Are you sure you want to delete this group? This will delete all games that use this group.</string>
-    <string name="name_req">Name</string>
-    <string name="is_active_req">Active?</string>
 </resources>

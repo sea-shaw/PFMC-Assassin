@@ -7,6 +7,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import io.github.charliecpshaw.cluedo.ui.PlayerEditDestination
+import io.github.charliecpshaw.cluedo.ui.PlayerEditScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerEntryDestination
 import io.github.charliecpshaw.cluedo.ui.PlayerEntryScreen
 import io.github.charliecpshaw.cluedo.ui.PlayerGroupDestination
@@ -51,7 +53,9 @@ fun CluedoNavHost(
             PlayerGroupScreen(
                 navigateBack = { navController.navigateUp() },
                 navigateToEdit = { /* TODO */ },
-                navigateToPlayerEdit = { /* TODO */ },
+                navigateToPlayerEdit = {
+                    navController.navigate(route = "${PlayerEditDestination.route}/$it")
+                },
                 navigateToPlayerEntry = {
                     navController.navigate(route = "${PlayerEntryDestination.route}/$it")
                 },
@@ -64,6 +68,17 @@ fun CluedoNavHost(
             )
         ) {
             PlayerEntryScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+        composable(
+            route = PlayerEditDestination.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = PlayerEditDestination.PLAYER_ID_ARG) { type = NavType.LongType },
+            )
+        ) {
+            PlayerEditScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
