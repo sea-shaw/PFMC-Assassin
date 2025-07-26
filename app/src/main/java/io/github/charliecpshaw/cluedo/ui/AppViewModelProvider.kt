@@ -10,10 +10,14 @@ import io.github.charliecpshaw.cluedo.CluedoApplication
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            PlayerGroupsViewModel(cluedoApplication().container.playerRepository)
+            PlayerGroupsViewModel(
+                playerRepository =  cluedoApplication().container.playerRepository,
+            )
         }
         initializer {
-            PlayerGroupEntryViewModel(cluedoApplication().container.playerRepository)
+            PlayerGroupEntryViewModel(
+                playerRepository = cluedoApplication().container.playerRepository,
+            )
         }
         initializer {
             PlayerGroupViewModel(
@@ -21,8 +25,15 @@ object AppViewModelProvider {
                 playerRepository = cluedoApplication().container.playerRepository,
             )
         }
+        initializer {
+            PlayerEntryViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                playerRepository = cluedoApplication().container.playerRepository,
+            )
+        }
     }
 }
 
-fun CreationExtras.cluedoApplication(): CluedoApplication =
-    (this[AndroidViewModelFactory.APPLICATION_KEY] as CluedoApplication)
+fun CreationExtras.cluedoApplication(): CluedoApplication {
+    return (this[AndroidViewModelFactory.APPLICATION_KEY] as CluedoApplication)
+}

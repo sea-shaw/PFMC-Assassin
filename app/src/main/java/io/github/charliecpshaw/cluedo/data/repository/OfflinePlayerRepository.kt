@@ -34,8 +34,8 @@ class OfflinePlayerRepository(
         return playerGroupDao.insert(PlayerGroup(name = name))
     }
 
-    override suspend fun insertPlayer(name: String, groupId: Long): Long {
-        TODO("Not yet implemented")
+    override suspend fun insertPlayer(player: Player): Long {
+        return playerDao.insert(player)
     }
 
     override suspend fun deleteGroup(id: Long) {

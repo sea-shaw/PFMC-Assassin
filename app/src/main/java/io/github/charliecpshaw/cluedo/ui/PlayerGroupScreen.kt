@@ -49,7 +49,6 @@ import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 object PlayerGroupDestination : NavigationDestination {
@@ -64,7 +63,7 @@ object PlayerGroupDestination : NavigationDestination {
 fun PlayerGroupScreen(
     navigateToEdit: (Long) -> Unit,
     navigateToPlayerEdit: (Long) -> Unit,
-    navigateToPlayerEntry: () -> Unit,
+    navigateToPlayerEntry: (Long) -> Unit,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlayerGroupViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -90,7 +89,7 @@ fun PlayerGroupScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToPlayerEntry,
+                onClick = { navigateToPlayerEntry(viewModel.groupId) },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(

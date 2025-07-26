@@ -13,16 +13,16 @@ class PlayerGroupEntryViewModel(
         private set
 
     fun updateUiState(name: String) {
-        playerGroupEntryUiState = PlayerGroupEntryUiState(name = name, isEntryValid = validateInput(name))
+        playerGroupEntryUiState = PlayerGroupEntryUiState(name = name, isEntryValid = isValidInput(name))
     }
 
     suspend fun savePlayerGroup() {
-        if (validateInput()) {
+        if (isValidInput()) {
             playerRepository.insertGroup(name = playerGroupEntryUiState.name)
         }
     }
 
-    private fun validateInput(name: String = playerGroupEntryUiState.name): Boolean {
+    private fun isValidInput(name: String = playerGroupEntryUiState.name): Boolean {
         return name.isNotBlank()
     }
 }

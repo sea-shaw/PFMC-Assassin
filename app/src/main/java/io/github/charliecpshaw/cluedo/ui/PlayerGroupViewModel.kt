@@ -19,7 +19,7 @@ class PlayerGroupViewModel(
     private val playerRepository: PlayerRepository,
 ) : ViewModel() {
 
-    private val groupId: Long =
+    val groupId: Long =
         checkNotNull(savedStateHandle[PlayerGroupDestination.GROUP_ID_ARG])
 
     val playerGroupUiState: StateFlow<PlayerGroupUiState> =

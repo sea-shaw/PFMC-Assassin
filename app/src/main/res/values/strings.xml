@@ -12,4 +12,6 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="player_group_delete_question">Are you sure you want to delete this group? This will delete all games that use this group.</string>
+    <string name="name_req">Name</string>
+    <string name="is_active_req">Active?</string>
 </resources>
