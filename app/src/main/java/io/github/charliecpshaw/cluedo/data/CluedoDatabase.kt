@@ -34,7 +34,7 @@ import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
         Weapon::class,
         WeaponGroup::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
