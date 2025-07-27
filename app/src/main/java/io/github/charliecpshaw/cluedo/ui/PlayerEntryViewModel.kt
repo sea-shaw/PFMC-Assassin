@@ -6,11 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 
 class PlayerEntryViewModel(
     savedStateHandle: SavedStateHandle,
-    private val playerRepository: PlayerRepository,
+    private val playerRepository: ComponentRepository<Player, PlayerGroup>,
 ) : ViewModel() {
 
     private val groupId: Long =
@@ -29,7 +30,7 @@ class PlayerEntryViewModel(
     suspend fun savePlayer() {
         if (isValidInput()) {
             with (playerEntryUiState.details) {
-                playerRepository.insertPlayer(name, groupId, isActive)
+                playerRepository.insertComponent(name, groupId, isActive)
             }
         }
     }
@@ -48,15 +49,6 @@ data class PlayerDetails(
     val name: String = "",
     val isActive: Boolean = true,
 )
-
-fun PlayerDetails.toPlayer(groupId: Long, id: Long = 0): Player {
-    return Player(
-        id = id,
-        name = name,
-        groupId = groupId,
-        isActive = isActive,
-    )
-}
 
 fun Player.toPlayerEntryUiState(isEntryValid: Boolean): PlayerEntryUiState {
     return PlayerEntryUiState(

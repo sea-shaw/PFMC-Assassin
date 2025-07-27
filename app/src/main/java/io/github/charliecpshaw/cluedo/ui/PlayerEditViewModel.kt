@@ -6,14 +6,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class PlayerEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val playerRepository: PlayerRepository,
+    private val playerRepository: ComponentRepository<Player, PlayerGroup>,
 ) : ViewModel() {
 
     private val playerId: Long =
@@ -25,7 +27,7 @@ class PlayerEditViewModel(
     init {
         viewModelScope.launch {
             playerEntryUiState = playerRepository
-                .getPlayerStream(playerId)
+                .getComponentStream(playerId)
                 .filterNotNull()
                 .first()
                 .toPlayerEntryUiState(true)
@@ -42,13 +44,13 @@ class PlayerEditViewModel(
     suspend fun savePlayer() {
         if (isValidInput()) {
             with (playerEntryUiState.details) {
-                playerRepository.updatePlayer(playerId, name, isActive)
+                playerRepository.updateComponent(playerId, name, isActive)
             }
         }
     }
 
     suspend fun deletePlayer() {
-        playerRepository.deletePlayer(playerId)
+        playerRepository.deleteComponent(playerId)
     }
 
     private fun isValidInput(playerDetails: PlayerDetails = playerEntryUiState.details): Boolean {

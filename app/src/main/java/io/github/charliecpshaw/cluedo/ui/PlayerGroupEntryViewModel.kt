@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 
 class PlayerGroupEntryViewModel(
-    private val playerRepository: PlayerRepository,
+    private val playerRepository: ComponentRepository<Player, PlayerGroup>,
 ) : ViewModel() {
     var playerGroupEntryUiState by mutableStateOf(PlayerGroupEntryUiState())
         private set

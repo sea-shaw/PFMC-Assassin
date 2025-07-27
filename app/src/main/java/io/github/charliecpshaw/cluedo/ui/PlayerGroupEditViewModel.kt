@@ -6,7 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.charliecpshaw.cluedo.data.repository.PlayerRepository
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -14,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class PlayerGroupEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val playerRepository: PlayerRepository,
+    private val playerRepository: ComponentRepository<Player, PlayerGroup>,
 ) : ViewModel() {
 
     private val groupId: Long =
@@ -26,7 +28,7 @@ class PlayerGroupEditViewModel(
     init {
         viewModelScope.launch {
             playerGroupEntryUiState = playerRepository
-                .getPlayerGroupStream(groupId)
+                .getGroupStream(groupId)
                 .filterNotNull()
                 .map {
                     PlayerGroupEntryUiState(
