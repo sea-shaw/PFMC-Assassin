@@ -11,11 +11,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlaceDao : ComponentDao<Place> {
-    @Query("SELECT id FROM place WHERE group_id = :groupId AND is_active")
-    override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
-
     @Query("SELECT * FROM place WHERE id = :id")
     override fun getStream(id: Long): Flow<Place?>
+
+    @Query("SELECT * FROM place WHERE group_id = :groupId")
+    override fun getAllInGroupStream(groupId: Long): Flow<List<Place>>
+
+    @Query("SELECT id FROM place WHERE group_id = :groupId AND is_active")
+    override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     override suspend fun insert(entry: Place): Long

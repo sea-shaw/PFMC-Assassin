@@ -21,11 +21,7 @@ interface PlayerDao : ComponentDao<Player> {
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     override suspend fun insert(entry: Player): Long
 
-    @Query(value = """
-        UPDATE player
-        SET name = :name, is_active = :isActive
-        WHERE id = :id
-    """)
+    @Query(value = "UPDATE player SET name = :name, is_active = :isActive WHERE id = :id")
     override suspend fun update(id: Long, name: String, isActive: Boolean): Int
 
     @Query("DELETE FROM player WHERE id = :id")
