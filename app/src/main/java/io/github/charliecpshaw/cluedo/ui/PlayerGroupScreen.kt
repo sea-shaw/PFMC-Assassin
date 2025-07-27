@@ -71,7 +71,6 @@ fun PlayerGroupScreen(
     viewModel: PlayerGroupViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val playerGroupUiState by viewModel.playerGroupUiState.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
@@ -80,7 +79,6 @@ fun PlayerGroupScreen(
                 title = playerGroupUiState.name,
                 canNavigateBack = true,
                 navigateUp = navigateBack,
-                scrollBehavior = scrollBehavior,
                 hasEditButton = true,
                 onEditClick = { navigateToEdit(playerGroupUiState.groupId) },
                 editContentDescriptionRes = R.string.player_group_edit_title,

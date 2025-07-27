@@ -55,7 +55,6 @@ fun PlayerGroupsScreen(
     viewModel: PlayerGroupsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val playerGroupsUiState by viewModel.playerGroupsUiState.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
         modifier = modifier,
@@ -63,7 +62,6 @@ fun PlayerGroupsScreen(
             CluedoTopAppBar(
                 title = stringResource(R.string.player_groups_title),
                 canNavigateBack = false,
-                scrollBehavior = scrollBehavior,
             )
         },
         floatingActionButton = {

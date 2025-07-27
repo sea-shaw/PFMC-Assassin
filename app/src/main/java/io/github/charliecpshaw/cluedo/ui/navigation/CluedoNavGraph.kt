@@ -1,5 +1,7 @@
 package io.github.charliecpshaw.cluedo.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -23,12 +25,15 @@ import io.github.charliecpshaw.cluedo.ui.PlayerGroupsScreen
 @Composable
 fun CluedoNavHost(
     navController: NavHostController,
+    startDestination: String,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
-        startDestination = PlayerGroupsDestination.route,
+        startDestination = startDestination,
         modifier = modifier,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
     ) {
         composable(route = PlayerGroupsDestination.route) {
             PlayerGroupsScreen(
