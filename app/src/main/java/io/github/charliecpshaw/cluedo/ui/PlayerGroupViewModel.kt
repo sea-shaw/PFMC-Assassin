@@ -12,8 +12,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class PlayerGroup
-
 class PlayerGroupViewModel(
     savedStateHandle: SavedStateHandle,
     private val playerRepository: PlayerRepository,
