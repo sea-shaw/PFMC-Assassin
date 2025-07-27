@@ -13,11 +13,9 @@ interface PlayerRepository {
 
     fun getAllPlayersInGroupStream(groupId: Long): Flow<List<Player>>
 
-    fun getAllActivePlayersInGroupStream(groupId: Long): Flow<List<Player>>
-
     suspend fun insertGroup(name: String): Long
 
-    suspend fun insertPlayer(player: Player): Long
+    suspend fun insertPlayer(name: String, groupId: Long, isActive: Boolean): Long
 
     suspend fun updateGroup(id: Long, name: String): Int
 

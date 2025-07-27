@@ -21,23 +21,19 @@ class OfflinePlayerRepository(
     }
 
     override fun getPlayerStream(id: Long): Flow<Player?> {
-        return playerDao.get(id)
+        return playerDao.getStream(id)
     }
 
     override fun getAllPlayersInGroupStream(groupId: Long): Flow<List<Player>> {
         return playerDao.getAllInGroupStream(groupId)
     }
 
-    override fun getAllActivePlayersInGroupStream(groupId: Long): Flow<List<Player>> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun insertGroup(name: String): Long {
-        return playerGroupDao.insert(PlayerGroup(name = name))
+        return playerGroupDao.insert(name)
     }
 
-    override suspend fun insertPlayer(player: Player): Long {
-        return playerDao.insert(player)
+    override suspend fun insertPlayer(name: String, groupId: Long, isActive: Boolean): Long {
+        return playerDao.insert(name, groupId, isActive)
     }
 
     override suspend fun updateGroup(id: Long, name: String): Int {

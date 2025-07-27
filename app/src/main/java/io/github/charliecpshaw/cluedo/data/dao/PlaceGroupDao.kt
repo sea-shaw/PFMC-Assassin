@@ -18,8 +18,8 @@ interface PlaceGroupDao : GroupDao<PlaceGroup> {
     @Query("SELECT * FROM place_group WHERE id = :id")
     override fun getStream(id: Long): Flow<PlaceGroup?>
 
-    @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    override suspend fun insert(entry: PlaceGroup): Long
+    @Query("INSERT INTO place_group (name) VALUES (:name)")
+    override suspend fun insert(name: String): Long
 
     @Query("UPDATE place_group SET name = :name WHERE id = :id")
     override suspend fun update(id: Long, name: String): Int

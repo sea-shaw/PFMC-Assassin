@@ -18,8 +18,8 @@ interface WeaponGroupDao : GroupDao<WeaponGroup> {
     @Query("SELECT * FROM weapon_group WHERE id = :id")
     override fun getStream(id: Long): Flow<WeaponGroup?>
 
-    @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    override suspend fun insert(entry: WeaponGroup): Long
+    @Query("INSERT INTO weapon_group (name) VALUES (:name)")
+    override suspend fun insert(name: String): Long
 
     @Query("UPDATE weapon_group SET name = :name WHERE id = :id")
     override suspend fun update(id: Long, name: String): Int

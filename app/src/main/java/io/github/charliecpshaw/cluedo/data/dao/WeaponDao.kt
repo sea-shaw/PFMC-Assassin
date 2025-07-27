@@ -21,8 +21,8 @@ interface WeaponDao : ComponentDao<Weapon> {
     @Query("SELECT id FROM weapon WHERE group_id = :groupId AND is_active")
     override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
-    @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    override suspend fun insert(entry: Weapon): Long
+    @Query("INSERT INTO weapon (name, group_id, is_active) VALUES (:name, :groupId, :isActive)")
+    override suspend fun insert(name: String, groupId: Long, isActive: Boolean): Long
 
     @Query("UPDATE weapon SET name = :name, is_active = :isActive WHERE id = :id")
     override suspend fun update(id: Long, name: String, isActive: Boolean): Int

@@ -28,8 +28,9 @@ class PlayerEntryViewModel(
 
     suspend fun savePlayer() {
         if (isValidInput()) {
-            val player = playerEntryUiState.details.toPlayer(groupId = groupId)
-            playerRepository.insertPlayer(player)
+            with (playerEntryUiState.details) {
+                playerRepository.insertPlayer(name, groupId, isActive)
+            }
         }
     }
 

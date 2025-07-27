@@ -18,8 +18,8 @@ interface PlayerDao : ComponentDao<Player> {
     @Query("SELECT id FROM player WHERE group_id = :groupId AND is_active")
     override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
-    @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    override suspend fun insert(entry: Player): Long
+    @Query("INSERT INTO player (name, group_id, is_active) VALUES (:name, :groupId, :isActive)")
+    override suspend fun insert(name: String, groupId: Long, isActive: Boolean): Long
 
     @Query(value = "UPDATE player SET name = :name, is_active = :isActive WHERE id = :id")
     override suspend fun update(id: Long, name: String, isActive: Boolean): Int
