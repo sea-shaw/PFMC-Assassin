@@ -1,29 +1,27 @@
 package io.github.charliecpshaw.cluedo.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PlayerGroupDao {
+interface PlayerGroupDao : GroupDao<PlayerGroup> {
 
     @Query("SELECT * FROM player_group ORDER BY name ASC")
-    fun getAllStream(): Flow<List<PlayerGroup>>
+    override fun getAllStream(): Flow<List<PlayerGroup>>
 
     @Query("SELECT * FROM player_group WHERE id = :id")
-    fun getStream(id: Long): Flow<PlayerGroup?>
+    override fun getStream(id: Long): Flow<PlayerGroup?>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun insert(playerGroup: PlayerGroup): Long
+    override suspend fun insert(entry: PlayerGroup): Long
 
     @Query("UPDATE player_group SET name = :name WHERE id = :id")
-    suspend fun update(id: Long, name: String): Int
+    override suspend fun update(id: Long, name: String): Int
 
     @Query("DELETE FROM player_group WHERE id = :id")
-    suspend fun delete(id: Long): Int
+    override suspend fun delete(id: Long): Int
 }

@@ -10,20 +10,20 @@ import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface WeaponGroupDao {
+interface WeaponGroupDao : GroupDao<WeaponGroup> {
 
     @Query("SELECT * FROM weapon_group ORDER BY name ASC")
-    fun getAll(): Flow<List<WeaponGroup>>
+    override fun getAllStream(): Flow<List<WeaponGroup>>
 
     @Query("SELECT * FROM weapon_group WHERE id = :id")
-    fun get(id: Long): Flow<WeaponGroup>
+    override fun getStream(id: Long): Flow<WeaponGroup?>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun insert(weaponGroup: WeaponGroup): Long
+    override suspend fun insert(entry: WeaponGroup): Long
 
-    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun update(weaponGroup: WeaponGroup): Int
+    @Query("UPDATE weapon_group SET name = :name WHERE id = :id")
+    override suspend fun update(id: Long, name: String): Int
 
-    @Delete
-    suspend fun delete(weaponGroup: WeaponGroup): Int
+    @Query("DELETE FROM weapon_group WHERE id = :id")
+    override suspend fun delete(id: Long): Int
 }

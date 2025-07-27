@@ -1,7 +1,7 @@
 package io.github.charliecpshaw.cluedo.data.model
 
 data class PlayerInfo(
-    val id: Long,
+    override val id: Long,
     val playerId: Long,
     val playerName: String,
     val isAlive: Boolean,
@@ -11,4 +11,4 @@ data class PlayerInfo(
     val placeName: Long?,
     val weaponId: Long?,
     val weaponName: String?,
-)
+) : Identifiable

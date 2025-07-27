@@ -7,22 +7,23 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import io.github.charliecpshaw.cluedo.data.model.Weapon
+import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface WeaponDao {
+interface WeaponDao : ComponentDao<Weapon> {
     @Query("SELECT id FROM weapon WHERE group_id = :groupId AND is_active")
-    suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
+    override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
     @Query("SELECT * FROM weapon WHERE id = :id")
-    fun get(id: Long): Flow<Weapon>
+    override fun getStream(id: Long): Flow<Weapon?>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun insert(weapon: Weapon): Long
+    override suspend fun insert(entry: Weapon): Long
 
-    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun update(weapon: Weapon): Int
+    @Query("UPDATE weapon SET name = :name, is_active = :isActive WHERE id = :id")
+    override suspend fun update(id: Long, name: String, isActive: Boolean): Int
 
-    @Delete
-    suspend fun delete(weapon: Weapon): Int
+    @Query("DELETE FROM weapon WHERE id = :id")
+    override suspend fun delete(id: Long): Int
 }

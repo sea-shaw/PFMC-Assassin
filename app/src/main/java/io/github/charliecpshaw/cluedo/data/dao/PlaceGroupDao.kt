@@ -10,20 +10,20 @@ import io.github.charliecpshaw.cluedo.data.model.PlaceGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PlaceGroupDao {
+interface PlaceGroupDao : GroupDao<PlaceGroup> {
 
     @Query("SELECT * FROM place_group ORDER BY name ASC")
-    fun getAll(): Flow<List<PlaceGroup>>
+    override fun getAllStream(): Flow<List<PlaceGroup>>
 
     @Query("SELECT * FROM place_group WHERE id = :id")
-    fun get(id: Long): Flow<PlaceGroup>
+    override fun getStream(id: Long): Flow<PlaceGroup?>
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun insert(placeGroup: PlaceGroup): Long
+    override suspend fun insert(entry: PlaceGroup): Long
 
-    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun update(placeGroup: PlaceGroup): Int
+    @Query("UPDATE place_group SET name = :name WHERE id = :id")
+    override suspend fun update(id: Long, name: String): Int
 
-    @Delete
-    suspend fun delete(placeGroup: PlaceGroup): Int
+    @Query("DELETE FROM place_group WHERE id = :id")
+    override suspend fun delete(id: Long): Int
 }

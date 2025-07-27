@@ -48,7 +48,7 @@ import androidx.room.PrimaryKey
 data class GamePlayer(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    val id: Long,
+    override val id: Long,
 
     @ColumnInfo(name = "game_id", index = true)
     val gameId: Long,
@@ -67,4 +67,4 @@ data class GamePlayer(
 
     @ColumnInfo(name = "death_weapon_id", index = true)
     val deathWeaponId: Long,
-)
+) : Identifiable

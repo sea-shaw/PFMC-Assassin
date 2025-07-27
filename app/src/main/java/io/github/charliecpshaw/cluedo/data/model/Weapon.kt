@@ -20,14 +20,14 @@ import androidx.room.PrimaryKey
 data class Weapon(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long = 0,
+    override val id: Long = 0,
 
     @ColumnInfo(name = "name")
-    val name: String,
+    override val name: String,
 
     @ColumnInfo(name = "group_id", index = true)
-    val groupId: Long,
+    override val groupId: Long,
 
     @ColumnInfo(name = "is_active")
-    val isActive: Boolean,
-)
+    override val isActive: Boolean,
+) : Component

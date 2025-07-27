@@ -35,10 +35,10 @@ import java.time.Instant
 data class Game(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long = 0,
+    override val id: Long = 0,
 
     @ColumnInfo(name = "name")
-    val name: String,
+    override val name: String,
 
     @ColumnInfo(name = "start_date")
     val start: Instant,
@@ -54,4 +54,4 @@ data class Game(
 
     @ColumnInfo(name = "weapon_group_id", index = true)
     val weaponGroupId: Long,
-)
+) : Identifiable, Named
