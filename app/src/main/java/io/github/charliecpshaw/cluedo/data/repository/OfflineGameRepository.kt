@@ -29,7 +29,7 @@ class OfflineGameRepository(
         playerGroupId: Long,
         placeGroupId: Long,
         weaponGroupId: Long
-    ) {
+    ): Long {
         val game = Game(
             name = name,
             start = startInstant,
@@ -55,6 +55,8 @@ class OfflineGameRepository(
         )
 
         gamePlayerDao.insertAll(gamePlayers)
+
+        return gameId
     }
 
     override fun getAllGamesStream(): Flow<List<Game>> {

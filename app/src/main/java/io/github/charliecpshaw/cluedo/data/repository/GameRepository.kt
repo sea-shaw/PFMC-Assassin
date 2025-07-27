@@ -13,7 +13,7 @@ interface GameRepository {
         playerGroupId: Long,
         placeGroupId: Long,
         weaponGroupId: Long,
-    )
+    ): Long
 
     fun getAllGamesStream(): Flow<List<Game>>
 
