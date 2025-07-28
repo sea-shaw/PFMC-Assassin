@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.ui
+package io.github.charliecpshaw.cluedo.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
+import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
+import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,9 +49,9 @@ fun PlayerGroupsScreen(
     navigateToPlayerGroupEntry: () -> Unit,
     navigateToPlayerGroup: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PlayerGroupsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: GroupsViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val playerGroupsUiState by viewModel.playerGroupsUiState.collectAsState()
+    val playerGroupsUiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         modifier = modifier,
@@ -76,7 +79,7 @@ fun PlayerGroupsScreen(
         },
     ) { innerPadding ->
         PlayerGroupsBody(
-            playerGroupList = playerGroupsUiState.playerGroups,
+            playerGroupList = playerGroupsUiState.groups,
             onPlayerGroupClick = navigateToPlayerGroup,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,

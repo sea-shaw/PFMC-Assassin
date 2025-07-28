@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.ui
+package io.github.charliecpshaw.cluedo.ui.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

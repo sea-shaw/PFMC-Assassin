@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.ui
+package io.github.charliecpshaw.cluedo.ui.viewmodels
 
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.lifecycle.createSavedStateHandle
@@ -10,8 +10,8 @@ import io.github.charliecpshaw.cluedo.CluedoApplication
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            PlayerGroupsViewModel(
-                playerRepository =  cluedoApplication().container.playerRepository,
+            GroupsViewModel(
+                componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {

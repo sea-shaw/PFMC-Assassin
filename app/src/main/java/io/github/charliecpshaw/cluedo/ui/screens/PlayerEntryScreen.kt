@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.ui
+package io.github.charliecpshaw.cluedo.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +36,10 @@ import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
+import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
+import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentDetails
+import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEntryUiState
+import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEntryViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

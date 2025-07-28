@@ -9,12 +9,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import io.github.charliecpshaw.cluedo.ui.PlayerEditScreen
-import io.github.charliecpshaw.cluedo.ui.PlayerEntryScreen
-import io.github.charliecpshaw.cluedo.ui.PlayerGroupEditScreen
-import io.github.charliecpshaw.cluedo.ui.PlayerGroupEntryScreen
-import io.github.charliecpshaw.cluedo.ui.PlayerGroupScreen
-import io.github.charliecpshaw.cluedo.ui.PlayerGroupsScreen
+import io.github.charliecpshaw.cluedo.ui.screens.PlayerEditScreen
+import io.github.charliecpshaw.cluedo.ui.screens.PlayerEntryScreen
+import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEditScreen
+import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEntryScreen
+import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupScreen
+import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupsScreen
 
 @Composable
 fun CluedoNavHost(

@@ -1,4 +1,4 @@
-package io.github.charliecpshaw.cluedo.ui
+package io.github.charliecpshaw.cluedo.ui.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
