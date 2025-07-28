@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "game_player",
+    primaryKeys = ["game_id", "player_id"],
     foreignKeys = [
         ForeignKey(
             entity = Game::class,
@@ -23,7 +24,7 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.Companion.CASCADE,
         ),
         ForeignKey(
-            entity = GamePlayer::class,
+            entity = Player::class,
             parentColumns = ["id"],
             childColumns = ["target_id"],
             onUpdate = ForeignKey.Companion.CASCADE,
@@ -46,10 +47,6 @@ import androidx.room.PrimaryKey
     ],
 )
 data class GamePlayer(
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "id")
-    override val id: Long,
-
     @ColumnInfo(name = "game_id", index = true)
     val gameId: Long,
 
@@ -67,4 +64,4 @@ data class GamePlayer(
 
     @ColumnInfo(name = "death_weapon_id", index = true)
     val deathWeaponId: Long,
-) : Identifiable
+)

@@ -10,11 +10,8 @@ import io.github.charliecpshaw.cluedo.data.model.GamePlayer
 
 @Dao
 interface GamePlayerDao {
-    @Query("SELECT * FROM game_player WHERE id = :id")
-    suspend fun get(id: Long): GamePlayer
-
-    @Query("SELECT MAX(id) FROM game_player")
-    suspend fun getMaxId(): Long
+    @Query("SELECT * FROM game_player WHERE game_id = :gameId AND player_id = :playerId")
+    suspend fun get(gameId: Long, playerId: Long): GamePlayer
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insertAll(gamePlayers: List<GamePlayer>): List<Long>
@@ -22,8 +19,8 @@ interface GamePlayerDao {
     @Update(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun update(gamePlayer: GamePlayer): Int
 
-    @Delete
-    suspend fun delete(gamePlayer: GamePlayer): Int
+    @Query("DELETE FROM game_player WHERE game_id = :gameId AND player_id = :playerId")
+    suspend fun delete(gameId: Long, playerId: Long): Int
 
     @Query(value = """
         UPDATE game_player
@@ -31,13 +28,12 @@ interface GamePlayerDao {
             SELECT target.target_id
             FROM game_player target
             WHERE target.player_id = :playerId
-            AND target.game_id = game_player.game_id
+            AND target.game_id = game_id
         )
-        WHERE game_player.id IN (
-            SELECT player.id
+        WHERE player_id IN (
+            SELECT player.player_id
             FROM game_player player
-            JOIN game_player target ON player.target_id = target.id
-            WHERE target.player_id = :playerId
+            WHERE player.target_id = :playerId
         )
     """)
     suspend fun removePlayerFromTargets(playerId: Long)

@@ -40,7 +40,6 @@ class OfflineGameRepository(
         )
 
         val gameId = gameDao.insert(game)
-        val gamePlayerIdStart = gamePlayerDao.getMaxId() + 1
 
         val playerIds = playerDao.getAllActiveIdsInGroup(playerGroupId)
         val placeIds = placeDao.getAllActiveIdsInGroup(placeGroupId)
@@ -48,7 +47,6 @@ class OfflineGameRepository(
 
         val gamePlayers = createGamePlayers(
             gameId = gameId,
-            gamePlayerIdStart = gamePlayerIdStart,
             playerIds = playerIds,
             placeIds = placeIds,
             weaponIds = weaponIds,
@@ -71,22 +69,23 @@ class OfflineGameRepository(
         return playerInfoDao.getAllAlivePlayersInGameStream(gameId)
     }
 
-    override fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo> {
-        return playerInfoDao.getPlayerStream(gamePlayerId)
+    override fun getPlayerStream(gameId: Long, playerId: Long): Flow<PlayerInfo?> {
+        return playerInfoDao.getPlayerStream(gameId, playerId)
     }
 
     override suspend fun killTarget(
+        gameId: Long,
         playerId: Long,
         instant: Instant,
     ) {
-        val player = gamePlayerDao.get(playerId)
-        val target = gamePlayerDao.get(player.targetId)
+        val player = gamePlayerDao.get(gameId, playerId)
+        val target = gamePlayerDao.get(gameId, player.targetId)
         val playerWithNewTarget = player.copy(targetId = target.targetId)
         val killedTarget = target.copy(isAlive = false)
         gamePlayerDao.update(playerWithNewTarget)
         gamePlayerDao.update(killedTarget)
 
-        if (playerWithNewTarget.targetId == playerWithNewTarget.id) {
+        if (playerWithNewTarget.targetId == playerWithNewTarget.playerId) {
             val game = gameDao.getGame(player.gameId)
             val finishedGame = game.copy(end = instant)
             gameDao.update(finishedGame)
@@ -100,7 +99,6 @@ class OfflineGameRepository(
 
 private fun createGamePlayers(
     gameId: Long,
-    gamePlayerIdStart: Long,
     playerIds: List<Long>,
     placeIds: List<Long>,
     weaponIds: List<Long>,
@@ -113,11 +111,10 @@ private fun createGamePlayers(
         size = playerIds.size,
         init = { index ->
             GamePlayer(
-                id = gamePlayerIdStart + index,
                 gameId = gameId,
                 playerId = shuffledPlayerIds[index],
                 isAlive = true,
-                targetId = gamePlayerIdStart + ((index + 1).rem(playerIds.size)),
+                targetId = shuffledPlayerIds[(index + 1).mod(shuffledPlayerIds.size)],
                 deathPlaceId = shuffledPlaceIds[index],
                 deathWeaponId = shuffledWeaponIds[index],
             )

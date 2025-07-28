@@ -21,9 +21,9 @@ interface GameRepository {
 
     fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
 
-    fun getPlayerStream(gamePlayerId: Long): Flow<PlayerInfo>
+    fun getPlayerStream(gameId: Long, playerId: Long): Flow<PlayerInfo?>
 
-    suspend fun killTarget(playerId: Long, instant: Instant)
+    suspend fun killTarget(gameId: Long, playerId: Long, instant: Instant)
 
     suspend fun shuffleGame(gameId: Long)
 

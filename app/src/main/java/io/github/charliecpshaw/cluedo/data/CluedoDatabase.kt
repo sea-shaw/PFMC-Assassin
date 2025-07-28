@@ -23,6 +23,8 @@ import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 
+private const val CURRENT_VERSION = 3
+
 @Database(
     entities = [
         Game::class,
@@ -34,7 +36,7 @@ import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
         Weapon::class,
         WeaponGroup::class,
     ],
-    version = 2,
+    version = CURRENT_VERSION,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
