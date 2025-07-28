@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -29,8 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupEntryUiState
@@ -39,25 +40,26 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerGroupEntryScreen(
+fun <C : Component, G : Group> GroupEntryScreen(
+    @StringRes titleResId: Int,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: GroupEntryViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: GroupEntryViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
     Scaffold(
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(R.string.player_group_entry_title),
+                title = stringResource(titleResId),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp,
             )
         }
     ) { innerPadding ->
-        PlayerGroupEntryBody(
-            playerGroupEntryUiState = viewModel.uiState,
+        GroupEntryBody(
+            uiState = viewModel.uiState,
             onNameValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
             onSaveClick = {
@@ -80,8 +82,8 @@ fun PlayerGroupEntryScreen(
 }
 
 @Composable
-fun PlayerGroupEntryBody(
-    playerGroupEntryUiState: GroupEntryUiState,
+fun GroupEntryBody(
+    uiState: GroupEntryUiState,
     onNameValueChange: (String) -> Unit,
     canClickSave: Boolean,
     onSaveClick: () -> Unit,
@@ -91,14 +93,14 @@ fun PlayerGroupEntryBody(
         modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
     ) {
-        PlayerGroupEntryForm(
-            name = playerGroupEntryUiState.name,
+        GroupEntryForm(
+            name = uiState.name,
             onValueChange = onNameValueChange,
             modifier = Modifier.fillMaxWidth(),
         )
         Button(
             onClick = onSaveClick,
-            enabled = playerGroupEntryUiState.isValidInput && canClickSave,
+            enabled = uiState.isValidInput && canClickSave,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -108,7 +110,7 @@ fun PlayerGroupEntryBody(
 }
 
 @Composable
-fun PlayerGroupEntryForm(
+fun GroupEntryForm(
     name: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -121,7 +123,7 @@ fun PlayerGroupEntryForm(
         OutlinedTextField(
             value = name,
             onValueChange = { onValueChange(it) },
-            label = { Text(stringResource(R.string.group_name_req)) },
+            label = { Text(stringResource(R.string.name_req)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -136,10 +138,10 @@ fun PlayerGroupEntryForm(
 
 @Preview(showBackground = true)
 @Composable
-private fun PlayerGroupEntryScreenPreview() {
+private fun GroupEntryScreenPreview() {
     CluedoTheme {
-        PlayerGroupEntryBody(
-            playerGroupEntryUiState = GroupEntryUiState(name = "PFMC 2025", isValidInput = true),
+        GroupEntryBody(
+            uiState = GroupEntryUiState(name = "PFMC 2025", isValidInput = true),
             onNameValueChange = {},
             canClickSave = true,
             onSaveClick = {},

@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,34 +20,34 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
-import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupEditViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerGroupEditScreen(
+fun <C : Component, G : Group> GroupEditScreen(
+    @StringRes titleResId: Int,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: GroupEditViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: GroupEditViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
     Scaffold(
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(R.string.player_group_edit_title),
+                title = stringResource(titleResId),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp,
             )
         }
     ) { innerPadding ->
-        PlayerGroupEntryBody(
-            playerGroupEntryUiState = viewModel.uiState,
+        GroupEntryBody(
+            uiState = viewModel.uiState,
             onNameValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
             onSaveClick = {

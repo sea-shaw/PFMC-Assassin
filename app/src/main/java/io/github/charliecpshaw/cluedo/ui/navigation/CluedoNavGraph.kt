@@ -12,12 +12,12 @@ import androidx.navigation.navArgument
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.ui.screens.GroupEditScreen
+import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerEntryScreen
-import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEditScreen
-import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEntryScreen
 
 @Composable
 fun CluedoNavHost(
@@ -44,7 +44,8 @@ fun CluedoNavHost(
             )
         }
         composable(route = GroupEntryDestination.Player.route) {
-            PlayerGroupEntryScreen(
+            GroupEntryScreen<Player, PlayerGroup>(
+                titleResId = R.string.player_group_entry_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
@@ -102,7 +103,8 @@ fun CluedoNavHost(
                 },
             )
         ) {
-            PlayerGroupEditScreen(
+            GroupEditScreen<Player, PlayerGroup>(
+                titleResId = R.string.player_group_edit_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
