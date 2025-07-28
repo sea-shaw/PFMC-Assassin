@@ -30,14 +30,14 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <C : Component, G : Group> ComponentEditScreen(
+inline fun <reified V : ComponentEditViewModel<C, G>, C : Component, G : Group> ComponentEditScreen(
     @StringRes titleResId: Int,
     @StringRes deleteContentDescriptionResId: Int,
     @StringRes deleteQuestionResId: Int,
-    navigateBack: () -> Unit,
-    onNavigateUp: () -> Unit,
+    crossinline navigateBack: () -> Unit,
+    noinline onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: ComponentEditViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }

@@ -67,7 +67,7 @@ fun DeleteConfirmationDialogue(
 private fun DeleteConfirmationDialoguePreview() {
     CluedoTheme {
         DeleteConfirmationDialogue(
-            deleteQuestionResId = R.string.player_group_delete_question,
+            deleteQuestionResId = R.string.group_delete_question,
             onDeleteConfirm = {},
             onDeleteCancel = {},
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))

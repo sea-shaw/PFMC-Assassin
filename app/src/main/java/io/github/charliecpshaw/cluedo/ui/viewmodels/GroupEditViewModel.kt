@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class GroupEditViewModel<C : Component, G : Group>(
+abstract class GroupEditViewModel<C : Component, G : Group>(
     savedStateHandle: SavedStateHandle,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {

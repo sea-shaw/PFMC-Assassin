@@ -31,6 +31,14 @@ sealed interface GroupDestination : Destination {
     object Player : GroupDestination {
         override val route = "player_group"
     }
+
+    object Place : GroupDestination {
+        override val route = "place_group"
+    }
+
+    object Weapon : GroupDestination {
+        override val route = "weapon_group"
+    }
 }
 
 sealed interface EditDestination : Destination {
@@ -43,20 +51,44 @@ sealed interface EditDestination : Destination {
 }
 
 sealed interface GroupEditDestination : EditDestination {
-    object Player : EditDestination {
+    object Player : GroupEditDestination {
         override val route = "player_group_edit"
+    }
+
+    object Place : GroupEditDestination {
+        override val route = "place_group_edit"
+    }
+
+    object Weapon : GroupEditDestination {
+        override val route = "weapon_group_edit"
     }
 }
 
 sealed interface ComponentEditDestination : EditDestination {
-    object Player : EditDestination {
+    object Player : ComponentEditDestination {
         override val route = "player_edit"
+    }
+
+    object Place : ComponentEditDestination {
+        override val route = "place_edit"
+    }
+
+    object Weapon : ComponentEditDestination {
+        override val route = "weapon_edit"
     }
 }
 
 sealed interface GroupEntryDestination : Destination {
     object Player : GroupEntryDestination {
         override val route = "player_group_entry"
+    }
+
+    object Place : GroupEntryDestination {
+        override val route = "place_group_entry"
+    }
+
+    object Weapon : GroupEntryDestination {
+        override val route = "weapon_group_entry"
     }
 }
 
@@ -71,5 +103,13 @@ sealed interface ComponentEntryDestination : Destination {
 
     object Player : ComponentEntryDestination {
         override val route = "player_entry"
+    }
+
+    object Place : ComponentEntryDestination {
+        override val route = "place_entry"
+    }
+
+    object Weapon : ComponentEntryDestination {
+        override val route = "weapon_entry"
     }
 }

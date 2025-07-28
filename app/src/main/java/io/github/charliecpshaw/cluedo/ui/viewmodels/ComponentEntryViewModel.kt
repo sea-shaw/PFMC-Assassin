@@ -10,7 +10,7 @@ import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import io.github.charliecpshaw.cluedo.ui.navigation.ComponentEntryDestination
 
-class ComponentEntryViewModel<C : Component, G : Group>(
+abstract class ComponentEntryViewModel<C : Component, G : Group>(
     savedStateHandle: SavedStateHandle,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {

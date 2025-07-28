@@ -146,6 +146,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Places.ordinal,
             onClick = {
+                navController.navigate(route = GroupsDestination.Place.route)
                 selectedTabOrdinal = Tab.Places.ordinal
             },
             imageVector = Camping,
@@ -154,6 +155,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Weapons.ordinal,
             onClick = {
+                navController.navigate(route = GroupsDestination.Weapon.route)
                 selectedTabOrdinal = Tab.Weapons.ordinal
             },
             imageVector = Swords,

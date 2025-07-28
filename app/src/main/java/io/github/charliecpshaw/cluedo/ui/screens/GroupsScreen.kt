@@ -47,12 +47,12 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <C : Component, G : Group> GroupsScreen(
+inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsScreen(
     @StringRes titleResId: Int,
-    navigateToGroupEntry: () -> Unit,
-    navigateToGroup: (Long) -> Unit,
+    noinline navigateToGroupEntry: () -> Unit,
+    noinline navigateToGroup: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: GroupsViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -91,7 +91,7 @@ fun <C : Component, G : Group> GroupsScreen(
 }
 
 @Composable
-private fun <G : Group> GroupsBody(
+fun <G : Group> GroupsBody(
     groupList: List<G>,
     onGroupClick: (Long) -> Unit,
     modifier: Modifier = Modifier,

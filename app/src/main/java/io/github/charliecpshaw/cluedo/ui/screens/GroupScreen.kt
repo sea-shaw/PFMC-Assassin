@@ -55,17 +55,17 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <C : Component, G : Group> GroupScreen(
+inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group> GroupScreen(
     @StringRes editContentDescriptionResId: Int,
     @StringRes deleteContentDescriptionResId: Int,
     @StringRes componentEntryContentDescriptionResId: Int,
     @StringRes deleteQuestionResId: Int,
-    navigateToGroupEdit: (Long) -> Unit,
-    navigateToComponentEdit: (Long) -> Unit,
-    navigateToComponentEntry: (Long) -> Unit,
-    navigateBack: () -> Unit,
+    crossinline navigateToGroupEdit: (Long) -> Unit,
+    noinline navigateToComponentEdit: (Long) -> Unit,
+    crossinline navigateToComponentEntry: (Long) -> Unit,
+    noinline navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: GroupViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
@@ -126,7 +126,7 @@ fun <C : Component, G : Group> GroupScreen(
 }
 
 @Composable
-private fun <C : Component> GroupBody(
+fun <C : Component> GroupBody(
     componentList: List<C>,
     onComponentClick: (Long) -> Unit,
     modifier: Modifier = Modifier,

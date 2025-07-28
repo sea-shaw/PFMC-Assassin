@@ -10,37 +10,107 @@ import io.github.charliecpshaw.cluedo.CluedoApplication
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            GroupsViewModel(
+            PlayerGroupsViewModel(
                 componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {
-            GroupEntryViewModel(
+            PlayerGroupEntryViewModel(
                 componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {
-            GroupEditViewModel(
+            PlayerGroupEditViewModel(
                 savedStateHandle = this.createSavedStateHandle(),
                 componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {
-            GroupViewModel(
+            PlayerGroupViewModel(
                 savedStateHandle = this.createSavedStateHandle(),
                 componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {
-            ComponentEntryViewModel(
+            PlayerEntryViewModel(
                 savedStateHandle = this.createSavedStateHandle(),
                 componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {
-            ComponentEditViewModel(
+            PlayerEditViewModel(
                 savedStateHandle = this.createSavedStateHandle(),
                 componentRepository = cluedoApplication().container.playerRepository,
+            )
+        }
+
+        initializer {
+            PlaceGroupsViewModel(
+                componentRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+        initializer {
+            PlaceGroupEntryViewModel(
+                componentRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+        initializer {
+            PlaceGroupEditViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+        initializer {
+            PlaceGroupViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+        initializer {
+            PlaceEntryViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+        initializer {
+            PlaceEditViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+
+        initializer {
+            WeaponGroupsViewModel(
+                componentRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
+        initializer {
+            WeaponGroupEntryViewModel(
+                componentRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
+        initializer {
+            WeaponGroupEditViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
+        initializer {
+            WeaponGroupViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
+        initializer {
+            WeaponEntryViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
+        initializer {
+            WeaponEditViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.weaponRepository,
             )
         }
     }

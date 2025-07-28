@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class ComponentEditViewModel<C : Component, G : Group>(
+abstract class ComponentEditViewModel<C : Component, G : Group>(
     savedStateHandle: SavedStateHandle,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {

@@ -28,12 +28,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <C : Component, G : Group> GroupEditScreen(
+inline fun <reified V : GroupEditViewModel<C, G>, C : Component, G : Group> GroupEditScreen(
     @StringRes titleResId: Int,
-    navigateBack: () -> Unit,
-    onNavigateUp: () -> Unit,
+    crossinline navigateBack: () -> Unit,
+    noinline onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: GroupEditViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }

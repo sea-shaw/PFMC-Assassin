@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class GroupsViewModel<C : Component, G : Group>(
+abstract class GroupsViewModel<C : Component, G : Group>(
     componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
     val uiState: StateFlow<GroupsUiState<G>> =
