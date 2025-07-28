@@ -16,19 +16,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
-
-object PlayerGroupEditDestination : NavigationDestination {
-    override val route = "player_group_edit"
-    const val GROUP_ID_ARG = "group_id"
-    val routeWithArgs = "$route/{$GROUP_ID_ARG}"
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

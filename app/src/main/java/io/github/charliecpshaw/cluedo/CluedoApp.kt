@@ -29,12 +29,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import io.github.charliecpshaw.cluedo.ui.PlayerGroupsDestination
 import io.github.charliecpshaw.cluedo.ui.icons.Camping
 import io.github.charliecpshaw.cluedo.ui.icons.Person
 import io.github.charliecpshaw.cluedo.ui.icons.Swords
 import io.github.charliecpshaw.cluedo.ui.icons.Trophy
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
+import io.github.charliecpshaw.cluedo.ui.navigation.GroupsDestination
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 @Composable
@@ -42,7 +42,7 @@ fun CluedoApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val startDestination = PlayerGroupsDestination.route
+    val startDestination = GroupsDestination.Player.route
     Scaffold(
         bottomBar = {
             CluedoBottomAppBar(
@@ -125,10 +125,16 @@ fun CluedoBottomAppBar(
         windowInsets = NavigationBarDefaults.windowInsets,
     ) {
         CluedoNavigationBarItem(
-            selected = selectedDestination == PlayerGroupsDestination.route,
+            selected = false,
+            onClick = {},
+            imageVector = Trophy,
+            contentDescription = "Games",
+        )
+        CluedoNavigationBarItem(
+            selected = selectedDestination == GroupsDestination.Player.route,
             onClick = {
-                navController.navigate(route = PlayerGroupsDestination.route)
-                selectedDestination = PlayerGroupsDestination.route
+                navController.navigate(route = GroupsDestination.Player.route)
+                selectedDestination = GroupsDestination.Player.route
             },
             imageVector = Person,
             contentDescription = "Players",
@@ -144,12 +150,6 @@ fun CluedoBottomAppBar(
             onClick = {},
             imageVector = Swords,
             contentDescription = "Weapons",
-        )
-        CluedoNavigationBarItem(
-            selected = false,
-            onClick = {},
-            imageVector = Trophy,
-            contentDescription = "Games",
         )
     }
 }
@@ -197,6 +197,6 @@ private fun CluedoTopAppBarPreview() {
 private fun CluedoBottomAppBarPreview() {
     CluedoBottomAppBar(
         navController = rememberNavController(),
-        startDestination = PlayerGroupsDestination.route,
+        startDestination = GroupsDestination.Player.route,
     )
 }

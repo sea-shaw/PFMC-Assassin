@@ -4,13 +4,23 @@ sealed interface Destination {
     val route: String
 }
 
-sealed interface DetailDestination : Destination {
+sealed interface GroupsDestination : Destination {
+    object Player : GroupsDestination {
+        override val route = "player_groups"
+    }
+}
+
+sealed interface GroupDestination : Destination {
     companion object {
         const val ID_ARG = "id"
     }
 
     val routeWithArgs: String
-        get() = "$route/{${EditDestination.Companion.ID_ARG}}"
+        get() = "$route/{${ID_ARG}}"
+
+    object Player : GroupDestination {
+        override val route = "player_group"
+    }
 }
 
 sealed interface EditDestination : Destination {

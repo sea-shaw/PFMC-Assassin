@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
+import io.github.charliecpshaw.cluedo.ui.navigation.GroupDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -19,7 +20,7 @@ class PlayerGroupViewModel(
 ) : ViewModel() {
 
     val groupId: Long =
-        checkNotNull(savedStateHandle[PlayerGroupDestination.GROUP_ID_ARG])
+        checkNotNull(savedStateHandle[GroupDestination.ID_ARG])
 
     val playerGroupUiState: StateFlow<PlayerGroupUiState> =
         playerRepository.getGroupStream(groupId)

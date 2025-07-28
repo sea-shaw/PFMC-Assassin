@@ -6,8 +6,6 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import io.github.charliecpshaw.cluedo.CluedoApplication
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {

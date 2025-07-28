@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
+import io.github.charliecpshaw.cluedo.ui.navigation.EditDestination
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -20,7 +21,7 @@ class PlayerGroupEditViewModel(
 ) : ViewModel() {
 
     private val groupId: Long =
-        checkNotNull(savedStateHandle[PlayerGroupEditDestination.GROUP_ID_ARG])
+        checkNotNull(savedStateHandle[EditDestination.ID_ARG])
 
     var playerGroupEntryUiState by mutableStateOf(PlayerGroupEntryUiState())
         private set

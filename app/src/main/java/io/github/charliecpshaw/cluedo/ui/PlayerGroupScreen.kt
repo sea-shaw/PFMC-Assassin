@@ -30,7 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,15 +49,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import kotlinx.coroutines.launch
-
-object PlayerGroupDestination : NavigationDestination {
-    override val route = "player_group"
-    const val GROUP_ID_ARG = "groupId"
-    val routeWithArgs = "$route/{$GROUP_ID_ARG}"
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

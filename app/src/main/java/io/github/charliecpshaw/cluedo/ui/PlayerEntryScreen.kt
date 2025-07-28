@@ -32,18 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
-import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import kotlinx.coroutines.launch
-
-object PlayerEntryDestination : NavigationDestination {
-    override val route = "player_entry"
-    const val GROUP_ID_ARG = "group_id"
-    val routeWithArgs = "$route/{$GROUP_ID_ARG}"
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
