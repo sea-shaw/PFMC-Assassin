@@ -72,7 +72,7 @@ fun PlayerEditScreen(
         )
         if (deleteConformationRequired) {
             DeleteConfirmationDialogue(
-                deleteQuestionRes = R.string.player_delete_question,
+                deleteQuestionResId = R.string.player_delete_question,
                 onDeleteConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {

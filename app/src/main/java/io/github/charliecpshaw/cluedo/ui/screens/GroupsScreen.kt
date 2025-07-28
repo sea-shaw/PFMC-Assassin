@@ -126,7 +126,7 @@ private fun <G : Group> GroupsList(
                 items = groupList,
                 key = { it.id },
             ) { playerGroup ->
-                GroupItem(
+                GroupCard(
                     group = playerGroup,
                     modifier = modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
@@ -138,7 +138,7 @@ private fun <G : Group> GroupsList(
 }
 
 @Composable
-private fun <G : Group> GroupItem(
+private fun <G : Group> GroupCard(
     group: G,
     modifier: Modifier = Modifier
 ) {
@@ -164,7 +164,7 @@ private fun <G : Group> GroupItem(
 
 @Preview(showBackground = true)
 @Composable
-fun GroupsBodyPreview() {
+private fun GroupsBodyPreview() {
     CluedoTheme {
         GroupsBody(
             groupList =listOf(

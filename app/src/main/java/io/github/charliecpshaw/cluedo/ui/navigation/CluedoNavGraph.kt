@@ -12,12 +12,12 @@ import androidx.navigation.navArgument
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEntryScreen
-import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupScreen
 
 @Composable
 fun CluedoNavHost(
@@ -55,15 +55,19 @@ fun CluedoNavHost(
                 navArgument(name = GroupDestination.ID_ARG) { type = NavType.LongType },
             )
         ) {
-            PlayerGroupScreen(
+            GroupScreen<Player, PlayerGroup>(
+                editContentDescriptionResId = R.string.player_group_edit_title,
+                deleteContentDescriptionResId = R.string.player_group_delete,
+                componentEntryContentDescriptionResId = R.string.player_entry_title,
+                deleteQuestionResId = R.string.player_group_delete_question,
                 navigateBack = { navController.navigateUp() },
-                navigateToEdit = {
+                navigateToGroupEdit = {
                     navController.navigate(route = "${GroupEditDestination.Player.route}/$it")
                 },
-                navigateToPlayerEdit = {
+                navigateToComponentEdit = {
                     navController.navigate(route = "${ComponentEditDestination.Player.route}/$it")
                 },
-                navigateToPlayerEntry = {
+                navigateToComponentEntry = {
                     navController.navigate(route = "${ComponentEntryDestination.Player.route}/$it")
                 },
             )

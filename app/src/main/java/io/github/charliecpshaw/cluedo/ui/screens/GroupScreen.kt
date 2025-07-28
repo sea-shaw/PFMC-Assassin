@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -29,7 +28,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,12 +42,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupViewModel
@@ -57,13 +55,17 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerGroupScreen(
-    navigateToEdit: (Long) -> Unit,
-    navigateToPlayerEdit: (Long) -> Unit,
-    navigateToPlayerEntry: (Long) -> Unit,
+fun <C : Component, G : Group> GroupScreen(
+    @StringRes editContentDescriptionResId: Int,
+    @StringRes deleteContentDescriptionResId: Int,
+    @StringRes componentEntryContentDescriptionResId: Int,
+    @StringRes deleteQuestionResId: Int,
+    navigateToGroupEdit: (Long) -> Unit,
+    navigateToComponentEdit: (Long) -> Unit,
+    navigateToComponentEntry: (Long) -> Unit,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: GroupViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: GroupViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
@@ -75,16 +77,16 @@ fun PlayerGroupScreen(
                 canNavigateBack = true,
                 navigateUp = navigateBack,
                 hasEditButton = true,
-                onEditClick = { navigateToEdit(viewModel.groupId) },
-                editContentDescriptionRes = R.string.player_group_edit_title,
+                onEditClick = { navigateToGroupEdit(viewModel.groupId) },
+                editContentDescriptionRes = editContentDescriptionResId,
                 hasDeleteButton = true,
                 onDeleteClick = { deleteConformationRequired = true },
-                deleteContentDescriptionRes = R.string.player_group_delete
+                deleteContentDescriptionRes = deleteContentDescriptionResId,
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToPlayerEntry(viewModel.groupId) },
+                onClick = { navigateToComponentEntry(viewModel.groupId) },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(
@@ -94,21 +96,21 @@ fun PlayerGroupScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.player_group_edit_title),
+                    contentDescription = stringResource(componentEntryContentDescriptionResId),
                 )
             }
         },
         modifier = modifier,
     ) { innerPadding ->
-        PlayerGroupBody(
-            playerList = uiState.components,
-            onPlayerClick = navigateToPlayerEdit,
+        GroupBody(
+            componentList = uiState.components,
+            onComponentClick = navigateToComponentEdit,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
         if (deleteConformationRequired) {
             DeleteConfirmationDialogue(
-                deleteQuestionRes = R.string.player_group_delete_question,
+                deleteQuestionResId = deleteQuestionResId,
                 onDeleteConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {
@@ -124,9 +126,9 @@ fun PlayerGroupScreen(
 }
 
 @Composable
-fun PlayerGroupBody(
-    playerList: List<Player>,
-    onPlayerClick: (Long) -> Unit,
+fun <C : Component> GroupBody(
+    componentList: List<C>,
+    onComponentClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -134,36 +136,36 @@ fun PlayerGroupBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
-        PlayerList(
-            playerList = playerList,
+        ComponentList(
+            componentList = componentList,
             contentPadding = contentPadding,
-            onPlayerClick = onPlayerClick,
+            onComponentClick = onComponentClick,
             modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
         )
     }
 }
 
 @Composable
-fun PlayerList(
-    playerList: List<Player>,
+fun <C : Component> ComponentList(
+    componentList: List<C>,
     contentPadding: PaddingValues,
-    onPlayerClick: (Long) -> Unit,
+    onComponentClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = contentPadding,
     ) {
-        if (playerList.isNotEmpty()) {
+        if (componentList.isNotEmpty()) {
             items(
-                items = playerList,
+                items = componentList,
                 key = { it.id },
             ) { player ->
-                PlayerItem(
-                    player = player,
+                ComponentCard(
+                    component = player,
                     modifier = modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onPlayerClick(player.id) },
+                        .clickable { onComponentClick(player.id) },
                 )
             }
         }
@@ -171,8 +173,8 @@ fun PlayerList(
 }
 
 @Composable
-fun PlayerItem(
-    player: Player,
+fun <C : Component> ComponentCard(
+    component: C,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -187,11 +189,11 @@ fun PlayerItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = player.name,
+                    text = component.name,
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                if (player.isActive) {
+                if (component.isActive) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = stringResource(id = R.string.active),
@@ -207,71 +209,16 @@ fun PlayerItem(
     }
 }
 
-@Composable
-fun DeleteConfirmationDialogue(
-    @StringRes deleteQuestionRes: Int,
-    onDeleteConfirm: () -> Unit,
-    onDeleteCancel: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Dialog(onDismissRequest = onDeleteCancel) {
-        Card(
-            modifier = modifier,
-            shape = RoundedCornerShape(dimensionResource(R.dimen.padding_medium)),
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = stringResource(id = deleteQuestionRes),
-                    modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    TextButton(
-                        onClick = onDeleteCancel,
-                        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
-                    ) {
-                        Text(text = stringResource(id = R.string.cancel))
-                    }
-                    TextButton(
-                        onClick = onDeleteConfirm,
-                        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
-                    ) {
-                        Text(text = stringResource(id = R.string.delete))
-                    }
-                }
-            }
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun PlayerGroupBodyPreview() {
     CluedoTheme {
-        PlayerGroupBody(
-            playerList = listOf(
+        GroupBody(
+            componentList = listOf(
                 Player(id = 0, name = "Player 0", isActive = true, groupId = 0),
                 Player(id = 1, name = "Player 1", isActive = false, groupId = 0),
             ),
-            onPlayerClick = {},
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DeleteConfirmationDialoguePreview() {
-    CluedoTheme {
-        DeleteConfirmationDialogue(
-            deleteQuestionRes = R.string.player_group_delete_question,
-            onDeleteConfirm = {},
-            onDeleteCancel = {},
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+            onComponentClick = {},
         )
     }
 }
