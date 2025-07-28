@@ -63,17 +63,17 @@ fun CluedoNavHost(
                     navController.navigate(route = "${PlayerGroupEditDestination.route}/$it")
                 },
                 navigateToPlayerEdit = {
-                    navController.navigate(route = "${PlayerEditDestination.route}/$it")
+                    navController.navigate(route = "${ComponentEditDestination.Player.route}/$it")
                 },
                 navigateToPlayerEntry = {
-                    navController.navigate(route = "${PlayerEntryDestination.route}/$it")
+                    navController.navigate(route = "${ComponentEntryDestination.Player.route}/$it")
                 },
             )
         }
         composable(
-            route = PlayerEntryDestination.routeWithArgs,
+            route = ComponentEntryDestination.Player.routeWithArgs,
             arguments = listOf(
-                navArgument(name = PlayerEntryDestination.GROUP_ID_ARG) { type = NavType.LongType },
+                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) { type = NavType.LongType },
             )
         ) {
             PlayerEntryScreen(
@@ -82,9 +82,9 @@ fun CluedoNavHost(
             )
         }
         composable(
-            route = PlayerEditDestination.routeWithArgs,
+            route = ComponentEditDestination.Player.routeWithArgs,
             arguments = listOf(
-                navArgument(name = PlayerEditDestination.PLAYER_ID_ARG) { type = NavType.LongType },
+                navArgument(name = EditDestination.ID_ARG) { type = NavType.LongType },
             )
         ) {
             PlayerEditScreen(
