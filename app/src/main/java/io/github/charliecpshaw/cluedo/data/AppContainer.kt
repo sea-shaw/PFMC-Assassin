@@ -25,9 +25,9 @@ class AppDataContainer(
             groupDao = database.playerGroupDao(),
             componentDao = database.playerDao(),
             gamePlayerDao = database.gamePlayerDao(),
+            canDeleteComponent = { _, _ -> true },
             onDeleteComponent = { id, gamePlayerDao ->
                 gamePlayerDao.removePlayerFromTargets(id)
-                gamePlayerDao.deletePlayerInstances(id)
             }
         )
     }
@@ -38,8 +38,11 @@ class AppDataContainer(
             groupDao = database.placeGroupDao(),
             componentDao = database.placeDao(),
             gamePlayerDao = database.gamePlayerDao(),
+            canDeleteComponent = { id, gamePlayerDao ->
+                gamePlayerDao.canDeletePlace(id)
+            },
             onDeleteComponent = { id, gamePlayerDao ->
-                TODO()
+                gamePlayerDao.replacePlaceWithRandom(id)
             }
         )
     }
@@ -50,8 +53,11 @@ class AppDataContainer(
             groupDao = database.weaponGroupDao(),
             componentDao = database.weaponDao(),
             gamePlayerDao = database.gamePlayerDao(),
+            canDeleteComponent = { id, gamePlayerDao ->
+                gamePlayerDao.canDeleteWeapon(id)
+            },
             onDeleteComponent = { id, gamePlayerDao ->
-                TODO()
+                gamePlayerDao.replaceWeaponWithRandom(id)
             }
         )
     }

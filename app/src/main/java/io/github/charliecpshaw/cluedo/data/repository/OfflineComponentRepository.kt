@@ -11,6 +11,7 @@ class OfflineComponentRepository<C : Component, G : Group>(
     private val groupDao: GroupDao<G>,
     private val componentDao: ComponentDao<C>,
     private val gamePlayerDao: GamePlayerDao,
+    private val canDeleteComponent: suspend (Long, GamePlayerDao) -> Boolean,
     private val onDeleteComponent: suspend (Long, GamePlayerDao) -> Unit,
 ) : ComponentRepository<C, G> {
     override fun getGroupStream(id: Long): Flow<G?> {
@@ -56,6 +57,10 @@ class OfflineComponentRepository<C : Component, G : Group>(
 
     override suspend fun deleteGroup(id: Long): Int {
         return groupDao.delete(id)
+    }
+
+    override suspend fun canDeleteComponent(id: Long): Boolean {
+        return canDeleteComponent(id, gamePlayerDao)
     }
 
     override suspend fun deleteComponent(id: Long): Int {

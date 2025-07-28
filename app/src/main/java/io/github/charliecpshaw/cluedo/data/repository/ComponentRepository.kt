@@ -14,5 +14,6 @@ interface ComponentRepository<C : Component, G : Group> {
     suspend fun updateGroup(id: Long, name: String): Int
     suspend fun updateComponent(id: Long, name: String, isActive: Boolean): Int
     suspend fun deleteGroup(id: Long): Int
+    suspend fun canDeleteComponent(id: Long): Boolean
     suspend fun deleteComponent(id: Long): Int
 }
