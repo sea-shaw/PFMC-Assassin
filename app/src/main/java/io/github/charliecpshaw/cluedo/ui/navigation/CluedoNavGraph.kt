@@ -22,12 +22,12 @@ import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
 @Composable
 fun CluedoNavHost(
     navController: NavHostController,
-    startDestination: String,
+    startDestinationRoute: String,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = startDestinationRoute,
         modifier = modifier,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },

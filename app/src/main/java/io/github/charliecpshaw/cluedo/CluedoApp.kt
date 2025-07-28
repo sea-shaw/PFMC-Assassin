@@ -20,7 +20,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -35,6 +35,7 @@ import io.github.charliecpshaw.cluedo.ui.icons.Swords
 import io.github.charliecpshaw.cluedo.ui.icons.Trophy
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
 import io.github.charliecpshaw.cluedo.ui.navigation.GroupsDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.Tab
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 @Composable
@@ -42,19 +43,19 @@ fun CluedoApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val startDestination = GroupsDestination.Player.route
+    val startDestination = GroupsDestination.Player
     Scaffold(
         bottomBar = {
             CluedoBottomAppBar(
                 navController = navController,
-                startDestination = startDestination,
+                tab = startDestination.tab,
             )
         },
         modifier = modifier,
     ) { contentPadding ->
         CluedoNavHost(
             navController = navController,
-            startDestination = startDestination,
+            startDestinationRoute = startDestination.route,
             modifier = Modifier.padding(bottom = contentPadding.calculateBottomPadding())
         )
     }
@@ -117,37 +118,43 @@ fun CluedoTopAppBar(
 @Composable
 fun CluedoBottomAppBar(
     navController: NavHostController,
-    startDestination: String,
+    tab: Tab,
 ) {
-    var selectedDestination by rememberSaveable { mutableStateOf(startDestination) }
+    var selectedTabOrdinal by rememberSaveable { mutableIntStateOf(tab.ordinal) }
 
     NavigationBar(
         windowInsets = NavigationBarDefaults.windowInsets,
     ) {
         CluedoNavigationBarItem(
-            selected = false,
-            onClick = {},
+            selected = selectedTabOrdinal == Tab.Games.ordinal,
+            onClick = {
+                selectedTabOrdinal = Tab.Games.ordinal
+            },
             imageVector = Trophy,
             contentDescription = "Games",
         )
         CluedoNavigationBarItem(
-            selected = selectedDestination == GroupsDestination.Player.route,
+            selected = selectedTabOrdinal == Tab.Players.ordinal,
             onClick = {
                 navController.navigate(route = GroupsDestination.Player.route)
-                selectedDestination = GroupsDestination.Player.route
+                selectedTabOrdinal = Tab.Players.ordinal
             },
             imageVector = Person,
             contentDescription = "Players",
         )
         CluedoNavigationBarItem(
-            selected = false,
-            onClick = {},
+            selected = selectedTabOrdinal == Tab.Places.ordinal,
+            onClick = {
+                selectedTabOrdinal = Tab.Places.ordinal
+            },
             imageVector = Camping,
             contentDescription = "Places",
         )
         CluedoNavigationBarItem(
-            selected = false,
-            onClick = {},
+            selected = selectedTabOrdinal == Tab.Weapons.ordinal,
+            onClick = {
+                selectedTabOrdinal = Tab.Weapons.ordinal
+            },
             imageVector = Swords,
             contentDescription = "Weapons",
         )
@@ -197,6 +204,6 @@ private fun CluedoTopAppBarPreview() {
 private fun CluedoBottomAppBarPreview() {
     CluedoBottomAppBar(
         navController = rememberNavController(),
-        startDestination = GroupsDestination.Player.route,
+        tab = GroupsDestination.Player.tab,
     )
 }
