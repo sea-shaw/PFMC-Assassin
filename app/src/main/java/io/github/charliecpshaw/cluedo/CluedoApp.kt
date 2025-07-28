@@ -44,11 +44,12 @@ fun CluedoApp(
     navController: NavHostController = rememberNavController(),
 ) {
     val startDestination = GroupsDestination.Player
+    val startTab = Tab.Players
     Scaffold(
         bottomBar = {
             CluedoBottomAppBar(
                 navController = navController,
-                tab = startDestination.tab,
+                tab = startTab,
             )
         },
         modifier = modifier,
@@ -116,7 +117,7 @@ fun CluedoTopAppBar(
 }
 
 @Composable
-fun CluedoBottomAppBar(
+private fun CluedoBottomAppBar(
     navController: NavHostController,
     tab: Tab,
 ) {
@@ -162,7 +163,7 @@ fun CluedoBottomAppBar(
 }
 
 @Composable
-fun RowScope.CluedoNavigationBarItem(
+private fun RowScope.CluedoNavigationBarItem(
     selected: Boolean,
     onClick: () -> Unit,
     imageVector: ImageVector,
@@ -204,6 +205,6 @@ private fun CluedoTopAppBarPreview() {
 private fun CluedoBottomAppBarPreview() {
     CluedoBottomAppBar(
         navController = rememberNavController(),
-        tab = GroupsDestination.Player.tab,
+        tab = Tab.Players,
     )
 }

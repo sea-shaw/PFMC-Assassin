@@ -126,7 +126,7 @@ fun <C : Component, G : Group> GroupScreen(
 }
 
 @Composable
-fun <C : Component> GroupBody(
+private fun <C : Component> GroupBody(
     componentList: List<C>,
     onComponentClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
@@ -146,7 +146,7 @@ fun <C : Component> GroupBody(
 }
 
 @Composable
-fun <C : Component> ComponentList(
+private fun <C : Component> ComponentList(
     componentList: List<C>,
     contentPadding: PaddingValues,
     onComponentClick: (Long) -> Unit,
@@ -173,7 +173,7 @@ fun <C : Component> ComponentList(
 }
 
 @Composable
-fun <C : Component> ComponentCard(
+private fun <C : Component> ComponentCard(
     component: C,
     modifier: Modifier = Modifier,
 ) {

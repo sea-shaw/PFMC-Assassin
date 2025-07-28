@@ -110,7 +110,7 @@ fun GroupEntryBody(
 }
 
 @Composable
-fun GroupEntryForm(
+private fun GroupEntryForm(
     name: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,

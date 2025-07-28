@@ -115,7 +115,7 @@ fun ComponentEntryBody(
 }
 
 @Composable
-fun ComponentEntryForm(
+private fun ComponentEntryForm(
     details: ComponentDetails,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
