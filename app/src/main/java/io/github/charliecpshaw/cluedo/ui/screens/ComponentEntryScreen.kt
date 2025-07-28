@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentDetails
@@ -44,24 +45,25 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerEntryScreen(
+fun <C : Component, G : Group> ComponentEntryScreen(
+    @StringRes titleResId: Int,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: ComponentEntryViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: ComponentEntryViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
     Scaffold(
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(id = R.string.player_entry_title),
+                title = stringResource(titleResId),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp,
             )
         }
     ) { innerPadding ->
-        PlayerEntryBody(
+        ComponentEntryBody(
             uiState = viewModel.uiState,
             onValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
@@ -85,7 +87,7 @@ fun PlayerEntryScreen(
 }
 
 @Composable
-fun PlayerEntryBody(
+fun ComponentEntryBody(
     uiState: ComponentEntryUiState,
     onValueChange: (ComponentDetails) -> Unit,
     canClickSave: Boolean,
@@ -96,7 +98,7 @@ fun PlayerEntryBody(
         modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
     ) {
-        PlayerEntryForm(
+        ComponentEntryForm(
             details = uiState.details,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
@@ -113,7 +115,7 @@ fun PlayerEntryBody(
 }
 
 @Composable
-fun PlayerEntryForm(
+fun ComponentEntryForm(
     details: ComponentDetails,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -154,9 +156,9 @@ fun PlayerEntryForm(
 
 @Preview(showBackground = true)
 @Composable
-private fun PlayerEntryScreenPreview() {
+private fun ComponentEntryScreenPreview() {
     CluedoTheme {
-        PlayerEntryBody(
+        ComponentEntryBody(
             uiState = ComponentEntryUiState(
                 details = ComponentDetails(name = "Player 0", isActive = true),
                 isValidInput = true,

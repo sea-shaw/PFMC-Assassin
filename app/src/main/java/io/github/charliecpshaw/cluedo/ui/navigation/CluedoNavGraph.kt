@@ -12,12 +12,12 @@ import androidx.navigation.navArgument
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.ui.screens.ComponentEditScreen
+import io.github.charliecpshaw.cluedo.ui.screens.ComponentEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
-import io.github.charliecpshaw.cluedo.ui.screens.PlayerEditScreen
-import io.github.charliecpshaw.cluedo.ui.screens.PlayerEntryScreen
 
 @Composable
 fun CluedoNavHost(
@@ -79,7 +79,8 @@ fun CluedoNavHost(
                 navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) { type = NavType.LongType },
             )
         ) {
-            PlayerEntryScreen(
+            ComponentEntryScreen<Player, PlayerGroup>(
+                titleResId = R.string.player_entry_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
@@ -90,7 +91,10 @@ fun CluedoNavHost(
                 navArgument(name = EditDestination.ID_ARG) { type = NavType.LongType },
             )
         ) {
-            PlayerEditScreen(
+            ComponentEditScreen<Player, PlayerGroup>(
+                titleResId = R.string.player_edit_title,
+                deleteContentDescriptionResId = R.string.player_delete,
+                deleteQuestionResId = R.string.player_delete_question,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )

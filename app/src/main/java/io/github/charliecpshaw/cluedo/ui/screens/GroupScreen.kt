@@ -81,7 +81,7 @@ fun <C : Component, G : Group> GroupScreen(
                 editContentDescriptionRes = editContentDescriptionResId,
                 hasDeleteButton = true,
                 onDeleteClick = { deleteConformationRequired = true },
-                deleteContentDescriptionRes = deleteContentDescriptionResId,
+                deleteContentDescriptionResId = deleteContentDescriptionResId,
             )
         },
         floatingActionButton = {

@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,19 +22,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEditViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerEditScreen(
+fun <C : Component, G : Group> ComponentEditScreen(
+    @StringRes titleResId: Int,
+    @StringRes deleteContentDescriptionResId: Int,
+    @StringRes deleteQuestionResId: Int,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: ComponentEditViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: ComponentEditViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
@@ -41,16 +45,16 @@ fun PlayerEditScreen(
     Scaffold(
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(id = R.string.player_edit_title),
+                title = stringResource(titleResId),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp,
                 hasDeleteButton = true,
-                deleteContentDescriptionRes = R.string.player_delete,
+                deleteContentDescriptionResId = deleteContentDescriptionResId,
                 onDeleteClick = { deleteConformationRequired = true }
             )
         }
     ) { innerPadding ->
-        PlayerEntryBody(
+        ComponentEntryBody(
             uiState = viewModel.uiState,
             onValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
@@ -72,7 +76,7 @@ fun PlayerEditScreen(
         )
         if (deleteConformationRequired) {
             DeleteConfirmationDialogue(
-                deleteQuestionResId = R.string.player_delete_question,
+                deleteQuestionResId = deleteQuestionResId,
                 onDeleteConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {

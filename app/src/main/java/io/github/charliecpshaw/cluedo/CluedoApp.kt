@@ -73,7 +73,7 @@ fun CluedoTopAppBar(
     @StringRes editContentDescriptionRes: Int = 0,
     hasDeleteButton: Boolean = false,
     onDeleteClick: () -> Unit = {},
-    @StringRes deleteContentDescriptionRes: Int = 0,
+    @StringRes deleteContentDescriptionResId: Int = 0,
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
@@ -106,7 +106,7 @@ fun CluedoTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
-                        contentDescription = stringResource(id = deleteContentDescriptionRes),
+                        contentDescription = stringResource(id = deleteContentDescriptionResId),
                     )
                 }
             }
