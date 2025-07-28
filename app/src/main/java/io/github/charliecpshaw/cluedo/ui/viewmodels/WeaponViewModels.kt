@@ -1,8 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
@@ -24,7 +22,7 @@ class WeaponEntryViewModel(
 )
 
 class WeaponGroupEntryViewModel(
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>
+    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupEntryViewModel<Weapon, WeaponGroup>(
     componentRepository,
 )

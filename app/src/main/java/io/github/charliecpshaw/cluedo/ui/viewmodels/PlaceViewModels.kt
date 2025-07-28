@@ -3,8 +3,6 @@ package io.github.charliecpshaw.cluedo.ui.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import io.github.charliecpshaw.cluedo.data.model.Place
 import io.github.charliecpshaw.cluedo.data.model.PlaceGroup
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 
 class PlaceEditViewModel(
@@ -24,11 +22,10 @@ class PlaceEntryViewModel(
 )
 
 class PlaceGroupEntryViewModel(
-    componentRepository: ComponentRepository<Place, PlaceGroup>
+    componentRepository: ComponentRepository<Place, PlaceGroup>,
 ) : GroupEntryViewModel<Place, PlaceGroup>(
     componentRepository,
 )
-
 
 class PlaceGroupEditViewModel(
     savedStateHandle: SavedStateHandle,

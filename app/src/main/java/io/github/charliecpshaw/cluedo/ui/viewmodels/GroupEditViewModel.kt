@@ -52,7 +52,7 @@ abstract class GroupEditViewModel<C : Component, G : Group>(
     }
 
     suspend fun saveGroup() {
-        with (uiState) {
+        with(uiState) {
             if (isValidInput(name)) {
                 componentRepository.updateGroup(id = id, name = name)
             }

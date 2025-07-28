@@ -1,14 +1,14 @@
 package io.github.charliecpshaw.cluedo.data.repository
 
-import io.github.charliecpshaw.cluedo.data.model.Game
-import io.github.charliecpshaw.cluedo.data.model.GamePlayer
-import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
-import io.github.charliecpshaw.cluedo.data.dao.PlayerInfoDao
-import io.github.charliecpshaw.cluedo.data.dao.WeaponDao
 import io.github.charliecpshaw.cluedo.data.dao.GameDao
 import io.github.charliecpshaw.cluedo.data.dao.GamePlayerDao
 import io.github.charliecpshaw.cluedo.data.dao.PlaceDao
 import io.github.charliecpshaw.cluedo.data.dao.PlayerDao
+import io.github.charliecpshaw.cluedo.data.dao.PlayerInfoDao
+import io.github.charliecpshaw.cluedo.data.dao.WeaponDao
+import io.github.charliecpshaw.cluedo.data.model.Game
+import io.github.charliecpshaw.cluedo.data.model.GamePlayer
+import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import kotlinx.coroutines.flow.Flow
 import java.lang.Math.ceilDiv
 import java.time.Instant
@@ -28,7 +28,7 @@ class OfflineGameRepository(
         startInstant: Instant,
         playerGroupId: Long,
         placeGroupId: Long,
-        weaponGroupId: Long
+        weaponGroupId: Long,
     ): Long {
         val game = Game(
             name = name,

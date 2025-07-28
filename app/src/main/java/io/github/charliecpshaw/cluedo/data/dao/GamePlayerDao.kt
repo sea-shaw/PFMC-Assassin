@@ -1,7 +1,6 @@
 package io.github.charliecpshaw.cluedo.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -22,7 +21,8 @@ interface GamePlayerDao {
     @Query("DELETE FROM game_player WHERE game_id = :gameId AND player_id = :playerId")
     suspend fun delete(gameId: Long, playerId: Long): Int
 
-    @Query(value = """
+    @Query(
+        value = """
         UPDATE game_player
         SET target_id = (
             SELECT target.target_id
@@ -35,12 +35,15 @@ interface GamePlayerDao {
             FROM game_player player
             WHERE player.target_id = :playerId
         )
-    """)
+    """
+    )
     suspend fun removePlayerFromTargets(playerId: Long)
 
-    @Query(value = """
+    @Query(
+        value = """
         DELETE FROM game_player
         WHERE game_player.player_id = :playerId
-    """)
+    """
+    )
     suspend fun deletePlayerInstances(playerId: Long)
 }

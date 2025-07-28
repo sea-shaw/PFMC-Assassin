@@ -28,6 +28,7 @@ private const val QUERY = """
         WHERE game_player.game_id = :gameId
         
 """
+
 @Dao
 interface PlayerInfoDao {
     @Query(QUERY + "AND game_player.player_id = :playerId")

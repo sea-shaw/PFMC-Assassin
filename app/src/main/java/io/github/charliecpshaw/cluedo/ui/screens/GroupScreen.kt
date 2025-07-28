@@ -65,7 +65,7 @@ inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group> GroupScr
     crossinline navigateToComponentEntry: (Long) -> Unit,
     noinline navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }

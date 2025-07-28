@@ -49,7 +49,7 @@ abstract class ComponentEditViewModel<C : Component, G : Group>(
     }
 
     suspend fun saveComponent() {
-        with (uiState.details) {
+        with(uiState.details) {
             if (isValidInput(this)) {
                 componentRepository.updateComponent(id, name, isActive)
             }

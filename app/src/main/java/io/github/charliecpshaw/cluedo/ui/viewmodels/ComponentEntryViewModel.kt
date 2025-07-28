@@ -35,7 +35,7 @@ abstract class ComponentEntryViewModel<C : Component, G : Group>(
     }
 
     suspend fun saveComponent() {
-        with (uiState.details) {
+        with(uiState.details) {
             if (isValidInput(this)) {
                 componentRepository.insertComponent(name, groupId, isActive)
             }

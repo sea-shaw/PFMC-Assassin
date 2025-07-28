@@ -52,7 +52,7 @@ inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsS
     noinline navigateToGroupEntry: () -> Unit,
     noinline navigateToGroup: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -95,7 +95,7 @@ fun <G : Group> GroupsBody(
     groupList: List<G>,
     onGroupClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
+    contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -140,7 +140,7 @@ private fun <G : Group> GroupsList(
 @Composable
 private fun <G : Group> GroupCard(
     group: G,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier,
@@ -167,7 +167,7 @@ private fun <G : Group> GroupCard(
 private fun GroupsBodyPreview() {
     CluedoTheme {
         GroupsBody(
-            groupList =listOf(
+            groupList = listOf(
                 PlayerGroup(id = 0, name = "PFMC"),
                 PlayerGroup(id = 1, name = "PFMC+"),
             ),

@@ -98,7 +98,7 @@ fun CluedoTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Edit,
-                        contentDescription =  stringResource(id = editContentDescriptionRes),
+                        contentDescription = stringResource(id = editContentDescriptionRes),
                     )
                 }
             }

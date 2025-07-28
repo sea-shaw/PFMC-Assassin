@@ -183,7 +183,9 @@ fun CluedoNavHost(
         composable(
             route = ComponentEntryDestination.Player.routeWithArgs,
             arguments = listOf(
-                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) { type = NavType.LongType },
+                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
             )
         ) {
             ComponentEntryScreen<PlayerEntryViewModel, Player, PlayerGroup>(
@@ -195,7 +197,9 @@ fun CluedoNavHost(
         composable(
             route = ComponentEntryDestination.Place.routeWithArgs,
             arguments = listOf(
-                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) { type = NavType.LongType },
+                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
             )
         ) {
             ComponentEntryScreen<PlaceEntryViewModel, Place, PlaceGroup>(
@@ -207,7 +211,9 @@ fun CluedoNavHost(
         composable(
             route = ComponentEntryDestination.Weapon.routeWithArgs,
             arguments = listOf(
-                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) { type = NavType.LongType },
+                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
             )
         ) {
             ComponentEntryScreen<WeaponEntryViewModel, Weapon, WeaponGroup>(
