@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
@@ -45,25 +47,26 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlayerGroupsScreen(
-    navigateToPlayerGroupEntry: () -> Unit,
-    navigateToPlayerGroup: (Long) -> Unit,
+fun <C : Component, G : Group> GroupsScreen(
+    @StringRes titleResId: Int,
+    navigateToGroupEntry: () -> Unit,
+    navigateToGroup: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: GroupsViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: GroupsViewModel<C, G> = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val playerGroupsUiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         modifier = modifier,
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(R.string.player_groups_title),
+                title = stringResource(titleResId),
                 canNavigateBack = false,
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToPlayerGroupEntry,
+                onClick = navigateToGroupEntry,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(
@@ -78,9 +81,9 @@ fun PlayerGroupsScreen(
             }
         },
     ) { innerPadding ->
-        PlayerGroupsBody(
-            playerGroupList = playerGroupsUiState.groups,
-            onPlayerGroupClick = navigateToPlayerGroup,
+        GroupsBody(
+            groupList = uiState.groups,
+            onGroupClick = navigateToGroup,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
@@ -88,9 +91,9 @@ fun PlayerGroupsScreen(
 }
 
 @Composable
-private fun PlayerGroupsBody(
-    playerGroupList: List<PlayerGroup>,
-    onPlayerGroupClick: (Long) -> Unit,
+private fun <G : Group> GroupsBody(
+    groupList: List<G>,
+    onGroupClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -98,9 +101,9 @@ private fun PlayerGroupsBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
-        PlayerGroupsList(
-            playerGroupList = playerGroupList,
-            onPlayerGroupClick = { onPlayerGroupClick(it.id) },
+        GroupsList(
+            groupList = groupList,
+            onGroupClick = { onGroupClick(it.id) },
             contentPadding = contentPadding,
             modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
         )
@@ -108,9 +111,9 @@ private fun PlayerGroupsBody(
 }
 
 @Composable
-private fun PlayerGroupsList(
-    playerGroupList: List<PlayerGroup>,
-    onPlayerGroupClick: (PlayerGroup) -> Unit,
+private fun <G : Group> GroupsList(
+    groupList: List<G>,
+    onGroupClick: (G) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
@@ -118,16 +121,16 @@ private fun PlayerGroupsList(
         modifier = modifier,
         contentPadding = contentPadding,
     ) {
-        if (playerGroupList.isNotEmpty()) {
+        if (groupList.isNotEmpty()) {
             items(
-                items = playerGroupList,
+                items = groupList,
                 key = { it.id },
             ) { playerGroup ->
-                PlayerGroupItem(
-                    playerGroup = playerGroup,
+                GroupItem(
+                    group = playerGroup,
                     modifier = modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onPlayerGroupClick(playerGroup) }
+                        .clickable { onGroupClick(playerGroup) }
                 )
             }
         }
@@ -135,8 +138,8 @@ private fun PlayerGroupsList(
 }
 
 @Composable
-private fun PlayerGroupItem(
-    playerGroup: PlayerGroup,
+private fun <G : Group> GroupItem(
+    group: G,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -151,7 +154,7 @@ private fun PlayerGroupItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = playerGroup.name,
+                    text = group.name,
                     style = MaterialTheme.typography.titleLarge,
                 )
             }
@@ -161,14 +164,14 @@ private fun PlayerGroupItem(
 
 @Preview(showBackground = true)
 @Composable
-fun PlayerGroupsBodyPreview() {
+fun GroupsBodyPreview() {
     CluedoTheme {
-        PlayerGroupsBody(
-            playerGroupList =listOf(
+        GroupsBody(
+            groupList =listOf(
                 PlayerGroup(id = 0, name = "PFMC"),
                 PlayerGroup(id = 1, name = "PFMC+"),
             ),
-            onPlayerGroupClick = {},
+            onGroupClick = {},
         )
     }
 }

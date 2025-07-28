@@ -9,12 +9,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupScreen
-import io.github.charliecpshaw.cluedo.ui.screens.PlayerGroupsScreen
 
 @Composable
 fun CluedoNavHost(
@@ -30,11 +33,12 @@ fun CluedoNavHost(
         exitTransition = { ExitTransition.None },
     ) {
         composable(route = GroupsDestination.Player.route) {
-            PlayerGroupsScreen(
-                navigateToPlayerGroupEntry = {
+            GroupsScreen<Player, PlayerGroup>(
+                titleResId = R.string.player_groups_title,
+                navigateToGroupEntry = {
                     navController.navigate(GroupEntryDestination.Player.route)
                 },
-                navigateToPlayerGroup = {
+                navigateToGroup = {
                     navController.navigate("${GroupDestination.Player.route}/$it")
                 },
             )
