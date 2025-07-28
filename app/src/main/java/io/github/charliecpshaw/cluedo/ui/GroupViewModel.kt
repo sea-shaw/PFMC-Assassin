@@ -3,8 +3,8 @@ package io.github.charliecpshaw.cluedo.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import io.github.charliecpshaw.cluedo.ui.navigation.GroupDestination
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,27 +14,27 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class PlayerGroupViewModel(
+class GroupViewModel<C : Component, G : Group>(
     savedStateHandle: SavedStateHandle,
-    private val playerRepository: ComponentRepository<Player, PlayerGroup>,
+    private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
     val groupId: Long =
         checkNotNull(savedStateHandle[GroupDestination.ID_ARG])
 
-    val playerGroupUiState: StateFlow<PlayerGroupUiState> =
-        playerRepository.getGroupStream(groupId)
+    val uiState: StateFlow<GroupUiState<C>> =
+        componentRepository.getGroupStream(groupId)
             .filterNotNull()
             .map {
-                PlayerGroupUiState(groupId = it.id, name = it.name)
+                GroupUiState<C>(name = it.name)
             }.combine(
-                flow = playerRepository.getAllComponentsInGroupStream(groupId).filterNotNull(),
-            ) { uiState, players ->
-                uiState.copy(players = players)
+                flow = componentRepository.getAllComponentsInGroupStream(groupId).filterNotNull(),
+            ) { uiState, components ->
+                uiState.copy(components = components)
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = PlayerGroupUiState(),
+                initialValue = GroupUiState(),
             )
 
     companion object {
@@ -42,12 +42,11 @@ class PlayerGroupViewModel(
     }
 
     suspend fun deleteGroup() {
-        playerRepository.deleteGroup(groupId)
+        componentRepository.deleteGroup(groupId)
     }
 }
 
-data class PlayerGroupUiState(
-    val groupId: Long = 0,
+data class GroupUiState<C : Component>(
     val name: String = "",
-    val players: List<Player> = listOf(),
+    val components: List<C> = listOf(),
 )

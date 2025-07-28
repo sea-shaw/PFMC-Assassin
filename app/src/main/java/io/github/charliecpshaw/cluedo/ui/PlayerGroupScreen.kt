@@ -49,6 +49,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import kotlinx.coroutines.launch
 
@@ -60,19 +61,19 @@ fun PlayerGroupScreen(
     navigateToPlayerEntry: (Long) -> Unit,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PlayerGroupViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: GroupViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val playerGroupUiState by viewModel.playerGroupUiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             CluedoTopAppBar(
-                title = playerGroupUiState.name,
+                title = uiState.name,
                 canNavigateBack = true,
                 navigateUp = navigateBack,
                 hasEditButton = true,
-                onEditClick = { navigateToEdit(playerGroupUiState.groupId) },
+                onEditClick = { navigateToEdit(viewModel.groupId) },
                 editContentDescriptionRes = R.string.player_group_edit_title,
                 hasDeleteButton = true,
                 onDeleteClick = { deleteConformationRequired = true },
@@ -98,7 +99,7 @@ fun PlayerGroupScreen(
         modifier = modifier,
     ) { innerPadding ->
         PlayerGroupBody(
-            playerList = playerGroupUiState.players,
+            playerList = uiState.components,
             onPlayerClick = navigateToPlayerEdit,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
