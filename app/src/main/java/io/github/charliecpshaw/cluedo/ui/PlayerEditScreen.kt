@@ -22,6 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.ui.navigation.NavigationDestination
 import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import kotlinx.coroutines.launch
 
 object PlayerEditDestination : NavigationDestination {
@@ -36,7 +38,7 @@ fun PlayerEditScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: PlayerEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: ComponentEditViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
@@ -54,13 +56,13 @@ fun PlayerEditScreen(
         }
     ) { innerPadding ->
         PlayerEntryBody(
-            playerEntryUiState = viewModel.playerEntryUiState,
+            uiState = viewModel.uiState,
             onValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
             onSaveClick = {
                 coroutineScope.launch {
                     canClickSave = false
-                    viewModel.savePlayer()
+                    viewModel.saveComponent()
                     navigateBack()
                 }
             },
@@ -79,7 +81,7 @@ fun PlayerEditScreen(
                 onDeleteConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {
-                        viewModel.deletePlayer()
+                        viewModel.deleteComponent()
                         navigateBack()
                     }
                 },
