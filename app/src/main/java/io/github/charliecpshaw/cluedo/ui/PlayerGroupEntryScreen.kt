@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import kotlinx.coroutines.launch
 
@@ -38,7 +40,7 @@ fun PlayerGroupEntryScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: PlayerGroupEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: GroupEntryViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
@@ -52,13 +54,13 @@ fun PlayerGroupEntryScreen(
         }
     ) { innerPadding ->
         PlayerGroupEntryBody(
-            playerGroupEntryUiState = viewModel.playerGroupEntryUiState,
+            playerGroupEntryUiState = viewModel.uiState,
             onNameValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
             onSaveClick = {
                 coroutineScope.launch {
                     canClickSave = false
-                    viewModel.savePlayerGroup()
+                    viewModel.saveGroup()
                     navigateBack()
                 }
             },
@@ -76,7 +78,7 @@ fun PlayerGroupEntryScreen(
 
 @Composable
 fun PlayerGroupEntryBody(
-    playerGroupEntryUiState: PlayerGroupEntryUiState,
+    playerGroupEntryUiState: GroupEntryUiState,
     onNameValueChange: (String) -> Unit,
     canClickSave: Boolean,
     onSaveClick: () -> Unit,
@@ -93,7 +95,7 @@ fun PlayerGroupEntryBody(
         )
         Button(
             onClick = onSaveClick,
-            enabled = playerGroupEntryUiState.isEntryValid && canClickSave,
+            enabled = playerGroupEntryUiState.isValidInput && canClickSave,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -134,7 +136,7 @@ fun PlayerGroupEntryForm(
 private fun PlayerGroupEntryScreenPreview() {
     CluedoTheme {
         PlayerGroupEntryBody(
-            playerGroupEntryUiState = PlayerGroupEntryUiState(name = "PFMC 2025", isEntryValid = true),
+            playerGroupEntryUiState = GroupEntryUiState(name = "PFMC 2025", isValidInput = true),
             onNameValueChange = {},
             canClickSave = true,
             onSaveClick = {},

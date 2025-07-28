@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.charliecpshaw.cluedo.data.model.Player
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Component
+import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import io.github.charliecpshaw.cluedo.ui.navigation.EditDestination
 import kotlinx.coroutines.flow.filterNotNull
@@ -15,26 +15,32 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class PlayerGroupEditViewModel(
+class GroupEditViewModel<C : Component, G : Group>(
     savedStateHandle: SavedStateHandle,
-    private val playerRepository: ComponentRepository<Player, PlayerGroup>,
+    private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
-    private val groupId: Long =
+    companion object {
+        private fun isValidInput(name: String): Boolean {
+            return name.isNotBlank()
+        }
+    }
+
+    private val id: Long =
         checkNotNull(savedStateHandle[EditDestination.ID_ARG])
 
-    var playerGroupEntryUiState by mutableStateOf(PlayerGroupEntryUiState())
+    var uiState by mutableStateOf(GroupEntryUiState())
         private set
 
     init {
         viewModelScope.launch {
-            playerGroupEntryUiState = playerRepository
-                .getGroupStream(groupId)
+            uiState = componentRepository
+                .getGroupStream(id)
                 .filterNotNull()
                 .map {
-                    PlayerGroupEntryUiState(
+                    GroupEntryUiState(
                         name = it.name,
-                        isEntryValid = true,
+                        isValidInput = true,
                     )
                 }
                 .first()
@@ -42,16 +48,14 @@ class PlayerGroupEditViewModel(
     }
 
     fun updateUiState(name: String) {
-        playerGroupEntryUiState = PlayerGroupEntryUiState(name = name, isEntryValid = isValidInput(name))
+        uiState = GroupEntryUiState(name = name, isValidInput = isValidInput(name))
     }
 
-    suspend fun savePlayerGroup() {
-        if (isValidInput()) {
-            playerRepository.updateGroup(id = groupId, name = playerGroupEntryUiState.name)
+    suspend fun saveGroup() {
+        with (uiState) {
+            if (isValidInput(name)) {
+                componentRepository.updateGroup(id = id, name = name)
+            }
         }
-    }
-
-    private fun isValidInput(name: String = playerGroupEntryUiState.name): Boolean {
-        return name.isNotBlank()
     }
 }

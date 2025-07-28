@@ -15,8 +15,21 @@ object AppViewModelProvider {
             )
         }
         initializer {
-            PlayerGroupEntryViewModel(
-                playerRepository = cluedoApplication().container.playerRepository,
+//            PlayerGroupEntryViewModel(
+//                playerRepository = cluedoApplication().container.playerRepository,
+//            )
+            GroupEntryViewModel(
+                componentRepository = cluedoApplication().container.playerRepository,
+            )
+        }
+        initializer {
+//            PlayerGroupEditViewModel(
+//                savedStateHandle = this.createSavedStateHandle(),
+//                playerRepository = cluedoApplication().container.playerRepository,
+//            )
+            GroupEditViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                componentRepository = cluedoApplication().container.playerRepository,
             )
         }
         initializer {
@@ -35,12 +48,6 @@ object AppViewModelProvider {
             ComponentEditViewModel(
                 savedStateHandle = this.createSavedStateHandle(),
                 componentRepository = cluedoApplication().container.playerRepository,
-            )
-        }
-        initializer {
-            PlayerGroupEditViewModel(
-                savedStateHandle = this.createSavedStateHandle(),
-                playerRepository = cluedoApplication().container.playerRepository,
             )
         }
     }

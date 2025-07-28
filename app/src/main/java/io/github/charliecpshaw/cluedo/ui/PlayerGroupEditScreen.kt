@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.Player
+import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,7 +30,7 @@ fun PlayerGroupEditScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: PlayerGroupEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: GroupEditViewModel<Player, PlayerGroup> = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }
@@ -42,13 +44,13 @@ fun PlayerGroupEditScreen(
         }
     ) { innerPadding ->
         PlayerGroupEntryBody(
-            playerGroupEntryUiState = viewModel.playerGroupEntryUiState,
+            playerGroupEntryUiState = viewModel.uiState,
             onNameValueChange = viewModel::updateUiState,
             canClickSave = canClickSave,
             onSaveClick = {
                 coroutineScope.launch {
                     canClickSave = false
-                    viewModel.savePlayerGroup()
+                    viewModel.saveGroup()
                     navigateBack()
                 }
             },
