@@ -37,7 +37,7 @@ inline fun <reified V : ComponentEditViewModel<C, G>, C : Component, G : Group> 
     crossinline navigateBack: () -> Unit,
     noinline onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }

@@ -49,7 +49,7 @@ class OfflineComponentRepository<C : Component, G : Group>(
     override suspend fun updateComponent(
         id: Long,
         name: String,
-        isActive: Boolean
+        isActive: Boolean,
     ): Int {
         return componentDao.update(id, name, isActive)
     }

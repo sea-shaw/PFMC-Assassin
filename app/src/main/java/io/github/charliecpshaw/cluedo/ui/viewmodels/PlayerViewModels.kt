@@ -22,7 +22,7 @@ class PlayerEntryViewModel(
 )
 
 class PlayerGroupEntryViewModel(
-    componentRepository: ComponentRepository<Player, PlayerGroup>
+    componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupEntryViewModel<Player, PlayerGroup>(
     componentRepository,
 )
