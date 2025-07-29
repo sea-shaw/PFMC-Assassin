@@ -34,6 +34,6 @@ interface PlayerInfoDao {
     @Query(QUERY + "AND game_player.player_id = :playerId")
     fun getPlayerStream(gameId: Long, playerId: Long): Flow<PlayerInfo?>
 
-    @Query(QUERY)
+    @Query(QUERY + "AND game_player.is_alive")
     fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
 }
