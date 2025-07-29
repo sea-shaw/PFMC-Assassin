@@ -7,7 +7,7 @@ import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import kotlinx.coroutines.flow.Flow
 
-class OfflineComponentRepository<C : Component, G : Group>(
+abstract class OfflineComponentRepository<C : Component, G : Group>(
     private val groupDao: GroupDao<G>,
     private val componentDao: ComponentDao<C>,
     private val gamePlayerDao: GamePlayerDao,

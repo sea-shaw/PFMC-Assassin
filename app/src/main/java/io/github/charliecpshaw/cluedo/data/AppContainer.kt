@@ -11,6 +11,9 @@ import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import io.github.charliecpshaw.cluedo.data.repository.OfflineComponentRepository
 import io.github.charliecpshaw.cluedo.data.repository.OfflineGameRepository
+import io.github.charliecpshaw.cluedo.data.repository.OfflinePlaceRepository
+import io.github.charliecpshaw.cluedo.data.repository.OfflinePlayerRepository
+import io.github.charliecpshaw.cluedo.data.repository.OfflineWeaponRepository
 
 interface AppContainer {
     val playerRepository: ComponentRepository<Player, PlayerGroup>
@@ -25,44 +28,28 @@ class AppDataContainer(
 ) : AppContainer {
     override val playerRepository: ComponentRepository<Player, PlayerGroup> by lazy {
         val database = CluedoDatabase.getDatabase(context)
-        OfflineComponentRepository(
-            groupDao = database.playerGroupDao(),
-            componentDao = database.playerDao(),
+        OfflinePlayerRepository(
+            playerGroupDao = database.playerGroupDao(),
+            playerDao = database.playerDao(),
             gamePlayerDao = database.gamePlayerDao(),
-            canDeleteComponent = { _, _ -> true },
-            onDeleteComponent = { id, gamePlayerDao ->
-                gamePlayerDao.removePlayerFromTargets(id)
-            }
         )
     }
 
     override val placeRepository: ComponentRepository<Place, PlaceGroup> by lazy {
         val database = CluedoDatabase.getDatabase(context)
-        OfflineComponentRepository(
-            groupDao = database.placeGroupDao(),
-            componentDao = database.placeDao(),
+        OfflinePlaceRepository(
+            placeGroupDao = database.placeGroupDao(),
+            placeDao = database.placeDao(),
             gamePlayerDao = database.gamePlayerDao(),
-            canDeleteComponent = { id, gamePlayerDao ->
-                gamePlayerDao.canDeletePlace(id)
-            },
-            onDeleteComponent = { id, gamePlayerDao ->
-                gamePlayerDao.replacePlaceWithRandom(id)
-            }
         )
     }
 
     override val weaponRepository: ComponentRepository<Weapon, WeaponGroup> by lazy {
         val database = CluedoDatabase.getDatabase(context)
-        OfflineComponentRepository(
-            groupDao = database.weaponGroupDao(),
-            componentDao = database.weaponDao(),
+        OfflineWeaponRepository(
+            weaponGroupDao = database.weaponGroupDao(),
+            weaponDao = database.weaponDao(),
             gamePlayerDao = database.gamePlayerDao(),
-            canDeleteComponent = { id, gamePlayerDao ->
-                gamePlayerDao.canDeleteWeapon(id)
-            },
-            onDeleteComponent = { id, gamePlayerDao ->
-                gamePlayerDao.replaceWeaponWithRandom(id)
-            }
         )
     }
 
