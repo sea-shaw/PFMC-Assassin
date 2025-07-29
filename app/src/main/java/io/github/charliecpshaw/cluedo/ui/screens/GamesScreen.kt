@@ -38,21 +38,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
-import io.github.charliecpshaw.cluedo.data.model.Component
-import io.github.charliecpshaw.cluedo.data.model.Group
-import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
+import io.github.charliecpshaw.cluedo.data.model.Game
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
-import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupsViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.GamesViewModel
+import java.time.Instant
+import java.time.Month
+import java.time.ZoneId
+import java.time.ZoneOffset
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsScreen(
+fun GamesScreen(
     @StringRes titleResId: Int,
-    noinline navigateToGroupEntry: () -> Unit,
-    noinline navigateToGroup: (Long) -> Unit,
+    navigateToGameEntry: () -> Unit,
+    navigateToGame: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: GamesViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -66,7 +69,7 @@ inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsS
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToGroupEntry,
+                onClick = navigateToGameEntry,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(
@@ -81,9 +84,9 @@ inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsS
             }
         },
     ) { innerPadding ->
-        GroupsBody(
-            groupList = uiState.groups,
-            onGroupClick = navigateToGroup,
+        GamesBody(
+            gameList = uiState.games,
+            onGameClick = navigateToGame,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
@@ -91,9 +94,9 @@ inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsS
 }
 
 @Composable
-fun <G : Group> GroupsBody(
-    groupList: List<G>,
-    onGroupClick: (Long) -> Unit,
+fun GamesBody(
+    gameList: List<Game>,
+    onGameClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -101,9 +104,9 @@ fun <G : Group> GroupsBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
-        GroupsList(
-            groupList = groupList,
-            onGroupClick = { onGroupClick(it.id) },
+        GamesList(
+            gameList = gameList,
+            onGameClick = { onGameClick(it.id) },
             contentPadding = contentPadding,
             modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
         )
@@ -111,9 +114,9 @@ fun <G : Group> GroupsBody(
 }
 
 @Composable
-private fun <G : Group> GroupsList(
-    groupList: List<G>,
-    onGroupClick: (G) -> Unit,
+private fun GamesList(
+    gameList: List<Game>,
+    onGameClick: (Game) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
@@ -121,16 +124,16 @@ private fun <G : Group> GroupsList(
         modifier = modifier,
         contentPadding = contentPadding,
     ) {
-        if (groupList.isNotEmpty()) {
+        if (gameList.isNotEmpty()) {
             items(
-                items = groupList,
+                items = gameList,
                 key = { it.id },
-            ) { group ->
-                GroupCard(
-                    group = group,
+            ) { game ->
+                GameCard(
+                    game = game,
                     modifier = modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onGroupClick(group) }
+                        .clickable { onGameClick(game) }
                 )
             }
         }
@@ -138,8 +141,8 @@ private fun <G : Group> GroupsList(
 }
 
 @Composable
-private fun <G : Group> GroupCard(
-    group: G,
+private fun GameCard(
+    game: Game,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -154,24 +157,80 @@ private fun <G : Group> GroupCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = group.name,
+                    text = game.name,
                     style = MaterialTheme.typography.titleLarge,
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = if (game.end == null) {
+                        game.start.getDateString()
+                    } else {
+                        "${game.start.getDateString()} - ${game.end.getDateString()}"
+                    }
                 )
             }
         }
     }
 }
 
+private fun Instant.getDateString(): String {
+    val zoneOffset = getZoneOffset()
+    val offsetDateTime = atOffset(zoneOffset)
+    val year = offsetDateTime.year
+    val month = offsetDateTime.month
+    val day = offsetDateTime.dayOfMonth
+
+    return "${day.toOrdinal()} ${month.toDisplay()} $year"
+}
+
+private fun getZoneOffset(): ZoneOffset {
+    return ZoneId.systemDefault().rules.getOffset(Instant.now())
+}
+
+private fun Int.toOrdinal(): String {
+    val numString = toString()
+    return when (numString.last()) {
+        '1' -> "${numString}st"
+        '2' -> "${numString}nd"
+        '3' -> "${numString}rd"
+        else -> "${numString}th"
+    }
+}
+
+private fun Month.toDisplay(): String {
+    val monthString = toString()
+    return "${monthString[0].uppercase()}${monthString.drop(1).lowercase()}"
+}
+
 @Preview(showBackground = true)
 @Composable
-private fun GroupsBodyPreview() {
+private fun GamesBodyPreview() {
     CluedoTheme {
-        GroupsBody(
-            groupList = listOf(
-                PlayerGroup(id = 0, name = "PFMC"),
-                PlayerGroup(id = 1, name = "PFMC+"),
+        GamesBody(
+            gameList = listOf(
+                Game(
+                    id = 0,
+                    name = "PFMC",
+                    start = Instant.parse("2025-07-27T00:00:00Z"),
+                    end = Instant.parse("2025-08-02T00:00:00Z"),
+                    playerGroupId = 0,
+                    placeGroupId = 0,
+                    weaponGroupId = 0,
+                ),
+                Game(
+                    id = 1,
+                    name = "PFMC+",
+                    start = Instant.parse("2025-08-05T00:00:00Z"),
+                    end = null,
+                    playerGroupId = 0,
+                    placeGroupId = 0,
+                    weaponGroupId = 0,
+                ),
             ),
-            onGroupClick = {},
+            onGameClick = {},
         )
     }
 }

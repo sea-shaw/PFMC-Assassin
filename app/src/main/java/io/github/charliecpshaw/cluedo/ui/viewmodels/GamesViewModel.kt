@@ -2,25 +2,24 @@ package io.github.charliecpshaw.cluedo.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.charliecpshaw.cluedo.data.model.Component
-import io.github.charliecpshaw.cluedo.data.model.Group
-import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
+import io.github.charliecpshaw.cluedo.data.model.Game
+import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-abstract class GroupsViewModel<C : Component, G : Group>(
-    componentRepository: ComponentRepository<C, G>,
+class GamesViewModel(
+    gameRepository: GameRepository,
 ) : ViewModel() {
-    val uiState: StateFlow<GroupsUiState<G>> = componentRepository.getAllGroupsStream()
+    val uiState: StateFlow<GamesUiState> = gameRepository.getAllGamesStream()
         .filterNotNull()
-        .map { GroupsUiState(it) }
+        .map { GamesUiState(it) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-            initialValue = GroupsUiState(),
+            initialValue = GamesUiState(),
         )
 
     companion object {
@@ -28,6 +27,6 @@ abstract class GroupsViewModel<C : Component, G : Group>(
     }
 }
 
-data class GroupsUiState<G : Group>(
-    val groups: List<G> = listOf(),
+data class GamesUiState(
+    val games: List<Game> = listOf()
 )

@@ -113,6 +113,12 @@ object AppViewModelProvider {
                 componentRepository = cluedoApplication().container.weaponRepository,
             )
         }
+
+        initializer {
+            GamesViewModel(
+                gameRepository = cluedoApplication().container.gameRepository,
+            )
+        }
     }
 }
 
