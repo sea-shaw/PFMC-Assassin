@@ -34,6 +34,7 @@ import io.github.charliecpshaw.cluedo.ui.icons.Person
 import io.github.charliecpshaw.cluedo.ui.icons.Swords
 import io.github.charliecpshaw.cluedo.ui.icons.Trophy
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
+import io.github.charliecpshaw.cluedo.ui.navigation.Destination
 import io.github.charliecpshaw.cluedo.ui.navigation.GroupsDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.Tab
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
@@ -129,6 +130,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Games.ordinal,
             onClick = {
+                navController.navigate(route = Destination.Games.route)
                 selectedTabOrdinal = Tab.Games.ordinal
             },
             imageVector = Trophy,

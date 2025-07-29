@@ -18,6 +18,7 @@ import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.ui.screens.ComponentEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.ComponentEntryScreen
+import io.github.charliecpshaw.cluedo.ui.screens.GamesScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
@@ -306,6 +307,15 @@ fun CluedoNavHost(
                 titleResId = R.string.weapon_group_edit_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
+            )
+        }
+
+        composable(
+            route = Destination.Games.route,
+        ) {
+            GamesScreen(
+                navigateToGame = {},
+                navigateToGameEntry = {},
             )
         }
     }

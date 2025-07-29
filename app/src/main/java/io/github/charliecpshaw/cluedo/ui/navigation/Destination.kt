@@ -4,6 +4,10 @@ enum class Tab { Games, Players, Places, Weapons }
 
 sealed interface Destination {
     val route: String
+
+    object Games : Destination {
+        override val route = "games"
+    }
 }
 
 sealed interface GroupsDestination : Destination {

@@ -51,7 +51,6 @@ import java.time.ZoneOffset
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamesScreen(
-    @StringRes titleResId: Int,
     navigateToGameEntry: () -> Unit,
     navigateToGame: (Long) -> Unit,
     modifier: Modifier = Modifier,
@@ -63,7 +62,7 @@ fun GamesScreen(
         modifier = modifier,
         topBar = {
             CluedoTopAppBar(
-                title = stringResource(titleResId),
+                title = stringResource(R.string.games_title),
                 canNavigateBack = false,
             )
         },
