@@ -40,12 +40,6 @@ data class Game(
     @ColumnInfo(name = "name")
     override val name: String,
 
-    @ColumnInfo(name = "start_date")
-    val start: Instant,
-
-    @ColumnInfo(name = "end_date")
-    val end: Instant?,
-
     @ColumnInfo(name = "player_group_id", index = true)
     val playerGroupId: Long,
 

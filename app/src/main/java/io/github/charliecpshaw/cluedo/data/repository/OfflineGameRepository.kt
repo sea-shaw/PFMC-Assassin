@@ -25,15 +25,12 @@ class OfflineGameRepository(
 
     override suspend fun createGame(
         name: String,
-        startInstant: Instant,
         playerGroupId: Long,
         placeGroupId: Long,
         weaponGroupId: Long,
     ): Long {
         val game = Game(
             name = name,
-            start = startInstant,
-            end = null,
             playerGroupId = playerGroupId,
             placeGroupId = placeGroupId,
             weaponGroupId = weaponGroupId,
@@ -76,7 +73,6 @@ class OfflineGameRepository(
     override suspend fun killTarget(
         gameId: Long,
         playerId: Long,
-        instant: Instant,
     ) {
         val player = gamePlayerDao.get(gameId, playerId)
         val target = gamePlayerDao.get(gameId, player.targetId)
@@ -84,12 +80,6 @@ class OfflineGameRepository(
         val killedTarget = target.copy(isAlive = false)
         gamePlayerDao.update(playerWithNewTarget)
         gamePlayerDao.update(killedTarget)
-
-        if (playerWithNewTarget.targetId == playerWithNewTarget.playerId) {
-            val game = gameDao.getGame(player.gameId)
-            val finishedGame = game.copy(end = instant)
-            gameDao.update(finishedGame)
-        }
     }
 
     override suspend fun shuffleGame(gameId: Long) {

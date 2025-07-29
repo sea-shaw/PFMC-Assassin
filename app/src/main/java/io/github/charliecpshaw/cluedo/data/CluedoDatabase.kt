@@ -23,7 +23,7 @@ import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 
-private const val CURRENT_VERSION = 3
+private const val CURRENT_VERSION = 4
 
 @Database(
     entities = [
@@ -39,7 +39,6 @@ private const val CURRENT_VERSION = 3
     version = CURRENT_VERSION,
     exportSchema = false,
 )
-@TypeConverters(Converters::class)
 abstract class CluedoDatabase : RoomDatabase() {
 
     abstract fun gameDao(): GameDao

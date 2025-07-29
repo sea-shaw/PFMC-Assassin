@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameDao {
-    @Query("SELECT * FROM game ORDER BY start_date DESC")
+    @Query("SELECT * FROM game ORDER BY name")
     fun getAllGamesStream(): Flow<List<Game>>
 
     @Query("SELECT * FROM game WHERE id = :id")

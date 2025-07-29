@@ -9,7 +9,6 @@ interface GameRepository {
 
     suspend fun createGame(
         name: String,
-        startInstant: Instant,
         playerGroupId: Long,
         placeGroupId: Long,
         weaponGroupId: Long,
@@ -23,7 +22,7 @@ interface GameRepository {
 
     fun getPlayerStream(gameId: Long, playerId: Long): Flow<PlayerInfo?>
 
-    suspend fun killTarget(gameId: Long, playerId: Long, instant: Instant)
+    suspend fun killTarget(gameId: Long, playerId: Long)
 
     suspend fun shuffleGame(gameId: Long)
 

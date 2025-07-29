@@ -1,6 +1,5 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,11 +41,6 @@ import io.github.charliecpshaw.cluedo.data.model.Game
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GamesViewModel
-import java.time.Instant
-import java.time.Month
-import java.time.ZoneId
-import java.time.ZoneOffset
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -160,48 +154,8 @@ private fun GameCard(
                     style = MaterialTheme.typography.titleLarge,
                 )
             }
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = if (game.end == null) {
-                        game.start.getDateString()
-                    } else {
-                        "${game.start.getDateString()} - ${game.end.getDateString()}"
-                    }
-                )
-            }
         }
     }
-}
-
-private fun Instant.getDateString(): String {
-    val zoneOffset = getZoneOffset()
-    val offsetDateTime = atOffset(zoneOffset)
-    val year = offsetDateTime.year
-    val month = offsetDateTime.month
-    val day = offsetDateTime.dayOfMonth
-
-    return "${day.toOrdinal()} ${month.toDisplay()} $year"
-}
-
-private fun getZoneOffset(): ZoneOffset {
-    return ZoneId.systemDefault().rules.getOffset(Instant.now())
-}
-
-private fun Int.toOrdinal(): String {
-    val numString = toString()
-    return when (numString.last()) {
-        '1' -> "${numString}st"
-        '2' -> "${numString}nd"
-        '3' -> "${numString}rd"
-        else -> "${numString}th"
-    }
-}
-
-private fun Month.toDisplay(): String {
-    val monthString = toString()
-    return "${monthString[0].uppercase()}${monthString.drop(1).lowercase()}"
 }
 
 @Preview(showBackground = true)
@@ -213,8 +167,6 @@ private fun GamesBodyPreview() {
                 Game(
                     id = 0,
                     name = "PFMC",
-                    start = Instant.parse("2025-07-27T00:00:00Z"),
-                    end = Instant.parse("2025-08-02T00:00:00Z"),
                     playerGroupId = 0,
                     placeGroupId = 0,
                     weaponGroupId = 0,
@@ -222,8 +174,6 @@ private fun GamesBodyPreview() {
                 Game(
                     id = 1,
                     name = "PFMC+",
-                    start = Instant.parse("2025-08-05T00:00:00Z"),
-                    end = null,
                     playerGroupId = 0,
                     placeGroupId = 0,
                     weaponGroupId = 0,
