@@ -18,6 +18,7 @@ import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.ui.screens.ComponentEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.ComponentEntryScreen
+import io.github.charliecpshaw.cluedo.ui.screens.GameEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GamesScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
@@ -335,13 +336,18 @@ fun CluedoNavHost(
         }
         composable(
             route = GameEntryDestination.Places.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = GameEntryDestination.PLAYER_GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+            ),
         ) {
             GroupSelectionScreen<PlaceGroupSelectionViewModel, Place, PlaceGroup>(
                 titleResId = R.string.game_place_group_select,
                 onGroupClick = { placeGroupId ->
                     val backStackEntry = navController.currentBackStackEntry!!
                     val args = backStackEntry.arguments!!
-                    val playerGroupId = args.getString(GameEntryDestination.PLAYER_GROUP_ID_ARG)
+                    val playerGroupId = args.getLong(GameEntryDestination.PLAYER_GROUP_ID_ARG)
                     navController.navigate("${GameEntryDestination.Weapons.route}/$playerGroupId/$placeGroupId")
                 },
                 onNavigateUp = { navController.navigateUp() },
@@ -349,23 +355,47 @@ fun CluedoNavHost(
         }
         composable(
             route = GameEntryDestination.Weapons.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = GameEntryDestination.PLAYER_GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+                navArgument(name = GameEntryDestination.PLACE_GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+            ),
         ) {
             GroupSelectionScreen<WeaponGroupSelectionViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.game_weapon_group_select,
                 onGroupClick = { weaponGroupId ->
                     val backStackEntry = navController.currentBackStackEntry!!
                     val args = backStackEntry.arguments!!
-                    val playerGroupId = args.getString(GameEntryDestination.PLAYER_GROUP_ID_ARG)
-                    val placeGroupId = args.getString(GameEntryDestination.PLACE_GROUP_ID_ARG)
+                    val playerGroupId = args.getLong(GameEntryDestination.PLAYER_GROUP_ID_ARG)
+                    val placeGroupId = args.getLong(GameEntryDestination.PLACE_GROUP_ID_ARG)
                     navController.navigate("${GameEntryDestination.Name.route}/$playerGroupId/$placeGroupId/$weaponGroupId")
                 },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-//        composable(
-//            route = GameEntryDestination.Name.routeWithArgs,
-//        ) {
-//
-//        }
+        composable(
+            route = GameEntryDestination.Name.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = GameEntryDestination.PLAYER_GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+                navArgument(name = GameEntryDestination.PLACE_GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+                navArgument(name = GameEntryDestination.WEAPON_GROUP_ID_ARG) {
+                    type = NavType.LongType
+                },
+            ),
+        ) {
+            GameEntryScreen(
+                navigateBack = {
+                    navController.popBackStack(route = Destination.Games.route, inclusive = false)
+                },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
     }
 }

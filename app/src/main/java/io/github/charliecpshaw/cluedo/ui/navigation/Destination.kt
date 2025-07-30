@@ -150,6 +150,6 @@ sealed interface GameEntryDestination : Destination {
         override val route = "game_entry_name"
 
         val routeWithArgs: String
-            get() = "${route}/{$PLAYER_GROUP_ID_ARG}/{$PLACE_GROUP_ID_ARG}/{$WEAPON_GROUP_ID_ARG}"
+            get() = "$route/{$PLAYER_GROUP_ID_ARG}/{$PLACE_GROUP_ID_ARG}/{$WEAPON_GROUP_ID_ARG}"
     }
 }

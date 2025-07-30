@@ -47,4 +47,5 @@
     <string name="game_player_group_select">Select Player Group</string>
     <string name="game_place_group_select">Select Place Group</string>
     <string name="game_weapon_group_select">Select Weapon Group</string>
+    <string name="create_game_req">Create Game</string>
 </resources>

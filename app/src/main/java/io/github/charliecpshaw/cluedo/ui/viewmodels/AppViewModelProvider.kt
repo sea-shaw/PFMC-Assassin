@@ -5,6 +5,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.savedstate.savedState
 import io.github.charliecpshaw.cluedo.CluedoApplication
 
 object AppViewModelProvider {
@@ -133,6 +134,12 @@ object AppViewModelProvider {
         initializer {
             WeaponGroupSelectionViewModel(
                 weaponRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
+        initializer {
+            GameEntryViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                gameRepository = cluedoApplication().container.gameRepository,
             )
         }
     }
