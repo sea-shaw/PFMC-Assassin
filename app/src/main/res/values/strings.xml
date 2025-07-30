@@ -48,4 +48,9 @@
     <string name="game_place_group_select">Select Place Group</string>
     <string name="game_weapon_group_select">Select Weapon Group</string>
     <string name="create_game_req">Create Game</string>
+    <string name="target_name">Target</string>
+    <string name="place_name">Place</string>
+    <string name="weapon_name">Weapon</string>
+    <string name="delete_game">Delete Game</string>
+    <string name="game_delete_question">Are you sure you want to delete this game?</string>
 </resources>

@@ -58,7 +58,7 @@ class OfflineGameRepository(
         return gameDao.getAllGamesStream()
     }
 
-    override fun getGameStream(gameId: Long): Flow<Game> {
+    override fun getGameStream(gameId: Long): Flow<Game?> {
         return gameDao.getGameStream(gameId)
     }
 
@@ -84,6 +84,10 @@ class OfflineGameRepository(
 
     override suspend fun shuffleGame(gameId: Long) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteGame(gameId: Long) {
+        gameDao.delete(gameId)
     }
 }
 

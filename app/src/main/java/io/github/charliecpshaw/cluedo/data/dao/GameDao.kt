@@ -1,7 +1,6 @@
 package io.github.charliecpshaw.cluedo.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,10 +14,10 @@ interface GameDao {
     fun getAllGamesStream(): Flow<List<Game>>
 
     @Query("SELECT * FROM game WHERE id = :id")
-    fun getGameStream(id: Long): Flow<Game>
+    fun getGameStream(id: Long): Flow<Game?>
 
     @Query("SELECT * FROM game WHERE id = :id")
-    suspend fun getGame(id: Long): Game
+    suspend fun getGame(id: Long): Game?
 
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(game: Game): Long
@@ -26,6 +25,6 @@ interface GameDao {
     @Update(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun update(game: Game): Int
 
-    @Delete
-    suspend fun delete(game: Game): Int
+    @Query("DELETE FROM game WHERE id = :id")
+    suspend fun delete(id: Long): Int
 }

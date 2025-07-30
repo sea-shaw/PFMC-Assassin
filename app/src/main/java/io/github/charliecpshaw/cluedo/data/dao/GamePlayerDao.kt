@@ -101,7 +101,7 @@ interface GamePlayerDao {
     @Query(
         value = """
             UPDATE game_player
-            SET death_place_id = (
+            SET death_weapon_id = (
                 SELECT new_weapon.id
                 FROM weapon new_weapon
                 WHERE new_weapon.group_id = (
@@ -113,7 +113,7 @@ interface GamePlayerDao {
                 ORDER BY RANDOM()
                 LIMIT 1
             )
-            WHERE death_place_id = :weaponId
+            WHERE death_weapon_id = :weaponId
         """
     )
     suspend fun replaceWeaponWithRandom(weaponId: Long)

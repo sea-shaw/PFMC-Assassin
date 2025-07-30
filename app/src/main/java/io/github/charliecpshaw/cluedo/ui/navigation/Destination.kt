@@ -8,6 +8,15 @@ sealed interface Destination {
     object Games : Destination {
         override val route = "games"
     }
+
+    object Game : Destination {
+
+        const val GAME_ID_ARG = "game_id"
+
+        override val route = "game"
+
+        val routeWithArgs = "$route/{$GAME_ID_ARG}"
+    }
 }
 
 sealed interface GroupsDestination : Destination {

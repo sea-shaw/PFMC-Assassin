@@ -14,8 +14,12 @@ class OfflinePlayerRepository(
     groupDao = playerGroupDao,
     componentDao = playerDao,
     gamePlayerDao = gamePlayerDao,
-    canDeleteComponent = { _, _ -> true },
-    onDeleteComponent = { playerId, gamePlayerDao ->
-        gamePlayerDao.removePlayerFromTargets(playerId)
+) {
+    override suspend fun canDeleteComponent(id: Long): Boolean {
+        return true
     }
-)
+
+    override suspend fun onDeleteComponent(id: Long) {
+        gamePlayerDao.removePlayerFromTargets(id)
+    }
+}

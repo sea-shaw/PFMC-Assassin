@@ -8,7 +8,7 @@ data class PlayerInfo(
     val targetId: Long,
     val targetName: String,
     val placeId: Long,
-    val placeName: Long,
+    val placeName: String,
     val weaponId: Long,
     val weaponName: String,
 )

@@ -14,10 +14,12 @@ class OfflinePlaceRepository(
     groupDao = placeGroupDao,
     componentDao = placeDao,
     gamePlayerDao = gamePlayerDao,
-    canDeleteComponent = { placeId, gamePlayerDao ->
-        gamePlayerDao.canDeletePlace(placeId)
-    },
-    onDeleteComponent = { placeId, gamePlayerDao ->
-        gamePlayerDao.replacePlaceWithRandom(placeId)
+) {
+    override suspend fun canDeleteComponent(id: Long): Boolean {
+        return gamePlayerDao.canDeletePlace(id)
     }
-)
+
+    override suspend fun onDeleteComponent(id: Long) {
+        gamePlayerDao.replacePlaceWithRandom(id)
+    }
+}

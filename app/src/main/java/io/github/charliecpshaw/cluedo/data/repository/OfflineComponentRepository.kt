@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.Flow
 abstract class OfflineComponentRepository<C : Component, G : Group>(
     private val groupDao: GroupDao<G>,
     private val componentDao: ComponentDao<C>,
-    private val gamePlayerDao: GamePlayerDao,
-    private val canDeleteComponent: suspend (Long, GamePlayerDao) -> Boolean,
-    private val onDeleteComponent: suspend (Long, GamePlayerDao) -> Unit,
+    protected val gamePlayerDao: GamePlayerDao,
 ) : ComponentRepository<C, G> {
     override fun getGroupStream(id: Long): Flow<G?> {
         return groupDao.getStream(id)
@@ -63,12 +61,10 @@ abstract class OfflineComponentRepository<C : Component, G : Group>(
         return groupDao.delete(id)
     }
 
-    override suspend fun canDeleteComponent(id: Long): Boolean {
-        return canDeleteComponent(id, gamePlayerDao)
-    }
-
     override suspend fun deleteComponent(id: Long): Int {
-        onDeleteComponent(id, gamePlayerDao)
+        onDeleteComponent(id)
         return componentDao.delete(id)
     }
+
+    protected abstract suspend fun onDeleteComponent(id: Long)
 }

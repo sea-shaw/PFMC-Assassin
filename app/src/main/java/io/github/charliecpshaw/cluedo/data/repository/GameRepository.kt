@@ -16,7 +16,7 @@ interface GameRepository {
 
     fun getAllGamesStream(): Flow<List<Game>>
 
-    fun getGameStream(gameId: Long): Flow<Game>
+    fun getGameStream(gameId: Long): Flow<Game?>
 
     fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
 
@@ -26,4 +26,5 @@ interface GameRepository {
 
     suspend fun shuffleGame(gameId: Long)
 
+    suspend fun deleteGame(gameId: Long)
 }

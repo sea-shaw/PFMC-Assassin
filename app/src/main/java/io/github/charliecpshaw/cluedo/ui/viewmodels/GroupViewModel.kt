@@ -19,6 +19,10 @@ abstract class GroupViewModel<C : Component, G : Group>(
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
+    companion object {
+        private const val TIMEOUT_MILLIS = 5_000L
+    }
+
     val groupId: Long =
         checkNotNull(savedStateHandle[GroupDestination.ID_ARG])
 
@@ -36,10 +40,6 @@ abstract class GroupViewModel<C : Component, G : Group>(
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = GroupUiState(),
             )
-
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
-    }
 
     suspend fun deleteGroup() {
         componentRepository.deleteGroup(groupId)

@@ -14,10 +14,12 @@ class OfflineWeaponRepository(
     groupDao = weaponGroupDao,
     componentDao = weaponDao,
     gamePlayerDao = gamePlayerDao,
-    canDeleteComponent = { weaponId, gamePlayerDao ->
-        gamePlayerDao.canDeletePlace(weaponId)
-    },
-    onDeleteComponent = { weaponId, gamePlayerDao ->
-        gamePlayerDao.replaceWeaponWithRandom(weaponId)
+) {
+    override suspend fun canDeleteComponent(id: Long): Boolean {
+        return gamePlayerDao.canDeleteWeapon(id)
     }
-)
+
+    override suspend fun onDeleteComponent(id: Long) {
+        gamePlayerDao.replaceWeaponWithRandom(id)
+    }
+}

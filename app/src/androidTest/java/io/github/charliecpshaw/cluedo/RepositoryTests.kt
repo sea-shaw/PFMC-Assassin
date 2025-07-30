@@ -16,21 +16,28 @@ import io.github.charliecpshaw.cluedo.data.dao.PlayerGroupDao
 import io.github.charliecpshaw.cluedo.data.dao.PlayerInfoDao
 import io.github.charliecpshaw.cluedo.data.dao.WeaponDao
 import io.github.charliecpshaw.cluedo.data.dao.WeaponGroupDao
+import io.github.charliecpshaw.cluedo.data.model.Place
+import io.github.charliecpshaw.cluedo.data.model.PlaceGroup
+import io.github.charliecpshaw.cluedo.data.model.Weapon
+import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
+import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
+import io.github.charliecpshaw.cluedo.data.repository.OfflinePlaceRepository
+import io.github.charliecpshaw.cluedo.data.repository.OfflineWeaponRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
-import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
-class GameRepositoryTests {
+class RepositoryTests {
     private lateinit var cluedoDatabase: CluedoDatabase
     private lateinit var gameDao: GameDao
     private lateinit var gamePlayerDao: GamePlayerDao
@@ -43,6 +50,8 @@ class GameRepositoryTests {
     private lateinit var weaponDao: WeaponDao
 
     private lateinit var gameRepository: GameRepository
+    private lateinit var placeRepository: ComponentRepository<Place, PlaceGroup>
+    private lateinit var weaponRepository: ComponentRepository<Weapon, WeaponGroup>
 
     @Before
     fun createDb() {
@@ -68,6 +77,18 @@ class GameRepositoryTests {
             playerDao = playerDao,
             placeDao = placeDao,
             weaponDao = weaponDao,
+        )
+
+        placeRepository = OfflinePlaceRepository(
+            placeGroupDao = placeGroupDao,
+            placeDao = placeDao,
+            gamePlayerDao = gamePlayerDao,
+        )
+
+        weaponRepository = OfflineWeaponRepository(
+            weaponGroupDao = weaponGroupDao,
+            weaponDao = weaponDao,
+            gamePlayerDao = gamePlayerDao,
         )
     }
 
@@ -95,7 +116,6 @@ class GameRepositoryTests {
 
         val gameId = gameRepository.createGame(
             name = "Game",
-            startInstant = Instant.EPOCH,
             playerGroupId = playerGroupId,
             placeGroupId = placeGroupId,
             weaponGroupId = weaponGroupId,
@@ -106,7 +126,7 @@ class GameRepositoryTests {
 
     @Test
     @Throws(Exception::class)
-    fun gameRepository_createGame() = runBlocking {
+    fun createGame_validGameCreated() = runBlocking {
         val numPlayers = 3
         val gameId = createTestGame(numPlayers)
         val firstPlayerId = gameRepository.getAllAlivePlayersInGameStream(gameId).first()[0].playerId
@@ -129,7 +149,8 @@ class GameRepositoryTests {
     }
 
     @Test
-    fun gameRepository_killTarget() = runBlocking {
+    @Throws(Exception::class)
+    fun killTarget_targetUpdated() = runBlocking {
         val numPlayers = 3
         val gameId = createTestGame(numPlayers)
         val player = gameRepository.getAllAlivePlayersInGameStream(gameId).first()[0]
@@ -138,7 +159,7 @@ class GameRepositoryTests {
         val newTarget = gameRepository.getPlayerStream(gameId, target!!.targetId).first()
         assertNotNull(newTarget)
 
-        gameRepository.killTarget(gameId, player.playerId, Instant.EPOCH)
+        gameRepository.killTarget(gameId, player.playerId)
 
         val updatedPlayer = gameRepository.getPlayerStream(gameId, player.playerId).first()
         assertNotNull(updatedPlayer)
@@ -150,5 +171,37 @@ class GameRepositoryTests {
 
         val updatedAlivePlayers = gameRepository.getAllAlivePlayersInGameStream(gameId).first()
         assertEquals(numPlayers - 1, updatedAlivePlayers.size)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun deletePlace_replacedWithRandom() = runBlocking {
+        val numPlayers = 3
+        val gameId = createTestGame(numPlayers)
+        val player = gameRepository.getAllAlivePlayersInGameStream(gameId).first()[0]
+
+        placeRepository.deleteComponent(player.placeId)
+
+        val updatedPlayers = gameRepository.getAllAlivePlayersInGameStream(gameId).first()
+        assertEquals(numPlayers, updatedPlayers.size)
+        updatedPlayers.forEach {
+            assertNotEquals(player.placeId, it.placeId)
+        }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun deleteWeapon_replacedWithRandom() = runBlocking {
+        val numPlayers = 3
+        val gameId = createTestGame(numPlayers)
+        val player = gameRepository.getAllAlivePlayersInGameStream(gameId).first()[0]
+
+        weaponRepository.deleteComponent(player.weaponId)
+
+        val updatedPlayers = gameRepository.getAllAlivePlayersInGameStream(gameId).first()
+        assertEquals(numPlayers, updatedPlayers.size)
+        updatedPlayers.forEach {
+            assertNotEquals(player.weaponId, it.weaponId)
+        }
     }
 }
