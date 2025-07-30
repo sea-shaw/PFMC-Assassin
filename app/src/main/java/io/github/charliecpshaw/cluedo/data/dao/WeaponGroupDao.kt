@@ -14,6 +14,19 @@ interface WeaponGroupDao : GroupDao<WeaponGroup> {
     @Query("SELECT * FROM weapon_group WHERE id = :id")
     override fun getStream(id: Long): Flow<WeaponGroup?>
 
+    @Query(
+        value = """
+            SELECT * FROM weapon_group
+            WHERE EXISTS (
+                SELECT weapon.id
+                FROM weapon
+                WHERE weapon.group_id = weapon_group.id
+                AND weapon.is_active
+            )
+        """
+    )
+    override fun getAllNonEmptyStream(): Flow<List<WeaponGroup>>
+
     @Query("INSERT INTO weapon_group (name) VALUES (:name)")
     override suspend fun insert(name: String): Long
 

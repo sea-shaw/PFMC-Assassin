@@ -22,23 +22,27 @@ import io.github.charliecpshaw.cluedo.ui.screens.GamesScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
+import io.github.charliecpshaw.cluedo.ui.screens.GroupSelectionScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupEntryViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupSelectionViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupsViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupEntryViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupSelectionViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupsViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupEntryViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupSelectionViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupsViewModel
 
@@ -315,8 +319,53 @@ fun CluedoNavHost(
         ) {
             GamesScreen(
                 navigateToGame = {},
-                navigateToGameEntry = {},
+                navigateToGameEntry = { navController.navigate(GameEntryDestination.Players.route) },
             )
         }
+        composable(
+            route = GameEntryDestination.Players.route,
+        ) {
+            GroupSelectionScreen<PlayerGroupSelectionViewModel, Player, PlayerGroup>(
+                titleResId = R.string.game_player_group_select,
+                onGroupClick = { playerGroupId ->
+                    navController.navigate("${GameEntryDestination.Places.route}/$playerGroupId")
+                },
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+        composable(
+            route = GameEntryDestination.Places.routeWithArgs,
+        ) {
+            GroupSelectionScreen<PlaceGroupSelectionViewModel, Place, PlaceGroup>(
+                titleResId = R.string.game_place_group_select,
+                onGroupClick = { placeGroupId ->
+                    val backStackEntry = navController.currentBackStackEntry!!
+                    val args = backStackEntry.arguments!!
+                    val playerGroupId = args.getString(GameEntryDestination.PLAYER_GROUP_ID_ARG)
+                    navController.navigate("${GameEntryDestination.Weapons.route}/$playerGroupId/$placeGroupId")
+                },
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+        composable(
+            route = GameEntryDestination.Weapons.routeWithArgs,
+        ) {
+            GroupSelectionScreen<WeaponGroupSelectionViewModel, Weapon, WeaponGroup>(
+                titleResId = R.string.game_weapon_group_select,
+                onGroupClick = { weaponGroupId ->
+                    val backStackEntry = navController.currentBackStackEntry!!
+                    val args = backStackEntry.arguments!!
+                    val playerGroupId = args.getString(GameEntryDestination.PLAYER_GROUP_ID_ARG)
+                    val placeGroupId = args.getString(GameEntryDestination.PLACE_GROUP_ID_ARG)
+                    navController.navigate("${GameEntryDestination.Name.route}/$playerGroupId/$placeGroupId/$weaponGroupId")
+                },
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+//        composable(
+//            route = GameEntryDestination.Name.routeWithArgs,
+//        ) {
+//
+//        }
     }
 }

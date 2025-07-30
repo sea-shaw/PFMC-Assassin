@@ -117,3 +117,39 @@ sealed interface ComponentEntryDestination : Destination {
         override val route = "weapon_entry"
     }
 }
+
+sealed interface GameEntryDestination : Destination {
+    companion object {
+        const val PLAYER_GROUP_ID_ARG = "player_group_id"
+        const val PLACE_GROUP_ID_ARG = "place_group_id"
+        const val WEAPON_GROUP_ID_ARG = "weapon_group_id"
+    }
+
+    object Players : GameEntryDestination {
+        override val route = "game_entry_player_group"
+    }
+
+    object Places : GameEntryDestination {
+
+        override val route = "game_entry_place_group"
+
+        val routeWithArgs: String
+            get() = "$route/{$PLAYER_GROUP_ID_ARG}"
+    }
+
+    object Weapons : GameEntryDestination {
+
+        override val route = "game_entry_weapon_group"
+
+        val routeWithArgs: String
+            get() = "$route/{$PLAYER_GROUP_ID_ARG}/{$PLACE_GROUP_ID_ARG}"
+    }
+
+    object Name : GameEntryDestination {
+
+        override val route = "game_entry_name"
+
+        val routeWithArgs: String
+            get() = "${route}/{$PLAYER_GROUP_ID_ARG}/{$PLACE_GROUP_ID_ARG}/{$WEAPON_GROUP_ID_ARG}"
+    }
+}

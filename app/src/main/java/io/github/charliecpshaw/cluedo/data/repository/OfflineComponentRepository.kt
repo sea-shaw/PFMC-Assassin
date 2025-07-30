@@ -22,6 +22,10 @@ abstract class OfflineComponentRepository<C : Component, G : Group>(
         return groupDao.getAllStream()
     }
 
+    override fun getNonEmptyGroupsStream(): Flow<List<G>> {
+        return groupDao.getAllNonEmptyStream()
+    }
+
     override fun getComponentStream(id: Long): Flow<C?> {
         return componentDao.getStream(id)
     }

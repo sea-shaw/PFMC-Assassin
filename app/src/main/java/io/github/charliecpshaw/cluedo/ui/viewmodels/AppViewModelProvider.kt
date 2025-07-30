@@ -119,6 +119,22 @@ object AppViewModelProvider {
                 gameRepository = cluedoApplication().container.gameRepository,
             )
         }
+
+        initializer {
+            PlayerGroupSelectionViewModel(
+                playerRepository = cluedoApplication().container.playerRepository,
+            )
+        }
+        initializer {
+            PlaceGroupSelectionViewModel(
+                placeRepository = cluedoApplication().container.placeRepository,
+            )
+        }
+        initializer {
+            WeaponGroupSelectionViewModel(
+                weaponRepository = cluedoApplication().container.weaponRepository,
+            )
+        }
     }
 }
 

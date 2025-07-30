@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface ComponentRepository<C : Component, G : Group> {
     fun getGroupStream(id: Long): Flow<G?>
     fun getAllGroupsStream(): Flow<List<G>>
+    fun getNonEmptyGroupsStream(): Flow<List<G>>
     fun getComponentStream(id: Long): Flow<C?>
     fun getAllComponentsInGroupStream(groupId: Long): Flow<List<C>>
     suspend fun insertGroup(name: String): Long
