@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import io.github.charliecpshaw.cluedo.ui.navigation.GameEntryDestination
-import io.github.charliecpshaw.cluedo.ui.screens.NameEntryUiState
 
 class GameEntryViewModel(
     savedStateHandle: SavedStateHandle,

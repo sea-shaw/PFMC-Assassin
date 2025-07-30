@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
+import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
@@ -46,9 +47,10 @@ inline fun <reified V : GroupEditViewModel<C, G>, C : Component, G : Group> Grou
             )
         }
     ) { innerPadding ->
-        GroupEntryBody(
+        NameEntryBody(
             uiState = viewModel.uiState,
             onNameValueChange = viewModel::updateUiState,
+            saveActionResId = R.string.save_action,
             canClickSave = canClickSave,
             onSaveClick = {
                 coroutineScope.launch {

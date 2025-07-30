@@ -32,6 +32,6 @@ abstract class GroupEntryViewModel<C : Component, G : Group>(
 }
 
 data class GroupEntryUiState(
-    val name: String = "",
-    val isValidInput: Boolean = false,
-)
+    override val name: String = "",
+    override val isValidInput: Boolean = false,
+) : NameEntryUiState

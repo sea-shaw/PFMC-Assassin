@@ -15,11 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import io.github.charliecpshaw.cluedo.R
-
-interface NameEntryUiState {
-    val name: String
-    val isValidInput: Boolean
-}
+import io.github.charliecpshaw.cluedo.ui.viewmodels.NameEntryUiState
 
 @Composable
 fun NameEntryBody(

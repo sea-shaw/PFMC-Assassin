@@ -58,9 +58,10 @@ inline fun <reified V : GroupEntryViewModel<C, G>, C : Component, G : Group> Gro
             )
         }
     ) { innerPadding ->
-        GroupEntryBody(
+        NameEntryBody(
             uiState = viewModel.uiState,
             onNameValueChange = viewModel::updateUiState,
+            saveActionResId = R.string.save_action,
             canClickSave = canClickSave,
             onSaveClick = {
                 coroutineScope.launch {
@@ -81,68 +82,14 @@ inline fun <reified V : GroupEntryViewModel<C, G>, C : Component, G : Group> Gro
     }
 }
 
-@Composable
-fun GroupEntryBody(
-    uiState: GroupEntryUiState,
-    onNameValueChange: (String) -> Unit,
-    canClickSave: Boolean,
-    onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
-    ) {
-        GroupEntryForm(
-            name = uiState.name,
-            onValueChange = onNameValueChange,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Button(
-            onClick = onSaveClick,
-            enabled = uiState.isValidInput && canClickSave,
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = stringResource(R.string.save_action))
-        }
-    }
-}
-
-@Composable
-private fun GroupEntryForm(
-    name: String,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onValueChange: (String) -> Unit = {},
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
-    ) {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { onValueChange(it) },
-            label = { Text(stringResource(R.string.name_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true,
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun GroupEntryScreenPreview() {
     CluedoTheme {
-        GroupEntryBody(
+        NameEntryBody(
             uiState = GroupEntryUiState(name = "PFMC 2025", isValidInput = true),
             onNameValueChange = {},
+            saveActionResId = R.string.save_action,
             canClickSave = true,
             onSaveClick = {},
         )
