@@ -44,8 +44,8 @@ fun CluedoApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val startDestination = GroupsDestination.Player
-    val startTab = Tab.Players
+    val startDestination = Destination.Games
+    val startTab = Tab.Games
     Scaffold(
         bottomBar = {
             CluedoBottomAppBar(
