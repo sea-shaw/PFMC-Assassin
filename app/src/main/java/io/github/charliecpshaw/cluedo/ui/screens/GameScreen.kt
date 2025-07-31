@@ -158,43 +158,7 @@ private fun PlayerInfoCard(
                     style = MaterialTheme.typography.titleLarge,
                 )
             }
-            PlayerInfoDetailRow(
-                detailNameResId = R.string.target_name,
-                detailValue = playerInfo.targetName,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            PlayerInfoDetailRow(
-                detailNameResId = R.string.place_name,
-                detailValue = playerInfo.placeName,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            PlayerInfoDetailRow(
-                detailNameResId = R.string.weapon_name,
-                detailValue = playerInfo.weaponName,
-                modifier = Modifier.fillMaxWidth(),
-            )
         }
-    }
-}
-
-@Composable
-private fun PlayerInfoDetailRow(
-    @StringRes detailNameResId: Int,
-    detailValue: String,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier,
-    ) {
-        Text(
-            text = stringResource(detailNameResId),
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = detailValue,
-            style = MaterialTheme.typography.bodyLarge
-        )
     }
 }
 

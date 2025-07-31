@@ -19,6 +19,7 @@ import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.ui.screens.ComponentEditScreen
 import io.github.charliecpshaw.cluedo.ui.screens.ComponentEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GameEntryScreen
+import io.github.charliecpshaw.cluedo.ui.screens.GamePlayerScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GameScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GamesScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupEditScreen
@@ -412,7 +413,24 @@ fun CluedoNavHost(
             GameScreen(
                 onNavigateUp = { navController.navigateUp() },
                 navigateBack = { navController.popBackStack() },
-                navigateToPlayer = {_, _ -> },
+                navigateToPlayer = { gameId, playerId ->
+                    navController.navigate("${Destination.GamePlayer.route}/$gameId/$playerId")
+                },
+            )
+        }
+        composable(
+            route = Destination.GamePlayer.routeWithArgs,
+            arguments = listOf(
+                navArgument(name = Destination.GamePlayer.GAME_ID_ARG) {
+                    type = NavType.LongType
+                },
+                navArgument(name = Destination.GamePlayer.PLAYER_ID_ARG) {
+                    type = NavType.LongType
+                },
+            )
+        ) {
+            GamePlayerScreen(
+                onNavigateUp = { navController.navigateUp() },
             )
         }
     }

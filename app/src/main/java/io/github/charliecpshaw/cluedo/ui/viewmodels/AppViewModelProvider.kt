@@ -148,6 +148,12 @@ object AppViewModelProvider {
                 gameRepository = cluedoApplication().container.gameRepository,
             )
         }
+        initializer {
+            GamePlayerViewModel(
+                savedStateHandle = this.createSavedStateHandle(),
+                gameRepository = cluedoApplication().container.gameRepository,
+            )
+        }
     }
 }
 

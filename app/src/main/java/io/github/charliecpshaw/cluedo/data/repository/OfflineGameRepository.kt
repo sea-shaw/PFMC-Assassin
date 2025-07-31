@@ -11,7 +11,6 @@ import io.github.charliecpshaw.cluedo.data.model.GamePlayer
 import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import kotlinx.coroutines.flow.Flow
 import java.lang.Math.ceilDiv
-import java.time.Instant
 import java.util.Random
 
 class OfflineGameRepository(
@@ -83,7 +82,18 @@ class OfflineGameRepository(
     }
 
     override suspend fun shuffleGame(gameId: Long) {
-        TODO("Not yet implemented")
+        val game = gameDao.getGame(gameId)!!
+        val playerIds = gamePlayerDao.getAllAlivePlayerIdsInGame(gameId)
+        val placeIds = placeDao.getAllActiveIdsInGroup(game.placeGroupId)
+        val weaponIds = weaponDao.getAllActiveIdsInGroup(game.weaponGroupId)
+        val shuffledGamePlayers = createGamePlayers(
+            gameId = game.id,
+            playerIds = playerIds,
+            placeIds = placeIds,
+            weaponIds = weaponIds,
+        )
+        gamePlayerDao.deleteAllPlayersInGame(gameId)
+        gamePlayerDao.insertAll(shuffledGamePlayers)
     }
 
     override suspend fun deleteGame(gameId: Long) {
