@@ -240,6 +240,7 @@ fun CluedoNavHost(
                 titleResId = R.string.player_edit_title,
                 deleteContentDescriptionResId = R.string.player_delete,
                 deleteQuestionResId = R.string.player_delete_question,
+                deleteFailedMsgResId = R.string.player_delete_failed,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
@@ -254,6 +255,7 @@ fun CluedoNavHost(
                 titleResId = R.string.place_edit_title,
                 deleteContentDescriptionResId = R.string.place_delete,
                 deleteQuestionResId = R.string.place_delete_question,
+                deleteFailedMsgResId = R.string.place_delete_failed,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
@@ -268,6 +270,7 @@ fun CluedoNavHost(
                 titleResId = R.string.weapon_edit_title,
                 deleteContentDescriptionResId = R.string.weapon_delete,
                 deleteQuestionResId = R.string.weapon_delete_question,
+                deleteFailedMsgResId = R.string.weapon_delete_failed,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )

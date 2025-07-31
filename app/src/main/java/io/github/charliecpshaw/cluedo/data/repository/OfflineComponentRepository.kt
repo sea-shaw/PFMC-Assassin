@@ -62,9 +62,15 @@ abstract class OfflineComponentRepository<C : Component, G : Group>(
     }
 
     override suspend fun deleteComponent(id: Long): Int {
-        onDeleteComponent(id)
-        return componentDao.delete(id)
+        if (canDeleteComponent(id)) {
+            onDeleteComponent(id)
+            return componentDao.delete(id)
+        } else {
+            return 0
+        }
     }
+
+    protected abstract suspend fun canDeleteComponent(id: Long): Boolean
 
     protected abstract suspend fun onDeleteComponent(id: Long)
 }

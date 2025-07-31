@@ -56,7 +56,7 @@ abstract class ComponentEditViewModel<C : Component, G : Group>(
         }
     }
 
-    suspend fun deleteComponent() {
-        componentRepository.deleteComponent(id)
+    suspend fun deleteComponent(): Boolean {
+        return componentRepository.deleteComponent(id) > 0
     }
 }
