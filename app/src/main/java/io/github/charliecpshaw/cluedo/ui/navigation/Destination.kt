@@ -68,6 +68,10 @@ sealed interface EditDestination : Destination {
 
     val routeWithArgs: String
         get() = "$route/{$ID_ARG}"
+
+    object Game : EditDestination {
+        override val route = "game_edit"
+    }
 }
 
 sealed interface GroupEditDestination : EditDestination {

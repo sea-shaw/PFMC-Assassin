@@ -58,4 +58,7 @@
     <string name="place_delete_failed">Could not delete place as there is no other active place in the group to replace it with.</string>
     <string name="weapon_delete_failed">Could not delete weapon as there is no other active weapon in the group to replace it with.</string>
     <string name="kill_target">Kill Target</string>
+    <string name="game_edit_title">Edit Game</string>
+    <string name="shuffle_game">Shuffle Game</string>
+    <string name="edit_game">Edit Game</string>
 </resources>

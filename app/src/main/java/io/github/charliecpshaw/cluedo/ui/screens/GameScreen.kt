@@ -1,12 +1,10 @@
 package io.github.charliecpshaw.cluedo.ui.screens
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,7 +35,6 @@ import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GameViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,6 +42,7 @@ import kotlinx.coroutines.launch
 fun GameScreen(
     onNavigateUp: () -> Unit,
     navigateBack: () -> Unit,
+    navigateToEdit: (Long) -> Unit,
     navigateToPlayer: (Long, Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GameViewModel = viewModel(factory = AppViewModelProvider.Factory),
@@ -61,9 +58,12 @@ fun GameScreen(
                 title = uiState.name,
                 canNavigateBack = true,
                 navigateUp = onNavigateUp,
+                hasEditButton = true,
+                onEditClick = { navigateToEdit(viewModel.gameId) },
+                editContentDescriptionRes = R.string.edit_game,
                 hasDeleteButton = true,
                 onDeleteClick = { deleteConformationRequired = true },
-                deleteContentDescriptionResId = R.string.delete_game
+                deleteContentDescriptionResId = R.string.delete_game,
             )
         },
     ) { innerPadding ->

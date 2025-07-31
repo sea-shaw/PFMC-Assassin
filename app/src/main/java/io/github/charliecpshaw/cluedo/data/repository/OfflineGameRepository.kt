@@ -96,6 +96,10 @@ class OfflineGameRepository(
         gamePlayerDao.insertAll(shuffledGamePlayers)
     }
 
+    override suspend fun updateGameName(id: Long, name: String) {
+        gameDao.updateGameName(id, name)
+    }
+
     override suspend fun deleteGame(gameId: Long) {
         gameDao.delete(gameId)
     }

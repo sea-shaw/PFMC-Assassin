@@ -22,8 +22,8 @@ interface GameDao {
     @Insert(onConflict = OnConflictStrategy.Companion.ABORT)
     suspend fun insert(game: Game): Long
 
-    @Update(onConflict = OnConflictStrategy.Companion.ABORT)
-    suspend fun update(game: Game): Int
+    @Query("UPDATE game SET name = :name WHERE id = :id")
+    suspend fun updateGameName(id: Long, name: String): Int
 
     @Query("DELETE FROM game WHERE id = :id")
     suspend fun delete(id: Long): Int

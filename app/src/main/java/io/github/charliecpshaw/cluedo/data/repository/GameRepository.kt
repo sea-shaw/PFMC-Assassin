@@ -26,5 +26,7 @@ interface GameRepository {
 
     suspend fun shuffleGame(gameId: Long)
 
+    suspend fun updateGameName(id: Long, name: String)
+
     suspend fun deleteGame(gameId: Long)
 }
