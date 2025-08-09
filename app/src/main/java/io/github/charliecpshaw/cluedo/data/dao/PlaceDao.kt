@@ -10,7 +10,7 @@ interface PlaceDao : ComponentDao<Place> {
     @Query("SELECT * FROM place WHERE id = :id")
     override fun getStream(id: Long): Flow<Place?>
 
-    @Query("SELECT * FROM place WHERE group_id = :groupId")
+    @Query("SELECT * FROM place WHERE group_id = :groupId ORDER BY name ASC")
     override fun getAllInGroupStream(groupId: Long): Flow<List<Place>>
 
     @Query("SELECT id FROM place WHERE group_id = :groupId AND is_active")

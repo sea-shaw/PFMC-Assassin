@@ -10,7 +10,7 @@ interface WeaponDao : ComponentDao<Weapon> {
     @Query("SELECT * FROM weapon WHERE id = :id")
     override fun getStream(id: Long): Flow<Weapon?>
 
-    @Query("SELECT * FROM weapon WHERE group_id = :groupId")
+    @Query("SELECT * FROM weapon WHERE group_id = :groupId ORDER BY name ASC")
     override fun getAllInGroupStream(groupId: Long): Flow<List<Weapon>>
 
     @Query("SELECT id FROM weapon WHERE group_id = :groupId AND is_active")
