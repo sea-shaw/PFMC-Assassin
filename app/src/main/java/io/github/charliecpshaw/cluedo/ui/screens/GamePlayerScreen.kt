@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -25,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -141,12 +144,15 @@ private fun PlayerInfoDetailRow(
     ) {
         Text(
             text = stringResource(detailNameResId),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold,
         )
         Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(dimensionResource(R.dimen.padding_extra_small)))
         Text(
             text = detailValue,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.End,
         )
     }
 }
@@ -166,7 +172,7 @@ private fun GamePlayerBodyPreview() {
                 placeId = 0,
                 placeName = "Place 0",
                 weaponId = 0,
-                weaponName = "Weapon 0",
+                weaponName = "Very long weapon name to test spacing",
             ),
             onKillTargetClick = {},
         )
