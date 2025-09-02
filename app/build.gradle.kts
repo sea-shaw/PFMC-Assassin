@@ -17,6 +17,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val GMAIL_ADDRESS: String by project
+        val GMAIL_APP_PASSWORD: String by project
+        buildConfigField("String", "GMAIL_ADDRESS", GMAIL_ADDRESS)
+        buildConfigField("String", "GMAIL_APP_PASSWORD", GMAIL_APP_PASSWORD)
     }
 
     buildTypes {
@@ -37,6 +42,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
