@@ -31,7 +31,6 @@ class AppDataContainer(
         OfflinePlayerRepository(
             playerGroupDao = database.playerGroupDao(),
             playerDao = database.playerDao(),
-            gamePlayerDao = database.gamePlayerDao(),
         )
     }
 
@@ -40,7 +39,6 @@ class AppDataContainer(
         OfflinePlaceRepository(
             placeGroupDao = database.placeGroupDao(),
             placeDao = database.placeDao(),
-            gamePlayerDao = database.gamePlayerDao(),
         )
     }
 
@@ -49,7 +47,6 @@ class AppDataContainer(
         OfflineWeaponRepository(
             weaponGroupDao = database.weaponGroupDao(),
             weaponDao = database.weaponDao(),
-            gamePlayerDao = database.gamePlayerDao(),
         )
     }
 

@@ -24,4 +24,22 @@ interface PlayerDao : ComponentDao<Player> {
 
     @Query("DELETE FROM player WHERE id = :id")
     override suspend fun delete(id: Long): Int
+
+    @Query(
+        value = """
+        UPDATE game_player
+        SET target_id = (
+            SELECT target.target_id
+            FROM game_player target
+            WHERE target.player_id = :id
+            AND target.game_id = game_id
+        )
+        WHERE player_id IN (
+            SELECT player.player_id
+            FROM game_player player
+            WHERE player.target_id = :id
+        )
+    """
+    )
+    suspend fun removeFromGames(id: Long)
 }

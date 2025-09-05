@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 abstract class OfflineComponentRepository<C : Component, G : Group>(
     private val groupDao: GroupDao<G>,
     private val componentDao: ComponentDao<C>,
-    protected val gamePlayerDao: GamePlayerDao,
 ) : ComponentRepository<C, G> {
     override fun getGroupStream(id: Long): Flow<G?> {
         return groupDao.getStream(id)

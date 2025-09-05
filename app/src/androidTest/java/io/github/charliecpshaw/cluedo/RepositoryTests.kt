@@ -83,13 +83,11 @@ class RepositoryTests {
         placeRepository = OfflinePlaceRepository(
             placeGroupDao = placeGroupDao,
             placeDao = placeDao,
-            gamePlayerDao = gamePlayerDao,
         )
 
         weaponRepository = OfflineWeaponRepository(
             weaponGroupDao = weaponGroupDao,
             weaponDao = weaponDao,
-            gamePlayerDao = gamePlayerDao,
         )
     }
 
