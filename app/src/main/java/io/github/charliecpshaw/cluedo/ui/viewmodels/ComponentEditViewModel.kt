@@ -6,16 +6,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
-import io.github.charliecpshaw.cluedo.ui.navigation.EditDestination
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 abstract class ComponentEditViewModel<C : Component, G : Group>(
-    savedStateHandle: SavedStateHandle,
+    private val id: Long,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
@@ -24,9 +24,6 @@ abstract class ComponentEditViewModel<C : Component, G : Group>(
             return details.name.isNotBlank()
         }
     }
-
-    private val id: Long =
-        checkNotNull(savedStateHandle[EditDestination.ID_ARG])
 
     var uiState by mutableStateOf(ComponentEntryUiState())
         private set

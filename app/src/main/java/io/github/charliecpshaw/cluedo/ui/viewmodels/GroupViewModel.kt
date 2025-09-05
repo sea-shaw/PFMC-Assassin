@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
-import io.github.charliecpshaw.cluedo.ui.navigation.GroupDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -15,16 +14,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 abstract class GroupViewModel<C : Component, G : Group>(
-    savedStateHandle: SavedStateHandle,
+    val groupId: Long,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
-
-    val groupId: Long =
-        checkNotNull(savedStateHandle[GroupDestination.ID_ARG])
 
     val uiState: StateFlow<GroupUiState<C>> =
         componentRepository.getGroupStream(groupId)

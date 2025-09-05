@@ -1,24 +1,29 @@
 package io.github.charliecpshaw.cluedo.ui.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
+import io.github.charliecpshaw.cluedo.ui.navigation.WeaponEditDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.WeaponEntryDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupEditDestination
 
 class WeaponEditViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : ComponentEditViewModel<Weapon, WeaponGroup>(
-    savedStateHandle,
-    componentRepository,
+    id = savedStateHandle.toRoute<WeaponEditDestination>().id,
+    componentRepository = componentRepository,
 )
 
 class WeaponEntryViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : ComponentEntryViewModel<Weapon, WeaponGroup>(
-    savedStateHandle,
-    componentRepository,
+    groupId = savedStateHandle.toRoute<WeaponEntryDestination>().groupId,
+    componentRepository = componentRepository,
 )
 
 class WeaponGroupEntryViewModel(
@@ -32,8 +37,8 @@ class WeaponGroupEditViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupEditViewModel<Weapon, WeaponGroup>(
-    savedStateHandle,
-    componentRepository,
+    id = savedStateHandle.toRoute<WeaponGroupEditDestination>().id,
+    componentRepository = componentRepository,
 )
 
 class WeaponGroupsViewModel(
@@ -46,6 +51,6 @@ class WeaponGroupViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupViewModel<Weapon, WeaponGroup>(
-    savedStateHandle,
-    componentRepository,
+    groupId = savedStateHandle.toRoute<WeaponGroupDestination>().id,
+    componentRepository = componentRepository,
 )

@@ -9,14 +9,13 @@ import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
-import io.github.charliecpshaw.cluedo.ui.navigation.EditDestination
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 abstract class GroupEditViewModel<C : Component, G : Group>(
-    savedStateHandle: SavedStateHandle,
+    private val id: Long,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
@@ -25,9 +24,6 @@ abstract class GroupEditViewModel<C : Component, G : Group>(
             return name.isNotBlank()
         }
     }
-
-    private val id: Long =
-        checkNotNull(savedStateHandle[EditDestination.ID_ARG])
 
     var uiState by mutableStateOf(GroupEntryUiState())
         private set

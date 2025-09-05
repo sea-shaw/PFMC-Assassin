@@ -34,9 +34,11 @@ import io.github.charliecpshaw.cluedo.ui.icons.Person
 import io.github.charliecpshaw.cluedo.ui.icons.Swords
 import io.github.charliecpshaw.cluedo.ui.icons.Trophy
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
-import io.github.charliecpshaw.cluedo.ui.navigation.Destination
-import io.github.charliecpshaw.cluedo.ui.navigation.GroupsDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.GamesDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.PlaceGroupsDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.PlayerGroupsDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.Tab
+import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupsDestination
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 @Composable
@@ -44,7 +46,7 @@ fun CluedoApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val startDestination = Destination.Games
+    val startDestination = GamesDestination
     val startTab = Tab.Games
     Scaffold(
         bottomBar = {
@@ -57,7 +59,7 @@ fun CluedoApp(
     ) { contentPadding ->
         CluedoNavHost(
             navController = navController,
-            startDestinationRoute = startDestination.route,
+            startDestination = startDestination,
             modifier = Modifier.padding(bottom = contentPadding.calculateBottomPadding())
         )
     }
@@ -130,7 +132,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Games.ordinal,
             onClick = {
-                navController.navigate(route = Destination.Games.route)
+                navController.navigate(route = GamesDestination)
                 selectedTabOrdinal = Tab.Games.ordinal
             },
             imageVector = Trophy,
@@ -139,7 +141,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Players.ordinal,
             onClick = {
-                navController.navigate(route = GroupsDestination.Player.route)
+                navController.navigate(route = PlayerGroupsDestination)
                 selectedTabOrdinal = Tab.Players.ordinal
             },
             imageVector = Person,
@@ -148,7 +150,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Places.ordinal,
             onClick = {
-                navController.navigate(route = GroupsDestination.Place.route)
+                navController.navigate(route = PlaceGroupsDestination)
                 selectedTabOrdinal = Tab.Places.ordinal
             },
             imageVector = Camping,
@@ -157,7 +159,7 @@ private fun CluedoBottomAppBar(
         CluedoNavigationBarItem(
             selected = selectedTabOrdinal == Tab.Weapons.ordinal,
             onClick = {
-                navController.navigate(route = GroupsDestination.Weapon.route)
+                navController.navigate(route = WeaponGroupsDestination)
                 selectedTabOrdinal = Tab.Weapons.ordinal
             },
             imageVector = Swords,

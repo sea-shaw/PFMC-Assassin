@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import io.github.charliecpshaw.cluedo.ui.navigation.GameEntryDestination
 
@@ -19,14 +20,7 @@ class GameEntryViewModel(
         }
     }
 
-    private val playerGroupId: Long =
-        checkNotNull(savedStateHandle[GameEntryDestination.PLAYER_GROUP_ID_ARG])
-
-    private val placeGroupId: Long =
-        checkNotNull(savedStateHandle[GameEntryDestination.PLACE_GROUP_ID_ARG])
-
-    private val weaponGroupId: Long =
-        checkNotNull(savedStateHandle[GameEntryDestination.WEAPON_GROUP_ID_ARG])
+    private val destination = savedStateHandle.toRoute<GameEntryDestination>()
 
     var uiState by mutableStateOf(GameEntryUiState())
         private set
@@ -42,9 +36,9 @@ class GameEntryViewModel(
         if (isValidInput(uiState.name)) {
             gameRepository.createGame(
                 name = uiState.name,
-                playerGroupId = playerGroupId,
-                placeGroupId = placeGroupId,
-                weaponGroupId = weaponGroupId,
+                playerGroupId = destination.playerGroupId,
+                placeGroupId = destination.placeGroupId,
+                weaponGroupId = destination.weaponGroupId,
             )
         }
     }

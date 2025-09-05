@@ -6,8 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
-import io.github.charliecpshaw.cluedo.ui.navigation.EditDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.GameEditDestination
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -23,8 +24,7 @@ class GameEditViewModel(
         }
     }
 
-    private val gameId: Long =
-        checkNotNull(savedStateHandle[EditDestination.ID_ARG])
+    private val gameId: Long = savedStateHandle.toRoute<GameEditDestination>().id
 
     var uiState by mutableStateOf(GameEntryUiState())
 

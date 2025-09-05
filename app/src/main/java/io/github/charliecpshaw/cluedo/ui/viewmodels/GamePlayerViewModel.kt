@@ -3,9 +3,10 @@ package io.github.charliecpshaw.cluedo.ui.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
-import io.github.charliecpshaw.cluedo.ui.navigation.Destination
+import io.github.charliecpshaw.cluedo.ui.navigation.GamePlayerDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -23,8 +24,9 @@ class GamePlayerViewModel(
         private const val TIMEOUT_MILLIS = 5_000L
     }
 
-    private val gameId: Long = checkNotNull(savedStateHandle[Destination.GamePlayer.GAME_ID_ARG])
-    private val playerId: Long = checkNotNull(savedStateHandle[Destination.GamePlayer.PLAYER_ID_ARG])
+    private val destination = savedStateHandle.toRoute<GamePlayerDestination>()
+    private val gameId = destination.gameId
+    private val playerId = destination.playerId
 
     val uiState: StateFlow<GamePlayerUiState> = gameRepository.getPlayerStream(gameId, playerId)
         .filterNotNull()

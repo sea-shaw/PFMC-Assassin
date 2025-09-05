@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Place
 import io.github.charliecpshaw.cluedo.data.model.PlaceGroup
@@ -53,65 +54,65 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupsViewModel
 @Composable
 fun CluedoNavHost(
     navController: NavHostController,
-    startDestinationRoute: String,
+    startDestination: Any,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestinationRoute,
+        startDestination = startDestination,
         modifier = modifier,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
     ) {
-        composable(route = GroupsDestination.Player.route) {
+        composable<PlayerGroupsDestination> {
             GroupsScreen<PlayerGroupsViewModel, Player, PlayerGroup>(
                 titleResId = R.string.player_groups_title,
                 navigateToGroupEntry = {
-                    navController.navigate(GroupEntryDestination.Player.route)
+                    navController.navigate(route = PlayerGroupEntryDestination)
                 },
                 navigateToGroup = {
-                    navController.navigate("${GroupDestination.Player.route}/$it")
+                    navController.navigate(route = PlayerGroupDestination(id = it))
                 },
             )
         }
-        composable(route = GroupsDestination.Place.route) {
+        composable<PlaceGroupsDestination> {
             GroupsScreen<PlaceGroupsViewModel, Place, PlaceGroup>(
                 titleResId = R.string.place_groups_title,
                 navigateToGroupEntry = {
-                    navController.navigate(GroupEntryDestination.Place.route)
+                    navController.navigate(route = PlaceGroupEntryDestination)
                 },
                 navigateToGroup = {
-                    navController.navigate("${GroupDestination.Place.route}/$it")
+                    navController.navigate(route = PlaceGroupDestination(id = it))
                 },
             )
         }
-        composable(route = GroupsDestination.Weapon.route) {
+        composable<WeaponGroupsDestination>{
             GroupsScreen<WeaponGroupsViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.weapon_groups_title,
                 navigateToGroupEntry = {
-                    navController.navigate(GroupEntryDestination.Weapon.route)
+                    navController.navigate(route = WeaponGroupEntryDestination)
                 },
                 navigateToGroup = {
-                    navController.navigate("${GroupDestination.Weapon.route}/$it")
+                    navController.navigate(route = WeaponGroupDestination(id = it))
                 },
             )
         }
 
-        composable(route = GroupEntryDestination.Player.route) {
+        composable<PlayerGroupEntryDestination> {
             GroupEntryScreen<PlayerGroupEntryViewModel, Player, PlayerGroup>(
                 titleResId = R.string.player_group_entry_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(route = GroupEntryDestination.Place.route) {
+        composable<PlaceGroupEntryDestination> {
             GroupEntryScreen<PlaceGroupEntryViewModel, Place, PlaceGroup>(
                 titleResId = R.string.place_group_entry_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(route = GroupEntryDestination.Weapon.route) {
+        composable<WeaponGroupEntryDestination> {
             GroupEntryScreen<WeaponGroupEntryViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.weapon_group_entry_title,
                 navigateBack = { navController.popBackStack() },
@@ -119,12 +120,7 @@ fun CluedoNavHost(
             )
         }
 
-        composable(
-            route = GroupDestination.Player.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = GroupDestination.ID_ARG) { type = NavType.LongType },
-            )
-        ) {
+        composable<PlayerGroupDestination> {
             GroupScreen<PlayerGroupViewModel, Player, PlayerGroup>(
                 editContentDescriptionResId = R.string.player_group_edit_title,
                 deleteContentDescriptionResId = R.string.player_group_delete,
@@ -132,22 +128,17 @@ fun CluedoNavHost(
                 deleteQuestionResId = R.string.group_delete_question,
                 navigateBack = { navController.navigateUp() },
                 navigateToGroupEdit = {
-                    navController.navigate(route = "${GroupEditDestination.Player.route}/$it")
+                    navController.navigate(route = PlayerGroupEditDestination(id = it))
                 },
                 navigateToComponentEdit = {
-                    navController.navigate(route = "${ComponentEditDestination.Player.route}/$it")
+                    navController.navigate(route = PlayerEditDestination(id = it))
                 },
                 navigateToComponentEntry = {
-                    navController.navigate(route = "${ComponentEntryDestination.Player.route}/$it")
+                    navController.navigate(route = PlayerEntryDestination(groupId = it))
                 },
             )
         }
-        composable(
-            route = GroupDestination.Place.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = GroupDestination.ID_ARG) { type = NavType.LongType },
-            )
-        ) {
+        composable<PlaceGroupDestination> {
             GroupScreen<PlaceGroupViewModel, Place, PlaceGroup>(
                 editContentDescriptionResId = R.string.place_group_edit_title,
                 deleteContentDescriptionResId = R.string.place_group_delete,
@@ -155,22 +146,17 @@ fun CluedoNavHost(
                 deleteQuestionResId = R.string.group_delete_question,
                 navigateBack = { navController.navigateUp() },
                 navigateToGroupEdit = {
-                    navController.navigate(route = "${GroupEditDestination.Place.route}/$it")
+                    navController.navigate(route = PlaceGroupEditDestination(id = it))
                 },
                 navigateToComponentEdit = {
-                    navController.navigate(route = "${ComponentEditDestination.Place.route}/$it")
+                    navController.navigate(route = PlaceEditDestination(id = it))
                 },
                 navigateToComponentEntry = {
-                    navController.navigate(route = "${ComponentEntryDestination.Place.route}/$it")
+                    navController.navigate(route = PlaceEntryDestination(groupId = it))
                 },
             )
         }
-        composable(
-            route = GroupDestination.Weapon.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = GroupDestination.ID_ARG) { type = NavType.LongType },
-            )
-        ) {
+        composable<WeaponGroupDestination> {
             GroupScreen<WeaponGroupViewModel, Weapon, WeaponGroup>(
                 editContentDescriptionResId = R.string.weapon_group_edit_title,
                 deleteContentDescriptionResId = R.string.weapon_group_delete,
@@ -178,53 +164,32 @@ fun CluedoNavHost(
                 deleteQuestionResId = R.string.group_delete_question,
                 navigateBack = { navController.navigateUp() },
                 navigateToGroupEdit = {
-                    navController.navigate(route = "${GroupEditDestination.Weapon.route}/$it")
+                    navController.navigate(route = WeaponGroupEditDestination(id = it))
                 },
                 navigateToComponentEdit = {
-                    navController.navigate(route = "${ComponentEditDestination.Weapon.route}/$it")
+                    navController.navigate(route = WeaponEditDestination(id = it))
                 },
                 navigateToComponentEntry = {
-                    navController.navigate(route = "${ComponentEntryDestination.Weapon.route}/$it")
+                    navController.navigate(route = WeaponEntryDestination(groupId = it))
                 },
             )
         }
 
-        composable(
-            route = ComponentEntryDestination.Player.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<PlayerEntryDestination> {
             ComponentEntryScreen<PlayerEntryViewModel, Player, PlayerGroup>(
                 titleResId = R.string.player_entry_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = ComponentEntryDestination.Place.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<PlaceEntryDestination> {
             ComponentEntryScreen<PlaceEntryViewModel, Place, PlaceGroup>(
                 titleResId = R.string.place_entry_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = ComponentEntryDestination.Weapon.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = ComponentEntryDestination.GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<WeaponEntryDestination> {
             ComponentEntryScreen<WeaponEntryViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.weapon_entry_title,
                 navigateBack = { navController.popBackStack() },
@@ -232,12 +197,7 @@ fun CluedoNavHost(
             )
         }
 
-        composable(
-            route = ComponentEditDestination.Player.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) { type = NavType.LongType },
-            )
-        ) {
+        composable<PlayerEditDestination> {
             ComponentEditScreen<PlayerEditViewModel, Player, PlayerGroup>(
                 titleResId = R.string.player_edit_title,
                 deleteContentDescriptionResId = R.string.player_delete,
@@ -247,12 +207,7 @@ fun CluedoNavHost(
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = ComponentEditDestination.Place.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) { type = NavType.LongType },
-            )
-        ) {
+        composable<PlaceEditDestination> {
             ComponentEditScreen<PlaceEditViewModel, Place, PlaceGroup>(
                 titleResId = R.string.place_edit_title,
                 deleteContentDescriptionResId = R.string.place_delete,
@@ -262,12 +217,7 @@ fun CluedoNavHost(
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = ComponentEditDestination.Weapon.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) { type = NavType.LongType },
-            )
-        ) {
+        composable<WeaponEditDestination> {
             ComponentEditScreen<WeaponEditViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.weapon_edit_title,
                 deleteContentDescriptionResId = R.string.weapon_delete,
@@ -278,42 +228,21 @@ fun CluedoNavHost(
             )
         }
 
-        composable(
-            route = GroupEditDestination.Player.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<PlayerGroupEditDestination> {
             GroupEditScreen<PlayerGroupEditViewModel, Player, PlayerGroup>(
                 titleResId = R.string.player_group_edit_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = GroupEditDestination.Place.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<PlaceGroupEditDestination> {
             GroupEditScreen<PlaceGroupEditViewModel, Place, PlaceGroup>(
                 titleResId = R.string.place_group_edit_title,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = GroupEditDestination.Weapon.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<WeaponGroupEditDestination> {
             GroupEditScreen<WeaponGroupEditViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.weapon_group_edit_title,
                 navigateBack = { navController.popBackStack() },
@@ -321,130 +250,82 @@ fun CluedoNavHost(
             )
         }
 
-        composable(
-            route = Destination.Games.route,
-        ) {
+        composable<GamesDestination> {
             GamesScreen(
-                navigateToGame = { navController.navigate("${Destination.Game.route}/$it") },
-                navigateToGameEntry = { navController.navigate(GameEntryDestination.Players.route) },
+                navigateToGame = { navController.navigate(route = GameDestination(id = it)) },
+                navigateToGameEntry = {
+                    navController.navigate(route = GamePlayerGroupSelectionDestination)
+                },
             )
         }
-        composable(
-            route = GameEntryDestination.Players.route,
-        ) {
+        composable<GamePlayerGroupSelectionDestination> {
             GroupSelectionScreen<PlayerGroupSelectionViewModel, Player, PlayerGroup>(
                 titleResId = R.string.game_player_group_select,
                 onGroupClick = { playerGroupId ->
-                    navController.navigate("${GameEntryDestination.Places.route}/$playerGroupId")
+                    navController.navigate(
+                        route = GamePlaceGroupSelectionDestination(playerGroupId = playerGroupId)
+                    )
                 },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = GameEntryDestination.Places.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = GameEntryDestination.PLAYER_GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-            ),
-        ) {
+        composable<GamePlaceGroupSelectionDestination> { backStackEntry ->
+            val destination = backStackEntry.toRoute<GamePlaceGroupSelectionDestination>()
             GroupSelectionScreen<PlaceGroupSelectionViewModel, Place, PlaceGroup>(
                 titleResId = R.string.game_place_group_select,
                 onGroupClick = { placeGroupId ->
-                    val backStackEntry = navController.currentBackStackEntry!!
-                    val args = backStackEntry.arguments!!
-                    val playerGroupId = args.getLong(GameEntryDestination.PLAYER_GROUP_ID_ARG)
-                    navController.navigate("${GameEntryDestination.Weapons.route}/$playerGroupId/$placeGroupId")
+                    navController.navigate(
+                        route = GameWeaponGroupSelectionDestination(
+                            playerGroupId = destination.playerGroupId,
+                            placeGroupId = placeGroupId,
+                        )
+                    )
                 },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = GameEntryDestination.Weapons.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = GameEntryDestination.PLAYER_GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-                navArgument(name = GameEntryDestination.PLACE_GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-            ),
-        ) {
+        composable<GameWeaponGroupSelectionDestination> { backStackEntry ->
+            val destination = backStackEntry.toRoute<GameWeaponGroupSelectionDestination>()
             GroupSelectionScreen<WeaponGroupSelectionViewModel, Weapon, WeaponGroup>(
                 titleResId = R.string.game_weapon_group_select,
                 onGroupClick = { weaponGroupId ->
-                    val backStackEntry = navController.currentBackStackEntry!!
-                    val args = backStackEntry.arguments!!
-                    val playerGroupId = args.getLong(GameEntryDestination.PLAYER_GROUP_ID_ARG)
-                    val placeGroupId = args.getLong(GameEntryDestination.PLACE_GROUP_ID_ARG)
-                    navController.navigate("${GameEntryDestination.Name.route}/$playerGroupId/$placeGroupId/$weaponGroupId")
+                    navController.navigate(
+                        route = GameEntryDestination(
+                            playerGroupId = destination.playerGroupId,
+                            placeGroupId = destination.placeGroupId,
+                            weaponGroupId = weaponGroupId,
+                        )
+                    )
                 },
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = GameEntryDestination.Name.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = GameEntryDestination.PLAYER_GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-                navArgument(name = GameEntryDestination.PLACE_GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-                navArgument(name = GameEntryDestination.WEAPON_GROUP_ID_ARG) {
-                    type = NavType.LongType
-                },
-            ),
-        ) {
+        composable<GameEntryDestination> {
             GameEntryScreen(
                 navigateBack = {
-                    navController.popBackStack(route = Destination.Games.route, inclusive = false)
+                    navController.popBackStack(route = GamesDestination, inclusive = false)
                 },
                 onNavigateUp = { navController.navigateUp() }
             )
         }
-        composable(
-            route = Destination.Game.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = Destination.Game.GAME_ID_ARG) {
-                    type = NavType.LongType
-                }
-            )
-        ) {
+        composable<GameDestination> {
             GameScreen(
                 onNavigateUp = { navController.navigateUp() },
                 navigateBack = { navController.popBackStack() },
                 navigateToEdit = { gameId ->
-                    navController.navigate("${EditDestination.Game.route}/$gameId")
+                    navController.navigate(route = GameEditDestination(id = gameId))
                 },
                 navigateToPlayer = { gameId, playerId ->
-                    navController.navigate("${Destination.GamePlayer.route}/$gameId/$playerId")
+                    navController.navigate(GamePlayerDestination(gameId, playerId))
                 },
             )
         }
-        composable(
-            route = Destination.GamePlayer.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = Destination.GamePlayer.GAME_ID_ARG) {
-                    type = NavType.LongType
-                },
-                navArgument(name = Destination.GamePlayer.PLAYER_ID_ARG) {
-                    type = NavType.LongType
-                },
-            )
-        ) {
+        composable<GamePlayerDestination> {
             GamePlayerScreen(
                 onNavigateUp = { navController.navigateUp() },
             )
         }
-        composable(
-            route = EditDestination.Game.routeWithArgs,
-            arguments = listOf(
-                navArgument(name = EditDestination.ID_ARG) {
-                    type = NavType.LongType
-                },
-            ),
-        ) {
+        composable<GameEditDestination> {
             GameEditScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
