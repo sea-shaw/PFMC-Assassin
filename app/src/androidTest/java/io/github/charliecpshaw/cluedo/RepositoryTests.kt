@@ -30,6 +30,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -137,8 +138,7 @@ class RepositoryTests {
         do {
             val gamePlayer = gameRepository.getPlayerStream(gameId, playerId).first()
             assertNotNull(gamePlayer)
-            assertTrue(gamePlayer!!.isAlive)
-            placeIds.add(gamePlayer.placeId)
+            placeIds.add(gamePlayer!!.placeId)
             weaponIds.add(gamePlayer.weaponId)
             count++
             playerId = gamePlayer.targetId
@@ -166,8 +166,7 @@ class RepositoryTests {
         assertEquals(newTarget!!.playerId, updatedPlayer!!.targetId)
 
         val updatedTarget = gameRepository.getPlayerStream(gameId, target.playerId).first()
-        assertNotNull(updatedTarget)
-        assertFalse(updatedTarget!!.isAlive)
+        assertNull(updatedTarget)
 
         val updatedAlivePlayers = gameRepository.getAllAlivePlayersInGameStream(gameId).first()
         assertEquals(numPlayers - 1, updatedAlivePlayers.size)

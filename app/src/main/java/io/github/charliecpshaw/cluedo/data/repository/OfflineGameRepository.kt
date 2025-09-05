@@ -62,7 +62,7 @@ class OfflineGameRepository(
     }
 
     override fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>> {
-        return playerInfoDao.getAllAlivePlayersInGameStream(gameId)
+        return playerInfoDao.getAllPlayersInGameStream(gameId)
     }
 
     override fun getPlayerStream(gameId: Long, playerId: Long): Flow<PlayerInfo?> {
@@ -76,14 +76,13 @@ class OfflineGameRepository(
         val player = gamePlayerDao.get(gameId, playerId)
         val target = gamePlayerDao.get(gameId, player.targetId)
         val playerWithNewTarget = player.copy(targetId = target.targetId)
-        val killedTarget = target.copy(isAlive = false)
         gamePlayerDao.update(playerWithNewTarget)
-        gamePlayerDao.update(killedTarget)
+        gamePlayerDao.delete(gameId, player.targetId)
     }
 
     override suspend fun shuffleGame(gameId: Long) {
         val game = gameDao.getGame(gameId)!!
-        val playerIds = gamePlayerDao.getAllAlivePlayerIdsInGame(gameId)
+        val playerIds = gamePlayerDao.getAllPlayerIdsInGame(gameId)
         val placeIds = placeDao.getAllActiveIdsInGroup(game.placeGroupId)
         val weaponIds = weaponDao.getAllActiveIdsInGroup(game.weaponGroupId)
         val shuffledGamePlayers = createGamePlayers(
@@ -121,7 +120,6 @@ private fun createGamePlayers(
             GamePlayer(
                 gameId = gameId,
                 playerId = shuffledPlayerIds[index],
-                isAlive = true,
                 targetId = shuffledPlayerIds[(index + 1).mod(shuffledPlayerIds.size)],
                 deathPlaceId = shuffledPlaceIds[index],
                 deathWeaponId = shuffledWeaponIds[index],

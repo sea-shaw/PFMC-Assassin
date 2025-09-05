@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 private const val QUERY = """
     SELECT
         game_player.game_id AS gameId,
-        game_player.is_alive AS isAlive,
         player.id AS playerId,
         player.name AS playerName,
         target_player.id AS targetId,
@@ -34,6 +33,6 @@ interface PlayerInfoDao {
     @Query(QUERY + "AND game_player.player_id = :playerId")
     fun getPlayerStream(gameId: Long, playerId: Long): Flow<PlayerInfo?>
 
-    @Query(QUERY + "AND game_player.is_alive ORDER BY player.name ASC")
-    fun getAllAlivePlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
+    @Query(QUERY + "ORDER BY player.name ASC")
+    fun getAllPlayersInGameStream(gameId: Long): Flow<List<PlayerInfo>>
 }

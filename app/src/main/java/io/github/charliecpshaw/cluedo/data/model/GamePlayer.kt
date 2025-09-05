@@ -52,9 +52,6 @@ data class GamePlayer(
     @ColumnInfo(name = "player_id", index = true)
     val playerId: Long,
 
-    @ColumnInfo(name = "is_alive")
-    val isAlive: Boolean,
-
     @ColumnInfo(name = "target_id", index = true)
     val targetId: Long,
 

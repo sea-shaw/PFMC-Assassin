@@ -172,7 +172,6 @@ private fun GameScreenPreview() {
                     gameId = 0,
                     playerId = it,
                     playerName = "Player $it",
-                    isAlive = true,
                     targetId = it + 1,
                     targetName = "Player ${it + 1}",
                     placeId = it,

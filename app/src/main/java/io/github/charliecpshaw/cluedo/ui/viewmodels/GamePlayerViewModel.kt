@@ -48,7 +48,6 @@ data class GamePlayerUiState(
     val gameName: String = "",
     val playerInfo: PlayerInfo = PlayerInfo(
         gameId = 0,
-        isAlive = true,
         playerId = 0,
         playerName = "",
         targetId = 0,

@@ -164,7 +164,6 @@ private fun GamePlayerBodyPreview() {
         GamePlayerBody(
             playerInfo = PlayerInfo(
                 gameId = 0,
-                isAlive = true,
                 playerId = 0,
                 playerName = "Player 0",
                 targetId = 1,
