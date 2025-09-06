@@ -38,6 +38,10 @@ class GameViewModel(
             initialValue = GameUiState(),
         )
 
+    suspend fun killPlayer(gameId: Long, playerId: Long) {
+        gameRepository.killPlayer(gameId, playerId)
+    }
+
     suspend fun deleteGame() {
         gameRepository.deleteGame(gameId)
     }

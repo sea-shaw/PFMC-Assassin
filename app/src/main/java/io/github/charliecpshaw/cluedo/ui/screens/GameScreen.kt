@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,6 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
+import io.github.charliecpshaw.cluedo.ui.icons.Skull
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GameViewModel
@@ -70,6 +74,11 @@ fun GameScreen(
         GameBody(
             playerInfoList = uiState.players,
             onPlayerClick = navigateToPlayer,
+            onKillPlayerClick = { gameId, playerId ->
+                coroutineScope.launch {
+                    viewModel.killPlayer(gameId, playerId)
+                }
+            },
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
@@ -94,6 +103,7 @@ fun GameScreen(
 fun GameBody(
     playerInfoList: List<PlayerInfo>,
     onPlayerClick: (Long, Long) -> Unit,
+    onKillPlayerClick: (Long, Long) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -103,7 +113,8 @@ fun GameBody(
     ) {
         PlayerInfoList(
             playerInfoList = playerInfoList,
-            onGameClick = { onPlayerClick(it.gameId, it.playerId) },
+            onPlayerClick = { onPlayerClick(it.gameId, it.playerId) },
+            onKillPlayerClick = { onKillPlayerClick(it.gameId, it.playerId) },
             contentPadding = contentPadding,
             modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
         )
@@ -113,7 +124,8 @@ fun GameBody(
 @Composable
 private fun PlayerInfoList(
     playerInfoList: List<PlayerInfo>,
-    onGameClick: (PlayerInfo) -> Unit,
+    onPlayerClick: (PlayerInfo) -> Unit,
+    onKillPlayerClick: (PlayerInfo) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
@@ -128,9 +140,10 @@ private fun PlayerInfoList(
             ) { playerInfo ->
                 PlayerInfoCard(
                     playerInfo = playerInfo,
+                    onKillPlayerClick = onKillPlayerClick,
                     modifier = modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onGameClick(playerInfo) }
+                        .clickable { onPlayerClick(playerInfo) }
                 )
             }
         }
@@ -140,6 +153,7 @@ private fun PlayerInfoList(
 @Composable
 private fun PlayerInfoCard(
     playerInfo: PlayerInfo,
+    onKillPlayerClick: (PlayerInfo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -156,7 +170,14 @@ private fun PlayerInfoCard(
                 Text(
                     text = playerInfo.playerName,
                     style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 )
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(
+                    onClick = { onKillPlayerClick(playerInfo) }
+                ) {
+                    Icon(imageVector = Skull, contentDescription = null)
+                }
             }
         }
     }
@@ -180,7 +201,8 @@ private fun GameScreenPreview() {
                     weaponName = "Weapon $it",
                 )
             },
-            onPlayerClick = {_, _, -> },
+            onPlayerClick = {_, _ -> },
+            onKillPlayerClick = {_, _ -> },
         )
     }
 }

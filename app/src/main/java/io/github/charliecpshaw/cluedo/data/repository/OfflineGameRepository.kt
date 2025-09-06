@@ -69,12 +69,19 @@ class OfflineGameRepository(
         return playerInfoDao.getPlayerStream(gameId, playerId)
     }
 
+    override suspend fun killPlayer(
+        gameId: Long,
+        playerId: Long,
+    ) {
+        gamePlayerDao.killPlayer(gameId, playerId)
+    }
+
     override suspend fun killTarget(
         gameId: Long,
         playerId: Long,
     ) {
-        val player = gamePlayerDao.get(gameId, playerId)!!
-        val target = gamePlayerDao.get(gameId, player.targetId)!!
+        val player = gamePlayerDao.get(gameId, playerId)
+        val target = gamePlayerDao.get(gameId, player.targetId)
         val playerWithNewTarget = player.copy(targetId = target.targetId)
         gamePlayerDao.update(playerWithNewTarget)
         gamePlayerDao.delete(gameId, player.targetId)
