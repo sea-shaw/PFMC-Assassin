@@ -87,6 +87,7 @@ private fun GamePlayerBody(
             onClick = onKillTargetClick,
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
+            enabled = playerInfo.playerId != playerInfo.targetId,
         ) {
             Text(stringResource(id = R.string.kill_target))
         }

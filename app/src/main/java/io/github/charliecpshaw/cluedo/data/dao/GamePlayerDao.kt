@@ -10,7 +10,7 @@ import io.github.charliecpshaw.cluedo.data.model.GamePlayer
 @Dao
 interface GamePlayerDao {
     @Query("SELECT * FROM game_player WHERE game_id = :gameId AND player_id = :playerId")
-    suspend fun get(gameId: Long, playerId: Long): GamePlayer
+    suspend fun get(gameId: Long, playerId: Long): GamePlayer?
 
     @Query("SELECT player_id FROM game_player WHERE game_id = :gameId")
     suspend fun getAllPlayerIdsInGame(gameId: Long): List<Long>

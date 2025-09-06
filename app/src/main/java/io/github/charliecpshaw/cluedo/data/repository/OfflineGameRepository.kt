@@ -73,8 +73,8 @@ class OfflineGameRepository(
         gameId: Long,
         playerId: Long,
     ) {
-        val player = gamePlayerDao.get(gameId, playerId)
-        val target = gamePlayerDao.get(gameId, player.targetId)
+        val player = gamePlayerDao.get(gameId, playerId)!!
+        val target = gamePlayerDao.get(gameId, player.targetId)!!
         val playerWithNewTarget = player.copy(targetId = target.targetId)
         gamePlayerDao.update(playerWithNewTarget)
         gamePlayerDao.delete(gameId, player.targetId)
