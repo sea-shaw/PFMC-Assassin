@@ -60,12 +60,14 @@ fun GamePlayerScreen(
         GamePlayerBody(
             playerInfo = uiState.playerInfo,
             onKillTargetClick = viewModel::killTarget,
-            modifier = Modifier.padding(
-                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                top = innerPadding.calculateTopPadding(),
-                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-            ).verticalScroll(rememberScrollState())
-            .fillMaxWidth()
+            modifier = Modifier
+                .padding(
+                    start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                    top = innerPadding.calculateTopPadding(),
+                    end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+                )
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
         )
     }
 }

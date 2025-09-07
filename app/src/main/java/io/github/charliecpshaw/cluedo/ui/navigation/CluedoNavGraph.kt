@@ -277,7 +277,7 @@ fun CluedoNavHost(
         }
 
         navigation<WeaponsTabDestination>(startDestination = WeaponGroupsDestination) {
-            composable<WeaponGroupsDestination>{
+            composable<WeaponGroupsDestination> {
                 GroupsScreen<WeaponGroupsViewModel, Weapon, WeaponGroup>(
                     titleResId = R.string.weapon_groups_title,
                     navigateToGroupEntry = {

@@ -1,6 +1,5 @@
 package io.github.charliecpshaw.cluedo.ui.viewmodels
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.charliecpshaw.cluedo.data.model.Component

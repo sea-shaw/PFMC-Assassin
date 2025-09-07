@@ -1,7 +1,6 @@
 package io.github.charliecpshaw.cluedo.data.repository
 
 import io.github.charliecpshaw.cluedo.data.dao.ComponentDao
-import io.github.charliecpshaw.cluedo.data.dao.GamePlayerDao
 import io.github.charliecpshaw.cluedo.data.dao.GroupDao
 import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group

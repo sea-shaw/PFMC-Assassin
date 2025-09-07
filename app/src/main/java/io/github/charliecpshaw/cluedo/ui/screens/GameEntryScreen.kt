@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 fun GameEntryScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
-    viewModel: GameEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: GameEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
     var canClickSave by rememberSaveable { mutableStateOf(true) }

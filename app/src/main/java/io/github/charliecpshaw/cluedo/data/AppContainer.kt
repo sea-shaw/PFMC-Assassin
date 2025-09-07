@@ -9,7 +9,6 @@ import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
-import io.github.charliecpshaw.cluedo.data.repository.OfflineComponentRepository
 import io.github.charliecpshaw.cluedo.data.repository.OfflineGameRepository
 import io.github.charliecpshaw.cluedo.data.repository.OfflinePlaceRepository
 import io.github.charliecpshaw.cluedo.data.repository.OfflinePlayerRepository

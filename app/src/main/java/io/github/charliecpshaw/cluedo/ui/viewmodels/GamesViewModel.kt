@@ -28,5 +28,5 @@ class GamesViewModel(
 }
 
 data class GamesUiState(
-    val games: List<Game> = listOf()
+    val games: List<Game> = listOf(),
 )

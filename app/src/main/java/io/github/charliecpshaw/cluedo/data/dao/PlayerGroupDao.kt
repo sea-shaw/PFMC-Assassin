@@ -3,7 +3,6 @@ package io.github.charliecpshaw.cluedo.data.dao
 import androidx.room.Dao
 import androidx.room.Query
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
-import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao

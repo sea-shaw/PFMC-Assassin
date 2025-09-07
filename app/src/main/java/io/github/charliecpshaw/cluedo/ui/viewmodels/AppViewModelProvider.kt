@@ -5,7 +5,6 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.savedstate.savedState
 import io.github.charliecpshaw.cluedo.CluedoApplication
 
 object AppViewModelProvider {
