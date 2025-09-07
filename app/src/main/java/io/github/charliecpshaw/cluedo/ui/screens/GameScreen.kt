@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -249,8 +247,8 @@ private fun GameScreenPreview() {
                     weaponName = "Weapon $it",
                 )
             },
-            onPlayerClick = {_, _ -> },
-            onKillPlayerClick = {_, _ -> },
+            onPlayerClick = { _, _ -> },
+            onKillPlayerClick = { _, _ -> },
         )
     }
 }

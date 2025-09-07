@@ -36,19 +36,19 @@ abstract class GroupSelectionViewModel<C : Component, G : Group>(
 }
 
 class PlayerGroupSelectionViewModel(
-    playerRepository: ComponentRepository<Player, PlayerGroup>
+    playerRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupSelectionViewModel<Player, PlayerGroup>(
     componentRepository = playerRepository,
 )
 
 class PlaceGroupSelectionViewModel(
-    placeRepository: ComponentRepository<Place, PlaceGroup>
+    placeRepository: ComponentRepository<Place, PlaceGroup>,
 ) : GroupSelectionViewModel<Place, PlaceGroup>(
     componentRepository = placeRepository,
 )
 
 class WeaponGroupSelectionViewModel(
-    weaponRepository: ComponentRepository<Weapon, WeaponGroup>
+    weaponRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupSelectionViewModel<Weapon, WeaponGroup>(
     componentRepository = weaponRepository,
 )
