@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
-import io.github.charliecpshaw.cluedo.ui.navigation.GameEntryDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.GameNameEntryDestination
 
 class GameEntryViewModel(
     savedStateHandle: SavedStateHandle,
@@ -20,7 +20,7 @@ class GameEntryViewModel(
         }
     }
 
-    private val destination = savedStateHandle.toRoute<GameEntryDestination>()
+    private val destination = savedStateHandle.toRoute<GameNameEntryDestination>()
 
     var uiState by mutableStateOf(GameEntryUiState())
         private set

@@ -29,12 +29,15 @@ import kotlinx.serialization.Serializable
 @Serializable object GamesTabDestination
 @Serializable object GamesDestination
 @Serializable object GamePlayerGroupSelectionDestination
-@Serializable data class GamePlaceGroupSelectionDestination(val playerGroupId: Long)
+@Serializable object GameEntryDestination
+@Serializable data class GamePlaceGroupSelectionDestination(
+    val playerGroupId: Long,
+)
 @Serializable data class GameWeaponGroupSelectionDestination(
     val playerGroupId: Long,
     val placeGroupId: Long,
 )
-@Serializable data class GameEntryDestination(
+@Serializable data class GameNameEntryDestination(
     val playerGroupId: Long,
     val placeGroupId: Long,
     val weaponGroupId: Long,

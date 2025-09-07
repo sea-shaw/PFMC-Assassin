@@ -68,59 +68,62 @@ fun CluedoNavHost(
                 GamesScreen(
                     navigateToGame = { navController.navigate(route = GameDestination(id = it)) },
                     navigateToGameEntry = {
-                        navController.navigate(route = GamePlayerGroupSelectionDestination)
+                        navController.navigate(route = GameEntryDestination)
                     },
                 )
             }
-            composable<GamePlayerGroupSelectionDestination> {
-                GroupSelectionScreen<PlayerGroupSelectionViewModel, Player, PlayerGroup>(
-                    titleResId = R.string.game_player_group_select,
-                    onGroupClick = { playerGroupId ->
-                        navController.navigate(
-                            route = GamePlaceGroupSelectionDestination(playerGroupId = playerGroupId)
-                        )
-                    },
-                    onNavigateUp = { navController.navigateUp() },
-                )
-            }
-            composable<GamePlaceGroupSelectionDestination> { backStackEntry ->
-                val destination = backStackEntry.toRoute<GamePlaceGroupSelectionDestination>()
-                GroupSelectionScreen<PlaceGroupSelectionViewModel, Place, PlaceGroup>(
-                    titleResId = R.string.game_place_group_select,
-                    onGroupClick = { placeGroupId ->
-                        navController.navigate(
-                            route = GameWeaponGroupSelectionDestination(
-                                playerGroupId = destination.playerGroupId,
-                                placeGroupId = placeGroupId,
+
+            navigation<GameEntryDestination>(startDestination = GamePlayerGroupSelectionDestination) {
+                composable<GamePlayerGroupSelectionDestination> {
+                    GroupSelectionScreen<PlayerGroupSelectionViewModel, Player, PlayerGroup>(
+                        titleResId = R.string.game_player_group_select,
+                        onGroupClick = { playerGroupId ->
+                            navController.navigate(
+                                route = GamePlaceGroupSelectionDestination(playerGroupId = playerGroupId)
                             )
-                        )
-                    },
-                    onNavigateUp = { navController.navigateUp() },
-                )
-            }
-            composable<GameWeaponGroupSelectionDestination> { backStackEntry ->
-                val destination = backStackEntry.toRoute<GameWeaponGroupSelectionDestination>()
-                GroupSelectionScreen<WeaponGroupSelectionViewModel, Weapon, WeaponGroup>(
-                    titleResId = R.string.game_weapon_group_select,
-                    onGroupClick = { weaponGroupId ->
-                        navController.navigate(
-                            route = GameEntryDestination(
-                                playerGroupId = destination.playerGroupId,
-                                placeGroupId = destination.placeGroupId,
-                                weaponGroupId = weaponGroupId,
+                        },
+                        onNavigateUp = { navController.navigateUp() },
+                    )
+                }
+                composable<GamePlaceGroupSelectionDestination> { backStackEntry ->
+                    val destination = backStackEntry.toRoute<GamePlaceGroupSelectionDestination>()
+                    GroupSelectionScreen<PlaceGroupSelectionViewModel, Place, PlaceGroup>(
+                        titleResId = R.string.game_place_group_select,
+                        onGroupClick = { placeGroupId ->
+                            navController.navigate(
+                                route = GameWeaponGroupSelectionDestination(
+                                    playerGroupId = destination.playerGroupId,
+                                    placeGroupId = placeGroupId,
+                                )
                             )
-                        )
-                    },
-                    onNavigateUp = { navController.navigateUp() },
-                )
-            }
-            composable<GameEntryDestination> {
-                GameEntryScreen(
-                    navigateBack = {
-                        navController.popBackStack(route = GamesDestination, inclusive = false)
-                    },
-                    onNavigateUp = { navController.navigateUp() }
-                )
+                        },
+                        onNavigateUp = { navController.navigateUp() },
+                    )
+                }
+                composable<GameWeaponGroupSelectionDestination> { backStackEntry ->
+                    val destination = backStackEntry.toRoute<GameWeaponGroupSelectionDestination>()
+                    GroupSelectionScreen<WeaponGroupSelectionViewModel, Weapon, WeaponGroup>(
+                        titleResId = R.string.game_weapon_group_select,
+                        onGroupClick = { weaponGroupId ->
+                            navController.navigate(
+                                route = GameNameEntryDestination(
+                                    playerGroupId = destination.playerGroupId,
+                                    placeGroupId = destination.placeGroupId,
+                                    weaponGroupId = weaponGroupId,
+                                )
+                            )
+                        },
+                        onNavigateUp = { navController.navigateUp() },
+                    )
+                }
+                composable<GameNameEntryDestination> {
+                    GameEntryScreen(
+                        navigateBack = {
+                            navController.popBackStack(route = GamesDestination, inclusive = false)
+                        },
+                        onNavigateUp = { navController.navigateUp() }
+                    )
+                }
             }
             composable<GameDestination> {
                 GameScreen(
