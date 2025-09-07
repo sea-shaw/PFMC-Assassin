@@ -20,9 +20,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -34,7 +31,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
-import io.github.charliecpshaw.cluedo.ui.navigation.GamesDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.GamesTabDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.topLevelDestinations
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme

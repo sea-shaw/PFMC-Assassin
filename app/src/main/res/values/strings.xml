@@ -66,4 +66,6 @@
     <string name="players_tab">Players</string>
     <string name="places_tab">Places</string>
     <string name="weapons_tab">Weapons</string>
+    <string name="email_all_players">Email all players</string>
+    <string name="email_player">Email player</string>
 </resources>
