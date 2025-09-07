@@ -68,4 +68,10 @@
     <string name="weapons_tab">Weapons</string>
     <string name="email_all_players">Email all players</string>
     <string name="email_player">Email player</string>
+    <string name="game_eamil_all_confirmation">Do you want to send all players their Cluedo targets?</string>
+    <string name="send">Send</string>
+    <string name="game_view_player_confirmation">Do you want to view this player\'s Cluedo target?</string>
+    <string name="view">View</string>
+    <string name="game_kill_player_confirmation">Confirm that this player has been killed.</string>
+    <string name="game_email_player_confirmation">Do you want to send this player their Cluedo target?</string>
 </resources>
