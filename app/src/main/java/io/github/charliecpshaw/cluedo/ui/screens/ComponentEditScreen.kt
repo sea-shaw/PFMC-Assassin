@@ -86,9 +86,11 @@ inline fun <reified V : ComponentEditViewModel<C, G>, C : Component, G : Group> 
                 .fillMaxWidth()
         )
         if (deleteConformationRequired) {
-            DeleteConfirmationDialogue(
-                deleteQuestionResId = deleteQuestionResId,
-                onDeleteConfirm = {
+            ConfirmationDialogue(
+                dialogueTextResId = deleteQuestionResId,
+                confirmTextResId = R.string.delete,
+                cancelTextResId = R.string.cancel,
+                onConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {
                         deleteFailed = !viewModel.deleteComponent()
@@ -97,7 +99,7 @@ inline fun <reified V : ComponentEditViewModel<C, G>, C : Component, G : Group> 
                         }
                     }
                 },
-                onDeleteCancel = { deleteConformationRequired = false },
+                onCancel = { deleteConformationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }

@@ -61,4 +61,5 @@
     <string name="game_edit_title">Edit Game</string>
     <string name="shuffle_game">Shuffle Game</string>
     <string name="edit_game">Edit Game</string>
+    <string name="kill_player">Kill player</string>
 </resources>

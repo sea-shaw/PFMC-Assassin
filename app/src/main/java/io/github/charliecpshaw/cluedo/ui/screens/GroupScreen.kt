@@ -109,16 +109,18 @@ inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group> GroupScr
             contentPadding = innerPadding,
         )
         if (deleteConformationRequired) {
-            DeleteConfirmationDialogue(
-                deleteQuestionResId = deleteQuestionResId,
-                onDeleteConfirm = {
+            ConfirmationDialogue(
+                dialogueTextResId = deleteQuestionResId,
+                confirmTextResId = R.string.delete,
+                cancelTextResId = R.string.cancel,
+                onConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {
                         viewModel.deleteGroup()
                         navigateBack()
                     }
                 },
-                onDeleteCancel = { deleteConformationRequired = false },
+                onCancel = { deleteConformationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }

@@ -29,12 +29,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
+import io.github.charliecpshaw.cluedo.ui.icons.Mail
 import io.github.charliecpshaw.cluedo.ui.icons.Skull
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
@@ -83,16 +85,18 @@ fun GameScreen(
             contentPadding = innerPadding,
         )
         if (deleteConformationRequired) {
-            DeleteConfirmationDialogue(
-                deleteQuestionResId = R.string.game_delete_question,
-                onDeleteConfirm = {
+            ConfirmationDialogue(
+                dialogueTextResId = R.string.game_delete_question,
+                confirmTextResId = R.string.delete,
+                cancelTextResId = R.string.cancel,
+                onConfirm = {
                     deleteConformationRequired = false
                     coroutineScope.launch {
                         viewModel.deleteGame()
                         navigateBack()
                     }
                 },
-                onDeleteCancel = { deleteConformationRequired = false },
+                onCancel = { deleteConformationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }
@@ -174,9 +178,20 @@ private fun PlayerInfoCard(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(
-                    onClick = { onKillPlayerClick(playerInfo) }
+                    onClick = { onKillPlayerClick(playerInfo) },
                 ) {
-                    Icon(imageVector = Skull, contentDescription = null)
+                    Icon(
+                        imageVector = Skull,
+                        contentDescription = stringResource(id = R.string.kill_player),
+                    )
+                }
+                IconButton(
+                    onClick = { /* TODO */ },
+                ) {
+                    Icon(
+                        imageVector = Mail,
+                        contentDescription = stringResource(id = R.string.kill_player),
+                    )
                 }
             }
         }
