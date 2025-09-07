@@ -126,13 +126,13 @@ private fun CluedoBottomAppBar(
                 selected = currentDestination?.hierarchy?.any {
                     it.hasRoute(topLevelDestination.destination::class)
                 } ?: false,
-                onClick = {
+                onClick = { alreadySelected ->
                     navController.navigate(topLevelDestination.destination) {
                         popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                            saveState = !alreadySelected
                         }
                         launchSingleTop = true
-                        restoreState = true
+                        restoreState = !alreadySelected
                     }
                 },
                 icon = topLevelDestination.icon,
@@ -145,13 +145,13 @@ private fun CluedoBottomAppBar(
 @Composable
 private fun RowScope.CluedoNavigationBarItem(
     selected: Boolean,
-    onClick: () -> Unit,
+    onClick: (Boolean) -> Unit,
     icon: ImageVector,
     @StringRes contentDescriptionResId: Int,
 ) {
     NavigationBarItem(
         selected = selected,
-        onClick = onClick,
+        onClick = { onClick(selected) },
         icon = {
             Icon(
                 imageVector = icon,
