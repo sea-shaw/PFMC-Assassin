@@ -15,8 +15,8 @@ data class TopLevelDestination<T : Any>(
 )
 
 val topLevelDestinations = listOf(
-    TopLevelDestination(R.string.games_tab, GamesDestination, Trophy),
-    TopLevelDestination(R.string.players_tab, PlayerGroupsDestination, Person),
-    TopLevelDestination(R.string.places_tab, PlaceGroupsDestination, Camping),
-    TopLevelDestination(R.string.weapons_tab, WeaponGroupsDestination, Swords),
+    TopLevelDestination(R.string.games_tab, GamesTabDestination, Trophy),
+    TopLevelDestination(R.string.players_tab, PlayersTabDestination, Person),
+    TopLevelDestination(R.string.places_tab, PlacesTabDestination, Camping),
+    TopLevelDestination(R.string.weapons_tab, WeaponsTabDestination, Swords),
 )

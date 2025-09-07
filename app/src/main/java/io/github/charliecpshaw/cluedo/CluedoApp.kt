@@ -35,6 +35,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
 import io.github.charliecpshaw.cluedo.ui.navigation.GamesDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.GamesTabDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.topLevelDestinations
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
@@ -43,7 +44,7 @@ fun CluedoApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val startDestination = GamesDestination
+    val startDestination = GamesTabDestination
     Scaffold(
         bottomBar = {
             CluedoBottomAppBar(
