@@ -62,4 +62,8 @@
     <string name="shuffle_game">Shuffle Game</string>
     <string name="edit_game">Edit Game</string>
     <string name="kill_player">Kill player</string>
+    <string name="games_tab">Games</string>
+    <string name="players_tab">Players</string>
+    <string name="places_tab">Places</string>
+    <string name="weapons_tab">Weapons</string>
 </resources>

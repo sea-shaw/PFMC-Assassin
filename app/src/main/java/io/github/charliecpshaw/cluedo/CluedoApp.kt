@@ -27,18 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import io.github.charliecpshaw.cluedo.ui.icons.Camping
-import io.github.charliecpshaw.cluedo.ui.icons.Person
-import io.github.charliecpshaw.cluedo.ui.icons.Swords
-import io.github.charliecpshaw.cluedo.ui.icons.Trophy
 import io.github.charliecpshaw.cluedo.ui.navigation.CluedoNavHost
 import io.github.charliecpshaw.cluedo.ui.navigation.GamesDestination
-import io.github.charliecpshaw.cluedo.ui.navigation.PlaceGroupsDestination
-import io.github.charliecpshaw.cluedo.ui.navigation.PlayerGroupsDestination
-import io.github.charliecpshaw.cluedo.ui.navigation.Tab
-import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupsDestination
+import io.github.charliecpshaw.cluedo.ui.navigation.topLevelDestinations
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 @Composable
@@ -47,12 +44,10 @@ fun CluedoApp(
     navController: NavHostController = rememberNavController(),
 ) {
     val startDestination = GamesDestination
-    val startTab = Tab.Games
     Scaffold(
         bottomBar = {
             CluedoBottomAppBar(
                 navController = navController,
-                tab = startTab,
             )
         },
         modifier = modifier,
@@ -122,49 +117,31 @@ fun CluedoTopAppBar(
 @Composable
 private fun CluedoBottomAppBar(
     navController: NavHostController,
-    tab: Tab,
 ) {
-    var selectedTabOrdinal by rememberSaveable { mutableIntStateOf(tab.ordinal) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     NavigationBar(
         windowInsets = NavigationBarDefaults.windowInsets,
     ) {
-        CluedoNavigationBarItem(
-            selected = selectedTabOrdinal == Tab.Games.ordinal,
-            onClick = {
-                navController.navigate(route = GamesDestination)
-                selectedTabOrdinal = Tab.Games.ordinal
-            },
-            imageVector = Trophy,
-            contentDescription = "Games",
-        )
-        CluedoNavigationBarItem(
-            selected = selectedTabOrdinal == Tab.Players.ordinal,
-            onClick = {
-                navController.navigate(route = PlayerGroupsDestination)
-                selectedTabOrdinal = Tab.Players.ordinal
-            },
-            imageVector = Person,
-            contentDescription = "Players",
-        )
-        CluedoNavigationBarItem(
-            selected = selectedTabOrdinal == Tab.Places.ordinal,
-            onClick = {
-                navController.navigate(route = PlaceGroupsDestination)
-                selectedTabOrdinal = Tab.Places.ordinal
-            },
-            imageVector = Camping,
-            contentDescription = "Places",
-        )
-        CluedoNavigationBarItem(
-            selected = selectedTabOrdinal == Tab.Weapons.ordinal,
-            onClick = {
-                navController.navigate(route = WeaponGroupsDestination)
-                selectedTabOrdinal = Tab.Weapons.ordinal
-            },
-            imageVector = Swords,
-            contentDescription = "Weapons",
-        )
+        topLevelDestinations.forEach { topLevelDestination ->
+            CluedoNavigationBarItem(
+                selected = currentDestination?.hierarchy?.any {
+                    it.hasRoute(topLevelDestination.destination::class)
+                } ?: false,
+                onClick = {
+                    navController.navigate(topLevelDestination.destination) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                icon = topLevelDestination.icon,
+                contentDescriptionResId = topLevelDestination.nameResId,
+            )
+        }
     }
 }
 
@@ -172,21 +149,21 @@ private fun CluedoBottomAppBar(
 private fun RowScope.CluedoNavigationBarItem(
     selected: Boolean,
     onClick: () -> Unit,
-    imageVector: ImageVector,
-    contentDescription: String,
+    icon: ImageVector,
+    @StringRes contentDescriptionResId: Int,
 ) {
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
         icon = {
             Icon(
-                imageVector = imageVector,
-                contentDescription = contentDescription,
+                imageVector = icon,
+                contentDescription = stringResource(contentDescriptionResId),
             )
         },
         label = {
             Text(
-                text = contentDescription,
+                text = stringResource(contentDescriptionResId),
             )
         },
     )
@@ -211,6 +188,5 @@ private fun CluedoTopAppBarPreview() {
 private fun CluedoBottomAppBarPreview() {
     CluedoBottomAppBar(
         navController = rememberNavController(),
-        tab = Tab.Players,
     )
 }
