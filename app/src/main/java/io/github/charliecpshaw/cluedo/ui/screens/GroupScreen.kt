@@ -110,7 +110,7 @@ inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group> GroupScr
         )
         if (deleteConformationRequired) {
             ConfirmationDialogue(
-                dialogueTextResId = deleteQuestionResId,
+                dialogueText = stringResource(id = deleteQuestionResId),
                 confirmTextResId = R.string.delete,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {

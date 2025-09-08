@@ -22,7 +22,7 @@ import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 @Composable
 fun ConfirmationDialogue(
-    @StringRes dialogueTextResId: Int,
+    dialogueText: String,
     @StringRes confirmTextResId: Int,
     @StringRes cancelTextResId: Int,
     onConfirm: () -> Unit,
@@ -39,7 +39,7 @@ fun ConfirmationDialogue(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = stringResource(id = dialogueTextResId),
+                    text = dialogueText,
                     modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
                 )
                 Row(
@@ -69,7 +69,7 @@ fun ConfirmationDialogue(
 private fun DeleteConfirmationDialoguePreview() {
     CluedoTheme {
         ConfirmationDialogue(
-            dialogueTextResId = R.string.group_delete_question,
+            dialogueText = stringResource(id = R.string.group_delete_question),
             confirmTextResId = R.string.delete,
             cancelTextResId = R.string.cancel,
             onConfirm = {},

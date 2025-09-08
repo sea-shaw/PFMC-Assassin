@@ -87,7 +87,7 @@ inline fun <reified V : ComponentEditViewModel<C, G>, C : Component, G : Group> 
         )
         if (deleteConformationRequired) {
             ConfirmationDialogue(
-                dialogueTextResId = deleteQuestionResId,
+                dialogueText = stringResource(id = deleteQuestionResId),
                 confirmTextResId = R.string.delete,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {

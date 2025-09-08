@@ -65,9 +65,9 @@ fun GameScreen(
     val coroutineScope = rememberCoroutineScope()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
     var emailConfirmationRequired by rememberSaveable { mutableStateOf(false) }
-    var selectedPlayerDetailsId: Long? by rememberSaveable { mutableStateOf(null) }
-    var selectedPlayerToKillId: Long? by rememberSaveable { mutableStateOf(null) }
-    var selectedPlayerToEmailId: Long? by rememberSaveable { mutableStateOf(null) }
+    var selectedPlayerDetails: PlayerInfo? by rememberSaveable { mutableStateOf(null) }
+    var selectedPlayerToKill: PlayerInfo? by rememberSaveable { mutableStateOf(null) }
+    var selectedPlayerToEmail: PlayerInfo? by rememberSaveable { mutableStateOf(null) }
 
     Scaffold(
         modifier = modifier,
@@ -103,15 +103,15 @@ fun GameScreen(
     ) { innerPadding ->
         GameBody(
             playerInfoList = uiState.players,
-            onPlayerClick = { selectedPlayerDetailsId = it },
-            onKillPlayerClick = { selectedPlayerToKillId = it },
-            onEmailPlayerClick = {selectedPlayerToEmailId = it },
+            onPlayerClick = { selectedPlayerDetails = it },
+            onKillPlayerClick = { selectedPlayerToKill = it },
+            onEmailPlayerClick = {selectedPlayerToEmail = it },
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
         if (deleteConformationRequired) {
             ConfirmationDialogue(
-                dialogueTextResId = R.string.game_delete_question,
+                dialogueText = stringResource(id = R.string.game_delete_question),
                 confirmTextResId = R.string.delete,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
@@ -126,7 +126,7 @@ fun GameScreen(
             )
         } else if (emailConfirmationRequired) {
             ConfirmationDialogue(
-                dialogueTextResId = R.string.game_eamil_all_confirmation,
+                dialogueText = stringResource(id = R.string.game_email_all_confirmation),
                 confirmTextResId = R.string.send,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
@@ -135,43 +135,52 @@ fun GameScreen(
                 onCancel = { emailConfirmationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
             )
-        } else if (selectedPlayerDetailsId != null) {
+        } else if (selectedPlayerDetails != null) {
+            val player = selectedPlayerDetails!!
             ConfirmationDialogue(
-                dialogueTextResId = R.string.game_view_player_confirmation,
+                dialogueText = stringResource(
+                    id = R.string.game_view_player_confirmation,
+                    player.playerName,
+                ),
                 confirmTextResId = R.string.view,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
-                    val playerId = selectedPlayerDetailsId!!
-                    selectedPlayerDetailsId = null
-                    navigateToPlayer(viewModel.gameId, playerId)
+                    selectedPlayerDetails = null
+                    navigateToPlayer(viewModel.gameId, player.playerId)
                 },
-                onCancel = { selectedPlayerDetailsId = null }
+                onCancel = { selectedPlayerDetails = null }
             )
-        } else if (selectedPlayerToKillId != null) {
+        } else if (selectedPlayerToKill != null) {
+            val player = selectedPlayerToKill!!
             ConfirmationDialogue(
-                dialogueTextResId = R.string.game_kill_player_confirmation,
+                dialogueText = stringResource(
+                    id = R.string.game_kill_player_confirmation,
+                    player.playerName,
+                ),
                 confirmTextResId = R.string.confirm,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
-                    val playerId = selectedPlayerToKillId!!
-                    selectedPlayerToKillId = null
+                    selectedPlayerToKill = null
                     coroutineScope.launch {
-                        viewModel.killPlayer(playerId)
+                        viewModel.killPlayer(player.playerId)
                     }
                 },
-                onCancel = { selectedPlayerToKillId = null },
+                onCancel = { selectedPlayerToKill = null },
             )
-        } else if (selectedPlayerToEmailId != null) {
+        } else if (selectedPlayerToEmail != null) {
+            val player = selectedPlayerToEmail!!
             ConfirmationDialogue(
-                dialogueTextResId = R.string.game_email_player_confirmation,
+                dialogueText = stringResource(
+                    id = R.string.game_email_player_confirmation,
+                    player.playerName,
+                ),
                 confirmTextResId = R.string.send,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
-                    val playerId = selectedPlayerToEmailId!!
-                    selectedPlayerToEmailId = null
+                    selectedPlayerToEmail = null
                     // TODO
                 },
-                onCancel = { selectedPlayerToEmailId = null },
+                onCancel = { selectedPlayerToEmail = null },
             )
         }
     }
@@ -180,9 +189,9 @@ fun GameScreen(
 @Composable
 fun GameBody(
     playerInfoList: List<PlayerInfo>,
-    onPlayerClick: (Long) -> Unit,
-    onKillPlayerClick: (Long) -> Unit,
-    onEmailPlayerClick: (Long) -> Unit,
+    onPlayerClick: (PlayerInfo) -> Unit,
+    onKillPlayerClick: (PlayerInfo) -> Unit,
+    onEmailPlayerClick: (PlayerInfo) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -192,9 +201,9 @@ fun GameBody(
     ) {
         PlayerInfoList(
             playerInfoList = playerInfoList,
-            onPlayerClick = { onPlayerClick(it.playerId) },
-            onKillPlayerClick = { onKillPlayerClick(it.playerId) },
-            onEmailPlayerClick = { onEmailPlayerClick(it.playerId) },
+            onPlayerClick = onPlayerClick,
+            onKillPlayerClick = onKillPlayerClick,
+            onEmailPlayerClick = onEmailPlayerClick,
             contentPadding = contentPadding,
             modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
         )
