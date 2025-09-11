@@ -47,6 +47,7 @@ inline fun <reified V : ComponentEditViewModel<C, G, D>, C : Component, G : Grou
     @StringRes deleteFailedMsgResId: Int,
     crossinline navigateBack: () -> Unit,
     noinline onNavigateUp: () -> Unit,
+    extraFields: List<ComponentTextFieldDetails<C, D>> = listOf(),
     canNavigateBack: Boolean = true,
     viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
@@ -77,6 +78,7 @@ inline fun <reified V : ComponentEditViewModel<C, G, D>, C : Component, G : Grou
                     navigateBack()
                 }
             },
+            extraFields = extraFields,
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),

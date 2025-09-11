@@ -11,7 +11,7 @@ import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 abstract class ComponentEntryViewModel<C : Component, G : Group, D : ComponentDetails<C, D>>(
     private val groupId: Long,
     private val componentRepository: ComponentRepository<C, G>,
-    private val detailsFactory: ComponentDetailsFactory<C, D>
+    detailsFactory: ComponentDetailsFactory<C, D>
 ) : ViewModel() {
 
     var uiState by mutableStateOf(

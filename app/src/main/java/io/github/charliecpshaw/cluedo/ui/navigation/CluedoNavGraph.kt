@@ -4,6 +4,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,6 +29,7 @@ import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupSelectionScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
+import io.github.charliecpshaw.cluedo.ui.screens.ComponentTextFieldDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceEntryViewModel
@@ -195,6 +197,13 @@ fun CluedoNavHost(
                     titleResId = R.string.player_entry_title,
                     navigateBack = { navController.popBackStack() },
                     onNavigateUp = { navController.navigateUp() },
+                    extraFields = listOf(
+                        ComponentTextFieldDetails(
+                            getField = { it.emailAddress },
+                            updateField = { details, emailAddress -> details.copyEmailAddress(emailAddress) },
+                            label = stringResource(R.string.email_address),
+                        )
+                    )
                 )
             }
             composable<PlayerEditDestination> {
@@ -205,6 +214,13 @@ fun CluedoNavHost(
                     deleteFailedMsgResId = R.string.player_delete_failed,
                     navigateBack = { navController.popBackStack() },
                     onNavigateUp = { navController.navigateUp() },
+                    extraFields = listOf(
+                        ComponentTextFieldDetails(
+                            getField = { it.emailAddress },
+                            updateField = { details, emailAddress -> details.copyEmailAddress(emailAddress) },
+                            label = stringResource(R.string.email_address),
+                        )
+                    )
                 )
             }
             composable<PlayerGroupEditDestination> {

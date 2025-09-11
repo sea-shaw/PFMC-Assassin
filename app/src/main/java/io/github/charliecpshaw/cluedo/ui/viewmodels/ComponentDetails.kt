@@ -31,13 +31,13 @@ data class PlayerDetails(
     ) = Player(
         id = id,
         name = name,
-        emailAddress = if (emailAddress == "") null else emailAddress,
+        emailAddress = emailAddress.ifBlank { null },
         groupId = groupId,
         isActive = isActive,
     )
 
     override fun isValid(): Boolean {
-        return name.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()
+        return name.isNotBlank() && (emailAddress.isBlank() || android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches())
     }
 
     override fun copyName(name: String): PlayerDetails {

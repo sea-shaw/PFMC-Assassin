@@ -44,6 +44,12 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerDetails
 import kotlinx.coroutines.launch
 
+data class ComponentTextFieldDetails<C : Component, D : ComponentDetails<C, D>>(
+    val getField: (D) -> String,
+    val updateField: (D, String) -> D,
+    val label: String,
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 inline fun <reified V : ComponentEntryViewModel<C, G, D>, C : Component, G : Group, D : ComponentDetails<C, D>> ComponentEntryScreen(
@@ -51,6 +57,7 @@ inline fun <reified V : ComponentEntryViewModel<C, G, D>, C : Component, G : Gro
     crossinline navigateBack: () -> Unit,
     noinline onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
+    extraFields: List<ComponentTextFieldDetails<C, D>> = listOf(),
     viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -75,6 +82,7 @@ inline fun <reified V : ComponentEntryViewModel<C, G, D>, C : Component, G : Gro
                     navigateBack()
                 }
             },
+            extraFields = extraFields,
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
@@ -93,6 +101,7 @@ fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryBody(
     onValueChange: (D) -> Unit,
     canClickSave: Boolean,
     onSaveClick: () -> Unit,
+    extraFields: List<ComponentTextFieldDetails<C, D>>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -102,6 +111,7 @@ fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryBody(
         ComponentEntryForm(
             details = uiState.details,
             onValueChange = onValueChange,
+            extraFields = extraFields,
             modifier = Modifier.fillMaxWidth(),
         )
         Button(
@@ -118,27 +128,26 @@ fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryBody(
 @Composable
 private fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryForm(
     details: D,
+    onValueChange: (D) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onValueChange: (D) -> Unit = {},
+    extraFields: List<ComponentTextFieldDetails<C, D>> = listOf(),
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
     ) {
-        OutlinedTextField(
+        ComponentTextField(
             value = details.name,
             onValueChange = { onValueChange(details.copyName(it)) },
-            label = { Text(stringResource(R.string.name_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true,
+            label = stringResource(id = R.string.name_req),
         )
+        extraFields.forEach { field ->
+            ComponentTextField(
+                value = field.getField(details),
+                onValueChange = { onValueChange(field.updateField(details, it)) },
+                label = field.label
+            )
+        }
         Row(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically,
@@ -155,6 +164,27 @@ private fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryForm(
     }
 }
 
+@Composable
+private fun ComponentTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = label) },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+        ),
+        modifier = Modifier.fillMaxWidth(),
+        enabled = true,
+        singleLine = true,
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun ComponentEntryScreenPreview() {
@@ -167,6 +197,7 @@ private fun ComponentEntryScreenPreview() {
             onValueChange = {},
             canClickSave = true,
             onSaveClick = {},
+            extraFields = listOf()
         )
     }
 }
