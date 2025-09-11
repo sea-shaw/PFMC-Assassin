@@ -34,12 +34,13 @@ import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
+import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEditViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : ComponentEditViewModel<C, G>, C : Component, G : Group> ComponentEditScreen(
+inline fun <reified V : ComponentEditViewModel<C, G, D>, C : Component, G : Group, D : ComponentDetails<C, D>> ComponentEditScreen(
     @StringRes titleResId: Int,
     @StringRes deleteContentDescriptionResId: Int,
     @StringRes deleteQuestionResId: Int,

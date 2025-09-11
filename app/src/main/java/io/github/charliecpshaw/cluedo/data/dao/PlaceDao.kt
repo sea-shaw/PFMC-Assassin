@@ -16,11 +16,19 @@ interface PlaceDao : ComponentDao<Place> {
     @Query("SELECT id FROM place WHERE group_id = :groupId AND is_active")
     override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
+    override suspend fun insert(component: Place): Long = with(component) {
+        return insert(name, groupId, isActive)
+    }
+
     @Query("INSERT INTO place (name, group_id, is_active) VALUES (:name, :groupId, :isActive)")
-    override suspend fun insert(name: String, groupId: Long, isActive: Boolean): Long
+    suspend fun insert(name: String, groupId: Long, isActive: Boolean): Long
+
+    override suspend fun update(component: Place): Int = with(component) {
+        return update(id, name, isActive)
+    }
 
     @Query("UPDATE place SET name = :name, is_active = :isActive WHERE id = :id")
-    override suspend fun update(id: Long, name: String, isActive: Boolean): Int
+    suspend fun update(id: Long, name: String, isActive: Boolean): Int
 
     @Query(
         value = """

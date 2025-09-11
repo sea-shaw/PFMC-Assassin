@@ -12,18 +12,18 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-abstract class ComponentEditViewModel<C : Component, G : Group>(
+abstract class ComponentEditViewModel<C : Component, G : Group, D : ComponentDetails<C, D>>(
     private val id: Long,
     private val componentRepository: ComponentRepository<C, G>,
+    private val detailsFactory: ComponentDetailsFactory<C, D>
 ) : ViewModel() {
 
-    companion object {
-        private fun isValidInput(details: ComponentDetails): Boolean {
-            return details.name.isNotBlank()
-        }
-    }
-
-    var uiState by mutableStateOf(ComponentEntryUiState())
+    var uiState by mutableStateOf(
+        value = ComponentEntryUiState(
+            details = detailsFactory.defaultDetails(),
+            isValidInput = false
+        ),
+    )
         private set
 
     init {
@@ -32,21 +32,22 @@ abstract class ComponentEditViewModel<C : Component, G : Group>(
                 .getComponentStream(id)
                 .filterNotNull()
                 .first()
-                .toEntryUiState(isValidInput = true)
+                .toEntryUiState(detailsFactory = detailsFactory, isValidInput = true)
         }
     }
 
-    fun updateUiState(details: ComponentDetails) {
+    fun updateUiState(details: D) {
         uiState = ComponentEntryUiState(
             details = details,
-            isValidInput = isValidInput(details)
+            isValidInput = details.isValid()
         )
     }
 
     suspend fun saveComponent() {
         with(uiState.details) {
-            if (isValidInput(this)) {
-                componentRepository.updateComponent(id, name, isActive)
+            if (isValid()) {
+                val component = toComponent(id, 0)
+                componentRepository.updateComponent(component)
             }
         }
     }

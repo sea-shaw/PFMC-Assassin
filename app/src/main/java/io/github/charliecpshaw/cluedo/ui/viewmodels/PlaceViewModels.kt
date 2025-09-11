@@ -13,17 +13,19 @@ import io.github.charliecpshaw.cluedo.ui.navigation.PlaceGroupEditDestination
 class PlaceEditViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Place, PlaceGroup>,
-) : ComponentEditViewModel<Place, PlaceGroup>(
+) : ComponentEditViewModel<Place, PlaceGroup, PlaceDetails>(
     id = savedStateHandle.toRoute<PlaceEditDestination>().id,
     componentRepository = componentRepository,
+    detailsFactory = PlaceDetailsFactory,
 )
 
 class PlaceEntryViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Place, PlaceGroup>,
-) : ComponentEntryViewModel<Place, PlaceGroup>(
+) : ComponentEntryViewModel<Place, PlaceGroup, PlaceDetails>(
     groupId = savedStateHandle.toRoute<PlaceEntryDestination>().groupId,
     componentRepository = componentRepository,
+    detailsFactory = PlaceDetailsFactory,
 )
 
 class PlaceGroupEntryViewModel(

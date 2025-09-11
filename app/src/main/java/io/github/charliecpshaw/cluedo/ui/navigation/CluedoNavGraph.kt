@@ -28,6 +28,7 @@ import io.github.charliecpshaw.cluedo.ui.screens.GroupEntryScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupSelectionScreen
 import io.github.charliecpshaw.cluedo.ui.screens.GroupsScreen
+import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupEditViewModel
@@ -35,6 +36,7 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupSelectionViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlaceGroupsViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupEditViewModel
@@ -42,6 +44,7 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupSelectionViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerGroupsViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponEditViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponEntryViewModel
 import io.github.charliecpshaw.cluedo.ui.viewmodels.WeaponGroupEditViewModel
@@ -188,14 +191,14 @@ fun CluedoNavHost(
                 )
             }
             composable<PlayerEntryDestination> {
-                ComponentEntryScreen<PlayerEntryViewModel, Player, PlayerGroup>(
+                ComponentEntryScreen<PlayerEntryViewModel, Player, PlayerGroup, PlayerDetails>(
                     titleResId = R.string.player_entry_title,
                     navigateBack = { navController.popBackStack() },
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
             composable<PlayerEditDestination> {
-                ComponentEditScreen<PlayerEditViewModel, Player, PlayerGroup>(
+                ComponentEditScreen<PlayerEditViewModel, Player, PlayerGroup, PlayerDetails>(
                     titleResId = R.string.player_edit_title,
                     deleteContentDescriptionResId = R.string.player_delete,
                     deleteQuestionResId = R.string.player_delete_question,
@@ -251,14 +254,14 @@ fun CluedoNavHost(
                 )
             }
             composable<PlaceEntryDestination> {
-                ComponentEntryScreen<PlaceEntryViewModel, Place, PlaceGroup>(
+                ComponentEntryScreen<PlaceEntryViewModel, Place, PlaceGroup, PlaceDetails>(
                     titleResId = R.string.place_entry_title,
                     navigateBack = { navController.popBackStack() },
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
             composable<PlaceEditDestination> {
-                ComponentEditScreen<PlaceEditViewModel, Place, PlaceGroup>(
+                ComponentEditScreen<PlaceEditViewModel, Place, PlaceGroup, PlaceDetails>(
                     titleResId = R.string.place_edit_title,
                     deleteContentDescriptionResId = R.string.place_delete,
                     deleteQuestionResId = R.string.place_delete_question,
@@ -314,14 +317,14 @@ fun CluedoNavHost(
                 )
             }
             composable<WeaponEntryDestination> {
-                ComponentEntryScreen<WeaponEntryViewModel, Weapon, WeaponGroup>(
+                ComponentEntryScreen<WeaponEntryViewModel, Weapon, WeaponGroup, WeaponDetails>(
                     titleResId = R.string.weapon_entry_title,
                     navigateBack = { navController.popBackStack() },
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
             composable<WeaponEditDestination> {
-                ComponentEditScreen<WeaponEditViewModel, Weapon, WeaponGroup>(
+                ComponentEditScreen<WeaponEditViewModel, Weapon, WeaponGroup, WeaponDetails>(
                     titleResId = R.string.weapon_edit_title,
                     deleteContentDescriptionResId = R.string.weapon_delete,
                     deleteQuestionResId = R.string.weapon_delete_question,

@@ -25,6 +25,9 @@ data class Player(
     @ColumnInfo(name = "name")
     override val name: String,
 
+    @ColumnInfo(name = "email_address")
+    val emailAddress: String?,
+
     @ColumnInfo(name = "group_id", index = true)
     override val groupId: Long,
 

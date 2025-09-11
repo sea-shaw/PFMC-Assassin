@@ -8,60 +8,48 @@ import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 
-abstract class ComponentEntryViewModel<C : Component, G : Group>(
+abstract class ComponentEntryViewModel<C : Component, G : Group, D : ComponentDetails<C, D>>(
     private val groupId: Long,
     private val componentRepository: ComponentRepository<C, G>,
+    private val detailsFactory: ComponentDetailsFactory<C, D>
 ) : ViewModel() {
 
-    companion object {
-        private fun isValidInput(details: ComponentDetails): Boolean {
-            return details.name.isNotBlank()
-        }
-    }
+    var uiState by mutableStateOf(
+        ComponentEntryUiState(
+            details = detailsFactory.defaultDetails(),
+            isValidInput = false,
+        )
+    )
+    private set
 
-    var uiState by mutableStateOf(ComponentEntryUiState())
-        private set
-
-    fun updateUiState(details: ComponentDetails) {
+    fun updateUiState(details: D) {
         uiState = ComponentEntryUiState(
             details = details,
-            isValidInput = isValidInput(details)
+            isValidInput = details.isValid(),
         )
     }
 
     suspend fun saveComponent() {
         with(uiState.details) {
-            if (isValidInput(this)) {
-                componentRepository.insertComponent(name, groupId, isActive)
+            if (isValid()) {
+                val component = toComponent(0, groupId)
+                componentRepository.insertComponent(component)
             }
         }
     }
 }
 
-data class ComponentEntryUiState(
-    val details: ComponentDetails = ComponentDetails(),
-    val isValidInput: Boolean = false,
+data class ComponentEntryUiState<C : Component, D : ComponentDetails<C, D>>(
+    val details: D,
+    val isValidInput: Boolean,
 )
 
-data class ComponentDetails(
-    val name: String = "",
-    val isActive: Boolean = true,
-)
-
-fun Component.toEntryUiState(isValidInput: Boolean): ComponentEntryUiState {
-    return with(this) {
-        ComponentEntryUiState(
-            details = toDetails(),
-            isValidInput = isValidInput,
-        )
-    }
-}
-
-fun Component.toDetails(): ComponentDetails {
-    return with(this) {
-        ComponentDetails(
-            name = name,
-            isActive = isActive,
-        )
-    }
+fun <C : Component, D : ComponentDetails<C, D>> C.toEntryUiState(
+    detailsFactory: ComponentDetailsFactory<C, D>,
+    isValidInput: Boolean,
+): ComponentEntryUiState<C, D> {
+    return ComponentEntryUiState(
+        details = detailsFactory.toDetails(this),
+        isValidInput = isValidInput,
+    )
 }

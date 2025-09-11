@@ -217,8 +217,8 @@ private fun PlayerGroupBodyPreview() {
     CluedoTheme {
         GroupBody(
             componentList = listOf(
-                Player(id = 0, name = "Player 0", isActive = true, groupId = 0),
-                Player(id = 1, name = "Player 1", isActive = false, groupId = 0),
+                Player(id = 0, name = "Player 0", emailAddress = "player0@gmail.com", isActive = true, groupId = 0),
+                Player(id = 1, name = "Player 1", emailAddress = "player1@gmail.com", isActive = false, groupId = 0),
             ),
             onComponentClick = {},
         )

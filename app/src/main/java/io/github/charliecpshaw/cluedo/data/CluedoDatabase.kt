@@ -22,7 +22,7 @@ import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 
-private const val CURRENT_VERSION = 5
+private const val CURRENT_VERSION = 6
 
 @Database(
     entities = [

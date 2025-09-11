@@ -13,17 +13,19 @@ import io.github.charliecpshaw.cluedo.ui.navigation.PlayerGroupEditDestination
 class PlayerEditViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Player, PlayerGroup>,
-) : ComponentEditViewModel<Player, PlayerGroup>(
+) : ComponentEditViewModel<Player, PlayerGroup, PlayerDetails>(
     id = savedStateHandle.toRoute<PlayerEditDestination>().id,
     componentRepository = componentRepository,
+    detailsFactory = PlayerDetailsFactory,
 )
 
 class PlayerEntryViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Player, PlayerGroup>,
-) : ComponentEntryViewModel<Player, PlayerGroup>(
+) : ComponentEntryViewModel<Player, PlayerGroup, PlayerDetails>(
     groupId = savedStateHandle.toRoute<PlayerEntryDestination>().groupId,
-    componentRepository,
+    componentRepository = componentRepository,
+    detailsFactory = PlayerDetailsFactory,
 )
 
 class PlayerGroupEntryViewModel(

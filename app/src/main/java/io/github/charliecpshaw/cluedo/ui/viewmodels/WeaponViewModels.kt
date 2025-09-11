@@ -13,17 +13,19 @@ import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupEditDestination
 class WeaponEditViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Weapon, WeaponGroup>,
-) : ComponentEditViewModel<Weapon, WeaponGroup>(
+) : ComponentEditViewModel<Weapon, WeaponGroup, WeaponDetails>(
     id = savedStateHandle.toRoute<WeaponEditDestination>().id,
     componentRepository = componentRepository,
+    detailsFactory = WeaponDetailsFactory,
 )
 
 class WeaponEntryViewModel(
     savedStateHandle: SavedStateHandle,
     componentRepository: ComponentRepository<Weapon, WeaponGroup>,
-) : ComponentEntryViewModel<Weapon, WeaponGroup>(
+) : ComponentEntryViewModel<Weapon, WeaponGroup, WeaponDetails>(
     groupId = savedStateHandle.toRoute<WeaponEntryDestination>().groupId,
     componentRepository = componentRepository,
+    detailsFactory = WeaponDetailsFactory,
 )
 
 class WeaponGroupEntryViewModel(

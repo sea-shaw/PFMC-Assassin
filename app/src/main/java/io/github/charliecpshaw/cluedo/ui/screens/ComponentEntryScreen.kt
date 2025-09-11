@@ -41,11 +41,12 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentDetails
 import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEntryUiState
 import io.github.charliecpshaw.cluedo.ui.viewmodels.ComponentEntryViewModel
+import io.github.charliecpshaw.cluedo.ui.viewmodels.PlayerDetails
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : ComponentEntryViewModel<C, G>, C : Component, G : Group> ComponentEntryScreen(
+inline fun <reified V : ComponentEntryViewModel<C, G, D>, C : Component, G : Group, D : ComponentDetails<C, D>> ComponentEntryScreen(
     @StringRes titleResId: Int,
     crossinline navigateBack: () -> Unit,
     noinline onNavigateUp: () -> Unit,
@@ -87,9 +88,9 @@ inline fun <reified V : ComponentEntryViewModel<C, G>, C : Component, G : Group>
 }
 
 @Composable
-fun ComponentEntryBody(
-    uiState: ComponentEntryUiState,
-    onValueChange: (ComponentDetails) -> Unit,
+fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryBody(
+    uiState: ComponentEntryUiState<C, D>,
+    onValueChange: (D) -> Unit,
     canClickSave: Boolean,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -115,11 +116,11 @@ fun ComponentEntryBody(
 }
 
 @Composable
-private fun ComponentEntryForm(
-    details: ComponentDetails,
+private fun <C : Component, D : ComponentDetails<C, D>> ComponentEntryForm(
+    details: D,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onValueChange: (ComponentDetails) -> Unit = {},
+    onValueChange: (D) -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -127,7 +128,7 @@ private fun ComponentEntryForm(
     ) {
         OutlinedTextField(
             value = details.name,
-            onValueChange = { onValueChange(details.copy(name = it)) },
+            onValueChange = { onValueChange(details.copyName(it)) },
             label = { Text(stringResource(R.string.name_req)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -148,7 +149,7 @@ private fun ComponentEntryForm(
             Spacer(modifier = Modifier.weight(1f))
             Switch(
                 checked = details.isActive,
-                onCheckedChange = { onValueChange(details.copy(isActive = it)) },
+                onCheckedChange = { onValueChange(details.copyIsActive(it)) },
             )
         }
     }
@@ -160,7 +161,7 @@ private fun ComponentEntryScreenPreview() {
     CluedoTheme {
         ComponentEntryBody(
             uiState = ComponentEntryUiState(
-                details = ComponentDetails(name = "Player 0", isActive = true),
+                details = PlayerDetails(name = "Player 0", emailAddress = "", isActive = true),
                 isValidInput = true,
             ),
             onValueChange = {},

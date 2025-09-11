@@ -16,11 +16,19 @@ interface PlayerDao : ComponentDao<Player> {
     @Query("SELECT id FROM player WHERE group_id = :groupId AND is_active")
     override suspend fun getAllActiveIdsInGroup(groupId: Long): List<Long>
 
-    @Query("INSERT INTO player (name, group_id, is_active) VALUES (:name, :groupId, :isActive)")
-    override suspend fun insert(name: String, groupId: Long, isActive: Boolean): Long
+    override suspend fun insert(component: Player): Long = with(component) {
+        return insert(name, emailAddress, groupId, isActive)
+    }
 
-    @Query(value = "UPDATE player SET name = :name, is_active = :isActive WHERE id = :id")
-    override suspend fun update(id: Long, name: String, isActive: Boolean): Int
+    @Query("INSERT INTO player (name, email_address, group_id, is_active) VALUES (:name, :emailAddress, :groupId, :isActive)")
+    suspend fun insert(name: String, emailAddress: String?, groupId: Long, isActive: Boolean): Long
+
+    override suspend fun update(component: Player): Int = with(component) {
+        return update(id, name, emailAddress, isActive)
+    }
+
+    @Query(value = "UPDATE player SET name = :name, email_address = :emailAddress, is_active = :isActive WHERE id = :id")
+    suspend fun update(id: Long, name: String, emailAddress: String?, isActive: Boolean): Int
 
     @Query("DELETE FROM player WHERE id = :id")
     override suspend fun delete(id: Long): Int

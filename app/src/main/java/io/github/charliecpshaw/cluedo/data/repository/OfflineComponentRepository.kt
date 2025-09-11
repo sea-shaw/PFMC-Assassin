@@ -34,12 +34,8 @@ abstract class OfflineComponentRepository<C : Component, G : Group>(
         return groupDao.insert(name)
     }
 
-    override suspend fun insertComponent(
-        name: String,
-        groupId: Long,
-        isActive: Boolean,
-    ): Long {
-        return componentDao.insert(name, groupId, isActive)
+    override suspend fun insertComponent(component: C): Long {
+        return componentDao.insert(component)
     }
 
 
@@ -47,12 +43,8 @@ abstract class OfflineComponentRepository<C : Component, G : Group>(
         return groupDao.update(id, name)
     }
 
-    override suspend fun updateComponent(
-        id: Long,
-        name: String,
-        isActive: Boolean,
-    ): Int {
-        return componentDao.update(id, name, isActive)
+    override suspend fun updateComponent(component: C): Int {
+        return componentDao.update(component)
     }
 
     override suspend fun deleteGroup(id: Long): Int {
