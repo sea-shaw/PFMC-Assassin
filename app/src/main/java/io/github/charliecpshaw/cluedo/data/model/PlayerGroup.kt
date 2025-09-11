@@ -12,4 +12,4 @@ data class PlayerGroup(
 
     @ColumnInfo(name = "name")
     override val name: String,
-) : Group
+) : Group<Player>

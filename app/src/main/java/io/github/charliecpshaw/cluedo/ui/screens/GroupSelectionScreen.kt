@@ -18,7 +18,7 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupSelectionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : GroupSelectionViewModel<C, G>, C : Component, G : Group> GroupSelectionScreen(
+inline fun <reified V : GroupSelectionViewModel<C, G>, C : Component, G : Group<C>> GroupSelectionScreen(
     @StringRes titleResId: Int,
     noinline onGroupClick: (Long) -> Unit,
     noinline onNavigateUp: () -> Unit,

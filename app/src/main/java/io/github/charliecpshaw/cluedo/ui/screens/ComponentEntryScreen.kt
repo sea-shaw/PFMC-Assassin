@@ -52,7 +52,7 @@ data class ComponentTextFieldDetails<C : Component, D : ComponentDetails<C, D>>(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : ComponentEntryViewModel<C, G, D>, C : Component, G : Group, D : ComponentDetails<C, D>> ComponentEntryScreen(
+inline fun <reified V : ComponentEntryViewModel<C, G, D>, C : Component, G : Group<C>, D : ComponentDetails<C, D>> ComponentEntryScreen(
     @StringRes titleResId: Int,
     crossinline navigateBack: () -> Unit,
     noinline onNavigateUp: () -> Unit,

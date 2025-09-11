@@ -12,4 +12,4 @@ data class PlaceGroup(
 
     @ColumnInfo(name = "name")
     override val name: String,
-) : Group
+) : Group<Place>

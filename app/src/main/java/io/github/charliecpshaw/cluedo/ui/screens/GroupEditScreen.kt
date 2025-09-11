@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : GroupEditViewModel<C, G>, C : Component, G : Group> GroupEditScreen(
+inline fun <reified V : GroupEditViewModel<C, G>, C : Component, G : Group<C>> GroupEditScreen(
     @StringRes titleResId: Int,
     crossinline navigateBack: () -> Unit,
     noinline onNavigateUp: () -> Unit,

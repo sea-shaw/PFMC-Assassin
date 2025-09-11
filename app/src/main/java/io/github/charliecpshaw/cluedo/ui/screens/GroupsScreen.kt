@@ -33,7 +33,7 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group> GroupsScreen(
+inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group<C>> GroupsScreen(
     @StringRes titleResId: Int,
     noinline navigateToGroupEntry: () -> Unit,
     noinline navigateToGroup: (Long) -> Unit,

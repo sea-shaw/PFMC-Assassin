@@ -55,7 +55,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group> GroupScreen(
+inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group<C>> GroupScreen(
     @StringRes editContentDescriptionResId: Int,
     @StringRes deleteContentDescriptionResId: Int,
     @StringRes componentEntryContentDescriptionResId: Int,

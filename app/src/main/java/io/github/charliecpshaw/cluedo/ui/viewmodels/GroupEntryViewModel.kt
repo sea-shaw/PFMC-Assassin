@@ -8,7 +8,7 @@ import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 
-abstract class GroupEntryViewModel<C : Component, G : Group>(
+abstract class GroupEntryViewModel<C : Component, G : Group<C>>(
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
     companion object {

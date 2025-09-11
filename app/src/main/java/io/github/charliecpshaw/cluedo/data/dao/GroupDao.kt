@@ -1,9 +1,10 @@
 package io.github.charliecpshaw.cluedo.data.dao
 
+import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import kotlinx.coroutines.flow.Flow
 
-interface GroupDao<G : Group> {
+interface GroupDao<G : Group<*>> {
     fun getStream(id: Long): Flow<G?>
     fun getAllStream(): Flow<List<G>>
     fun getAllNonEmptyStream(): Flow<List<G>>

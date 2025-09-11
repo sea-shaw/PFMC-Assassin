@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-abstract class ComponentEditViewModel<C : Component, G : Group, D : ComponentDetails<C, D>>(
+abstract class ComponentEditViewModel<C : Component, G : Group<C>, D : ComponentDetails<C, D>>(
     private val id: Long,
     private val componentRepository: ComponentRepository<C, G>,
     private val detailsFactory: ComponentDetailsFactory<C, D>

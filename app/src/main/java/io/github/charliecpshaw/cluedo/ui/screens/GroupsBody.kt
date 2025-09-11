@@ -22,7 +22,7 @@ import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.data.model.Group
 
 @Composable
-fun <G : Group> GroupsBody(
+fun <G : Group<*>> GroupsBody(
     groupList: List<G>,
     onGroupClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
@@ -42,7 +42,7 @@ fun <G : Group> GroupsBody(
 }
 
 @Composable
-private fun <G : Group> GroupsList(
+private fun <G : Group<*>> GroupsList(
     groupList: List<G>,
     onGroupClick: (G) -> Unit,
     contentPadding: PaddingValues,
@@ -69,7 +69,7 @@ private fun <G : Group> GroupsList(
 }
 
 @Composable
-private fun <G : Group> GroupCard(
+private fun <G : Group<*>> GroupCard(
     group: G,
     modifier: Modifier = Modifier,
 ) {

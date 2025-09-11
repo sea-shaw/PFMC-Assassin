@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-inline fun <reified V : ComponentEditViewModel<C, G, D>, C : Component, G : Group, D : ComponentDetails<C, D>> ComponentEditScreen(
+inline fun <reified V : ComponentEditViewModel<C, G, D>, C : Component, G : Group<C>, D : ComponentDetails<C, D>> ComponentEditScreen(
     @StringRes titleResId: Int,
     @StringRes deleteContentDescriptionResId: Int,
     @StringRes deleteQuestionResId: Int,

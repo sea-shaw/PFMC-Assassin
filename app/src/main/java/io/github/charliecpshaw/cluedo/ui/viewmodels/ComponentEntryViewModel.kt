@@ -8,7 +8,7 @@ import io.github.charliecpshaw.cluedo.data.model.Component
 import io.github.charliecpshaw.cluedo.data.model.Group
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
 
-abstract class ComponentEntryViewModel<C : Component, G : Group, D : ComponentDetails<C, D>>(
+abstract class ComponentEntryViewModel<C : Component, G : Group<C>, D : ComponentDetails<C, D>>(
     private val groupId: Long,
     private val componentRepository: ComponentRepository<C, G>,
     detailsFactory: ComponentDetailsFactory<C, D>

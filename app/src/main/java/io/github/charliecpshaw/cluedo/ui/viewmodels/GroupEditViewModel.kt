@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-abstract class GroupEditViewModel<C : Component, G : Group>(
+abstract class GroupEditViewModel<C : Component, G : Group<C>>(
     private val id: Long,
     private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-abstract class GroupsViewModel<C : Component, G : Group>(
+abstract class GroupsViewModel<C : Component, G : Group<C>>(
     componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
     val uiState: StateFlow<GroupsUiState<G>> = componentRepository.getAllGroupsStream()
@@ -28,6 +28,6 @@ abstract class GroupsViewModel<C : Component, G : Group>(
     }
 }
 
-data class GroupsUiState<G : Group>(
+data class GroupsUiState<G : Group<*>>(
     val groups: List<G> = listOf(),
 )

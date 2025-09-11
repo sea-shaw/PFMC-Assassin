@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-abstract class GroupSelectionViewModel<C : Component, G : Group>(
+abstract class GroupSelectionViewModel<C : Component, G : Group<C>>(
     componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 

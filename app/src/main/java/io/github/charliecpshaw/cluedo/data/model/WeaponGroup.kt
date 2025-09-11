@@ -12,4 +12,4 @@ data class WeaponGroup(
 
     @ColumnInfo(name = "name")
     override val name: String,
-) : Group
+) : Group<Weapon>
