@@ -4,6 +4,7 @@ data class PlayerInfo(
     val gameId: Long,
     val playerId: Long,
     val playerName: String,
+    val playerEmailAddress: String?,
     val targetId: Long,
     val targetName: String,
     val placeId: Long,

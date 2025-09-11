@@ -10,6 +10,7 @@ private const val QUERY = """
         game_player.game_id AS gameId,
         player.id AS playerId,
         player.name AS playerName,
+        player.email_address AS playerEmailAddress,
         target_player.id AS targetId,
         target_player.name AS targetName,
         place.id AS placeId,

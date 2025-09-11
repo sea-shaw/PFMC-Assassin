@@ -52,6 +52,7 @@ data class GamePlayerUiState(
         gameId = 0,
         playerId = 0,
         playerName = "",
+        playerEmailAddress = null,
         targetId = 0,
         targetName = "",
         placeId = 0,

@@ -169,6 +169,7 @@ private fun GamePlayerBodyPreview() {
                 gameId = 0,
                 playerId = 0,
                 playerName = "Player 0",
+                playerEmailAddress = "player0@email.com",
                 targetId = 1,
                 targetName = "Player 1",
                 placeId = 0,

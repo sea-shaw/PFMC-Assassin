@@ -304,6 +304,7 @@ private fun GameScreenPreview() {
                     gameId = 0,
                     playerId = it,
                     playerName = "Player $it",
+                    playerEmailAddress = "player$it@email.com",
                     targetId = it + 1,
                     targetName = "Player ${it + 1}",
                     placeId = it,
