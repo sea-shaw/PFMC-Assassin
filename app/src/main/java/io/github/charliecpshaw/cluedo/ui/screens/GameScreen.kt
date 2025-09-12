@@ -139,11 +139,15 @@ fun GameScreen(
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
                     emailConfirmationRequired = false
-                    coroutineScope.launch(Dispatchers.IO) {
-                        try {
-                            viewModel.emailAllPlayers()
-                        } catch (_: Exception) {
-                            emailFailed = true
+                    uiState.players.forEach { playerInfo ->
+                        coroutineScope.launch(Dispatchers.IO) {
+                            if (playerInfo.playerEmailAddress is String) {
+                                try {
+                                    viewModel.emailPlayer(playerInfo)
+                                } catch (_: Exception) {
+                                    emailFailed = true
+                                }
+                            }
                         }
                     }
                 },

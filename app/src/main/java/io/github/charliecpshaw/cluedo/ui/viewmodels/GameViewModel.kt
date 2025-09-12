@@ -48,11 +48,6 @@ class GameViewModel(
         gameRepository.deleteGame(gameId)
     }
 
-    fun emailAllPlayers() {
-        //TODO
-//        sendTestEmail()
-    }
-
     fun emailPlayer(playerInfo: PlayerInfo) {
         val gameName = uiState.value.name
         MailSender.sendPlayerInfo(playerInfo, gameName)
