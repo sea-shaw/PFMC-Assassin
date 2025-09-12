@@ -49,6 +49,7 @@ import io.github.charliecpshaw.cluedo.ui.icons.Skull
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
 import io.github.charliecpshaw.cluedo.ui.viewmodels.GameViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,6 +66,7 @@ fun GameScreen(
     val coroutineScope = rememberCoroutineScope()
     var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
     var emailConfirmationRequired by rememberSaveable { mutableStateOf(false) }
+    var emailFailed by rememberSaveable { mutableStateOf(false) }
     var selectedPlayerDetails: PlayerInfo? by rememberSaveable { mutableStateOf(null) }
     var selectedPlayerToKill: PlayerInfo? by rememberSaveable { mutableStateOf(null) }
     var selectedPlayerToEmail: PlayerInfo? by rememberSaveable { mutableStateOf(null) }
@@ -109,7 +111,13 @@ fun GameScreen(
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
         )
-        if (deleteConformationRequired) {
+        if (emailFailed) {
+            AlertDialogue(
+                text = stringResource(R.string.email_failed_to_send),
+                onDismiss = { emailFailed = false },
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+            )
+        } else if (deleteConformationRequired) {
             ConfirmationDialogue(
                 dialogueText = stringResource(id = R.string.game_delete_question),
                 confirmTextResId = R.string.delete,
@@ -131,6 +139,13 @@ fun GameScreen(
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
                     emailConfirmationRequired = false
+                    coroutineScope.launch(Dispatchers.IO) {
+                        try {
+                            viewModel.emailAllPlayers()
+                        } catch (_: Exception) {
+                            emailFailed = true
+                        }
+                    }
                 },
                 onCancel = { emailConfirmationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -168,17 +183,23 @@ fun GameScreen(
                 onCancel = { selectedPlayerToKill = null },
             )
         } else if (selectedPlayerToEmail != null) {
-            val player = selectedPlayerToEmail!!
+            val playerInfo = selectedPlayerToEmail!!
             ConfirmationDialogue(
                 dialogueText = stringResource(
                     id = R.string.game_email_player_confirmation,
-                    player.playerName,
+                    playerInfo.playerName,
                 ),
                 confirmTextResId = R.string.send,
                 cancelTextResId = R.string.cancel,
                 onConfirm = {
                     selectedPlayerToEmail = null
-                    // TODO
+                    coroutineScope.launch(Dispatchers.IO) {
+                        try {
+                            viewModel.emailPlayer(playerInfo)
+                        } catch (_: Exception) {
+                            emailFailed = true
+                        }
+                    }
                 },
                 onCancel = { selectedPlayerToEmail = null },
             )
@@ -283,6 +304,7 @@ private fun PlayerInfoCard(
                 }
                 IconButton(
                     onClick = { onEmailPlayerClick(playerInfo) },
+                    enabled = playerInfo.playerEmailAddress is String,
                 ) {
                     Icon(
                         imageVector = Mail,

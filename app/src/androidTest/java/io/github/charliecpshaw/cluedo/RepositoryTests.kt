@@ -18,6 +18,7 @@ import io.github.charliecpshaw.cluedo.data.dao.WeaponDao
 import io.github.charliecpshaw.cluedo.data.dao.WeaponGroupDao
 import io.github.charliecpshaw.cluedo.data.model.Place
 import io.github.charliecpshaw.cluedo.data.model.PlaceGroup
+import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 import io.github.charliecpshaw.cluedo.data.repository.ComponentRepository
@@ -100,7 +101,12 @@ class RepositoryTests {
     private suspend fun createTestGame(numPlayers: Int): Long {
         val playerGroupId = playerGroupDao.insert("Player Group")
         (0 until numPlayers).forEach {
-            playerDao.insert(name = "Player $it", groupId = playerGroupId, isActive = true)
+            playerDao.insert(
+                name = "Player $it",
+                emailAddress = "player$it@email.com",
+                groupId = playerGroupId,
+                isActive = true,
+            )
         }
 
         val placeGroupId = placeGroupDao.insert("Place Group")

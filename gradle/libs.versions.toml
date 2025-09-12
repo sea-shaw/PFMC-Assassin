@@ -1,6 +1,8 @@
 [versions]
 activityComposeVersion = "1.9.3"
 agp = "8.11.2"
+androidActivation = "1.6.2"
+androidMail = "1.6.8"
 composeBomVersion = "2024.11.00"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
@@ -18,6 +20,8 @@ navigationComposeVersion = "2.9.3"
 roomKtx = "2.7.2"
 
 [libraries]
+android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidActivation" }
+android-mail = { module = "com.sun.mail:android-mail", version.ref = "androidMail" }
 androidx-activity-compose-v193 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 androidx-compose-bom-v20241100 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
