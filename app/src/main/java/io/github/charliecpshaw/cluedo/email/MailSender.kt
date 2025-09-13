@@ -1,7 +1,10 @@
 package io.github.charliecpshaw.cluedo.email
 
+import android.content.Context
+import androidx.compose.ui.res.stringResource
 import io.github.charliecpshaw.cluedo.BuildConfig
 import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
+import io.github.charliecpshaw.cluedo.R
 import java.util.Properties
 import javax.mail.Message
 import javax.mail.Session
@@ -22,21 +25,22 @@ object MailSender {
         props["mail.smtp.socketFactory.class"] = "javax.net.ssl.SSLSocketFactory"
     }
 
-    fun sendPlayerInfo(playerInfo: PlayerInfo, gameName: String) {
+    fun sendPlayerInfo(context: Context, playerInfo: PlayerInfo, gameName: String) {
         val message = MimeMessage(session)
-        message.setFrom(BuildConfig.GMAIL_ADDRESS)
+        message.setFrom("${context.resources.getString(R.string.email_from)} <${BuildConfig.GMAIL_ADDRESS}>")
         message.addRecipient(
             Message.RecipientType.TO,
             InternetAddress(playerInfo.playerEmailAddress!!),
         )
         val sanitisedGameName = gameName.removeCRLF()
-        message.subject = "Cluedo Generator: $sanitisedGameName"
-        message.setText("""
-            Game: $sanitisedGameName
-            Person: ${playerInfo.targetName}
-            Place: ${playerInfo.placeName}
-            Weapon: ${playerInfo.weaponName}
-        """.trimIndent())
+        message.subject = context.resources.getString(R.string.email_subject, sanitisedGameName)
+        val text = context.resources.getString(
+            R.string.email_text,
+            playerInfo.targetName,
+            playerInfo.placeName,
+            playerInfo.weaponName,
+        )
+        message.setText(text)
         Transport.send(message)
     }
 }

@@ -1,5 +1,6 @@
 package io.github.charliecpshaw.cluedo.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +8,6 @@ import androidx.navigation.toRoute
 import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import io.github.charliecpshaw.cluedo.data.repository.GameRepository
 import io.github.charliecpshaw.cluedo.email.MailSender
-import io.github.charliecpshaw.cluedo.email.sendTestEmail
 import io.github.charliecpshaw.cluedo.ui.navigation.GameDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -48,9 +48,9 @@ class GameViewModel(
         gameRepository.deleteGame(gameId)
     }
 
-    fun emailPlayer(playerInfo: PlayerInfo) {
+    fun emailPlayer(context: Context, playerInfo: PlayerInfo) {
         val gameName = uiState.value.name
-        MailSender.sendPlayerInfo(playerInfo, gameName)
+        MailSender.sendPlayerInfo(context, playerInfo, gameName)
     }
 }
 
