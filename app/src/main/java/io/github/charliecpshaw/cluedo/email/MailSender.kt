@@ -1,10 +1,9 @@
 package io.github.charliecpshaw.cluedo.email
 
 import android.content.Context
-import androidx.compose.ui.res.stringResource
 import io.github.charliecpshaw.cluedo.BuildConfig
-import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import io.github.charliecpshaw.cluedo.R
+import io.github.charliecpshaw.cluedo.data.model.PlayerInfo
 import java.util.Properties
 import javax.mail.Message
 import javax.mail.Session
