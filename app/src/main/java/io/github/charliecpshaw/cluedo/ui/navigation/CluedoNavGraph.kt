@@ -90,6 +90,7 @@ fun CluedoNavHost(
                         onNavigateUp = { navController.navigateUp() },
                     )
                 }
+
                 composable<GamePlaceGroupSelectionDestination> { backStackEntry ->
                     val destination = backStackEntry.toRoute<GamePlaceGroupSelectionDestination>()
                     GroupSelectionScreen<PlaceGroupSelectionViewModel, Place, PlaceGroup>(
@@ -105,6 +106,7 @@ fun CluedoNavHost(
                         onNavigateUp = { navController.navigateUp() },
                     )
                 }
+
                 composable<GameWeaponGroupSelectionDestination> { backStackEntry ->
                     val destination = backStackEntry.toRoute<GameWeaponGroupSelectionDestination>()
                     GroupSelectionScreen<WeaponGroupSelectionViewModel, Weapon, WeaponGroup>(
@@ -121,6 +123,7 @@ fun CluedoNavHost(
                         onNavigateUp = { navController.navigateUp() },
                     )
                 }
+
                 composable<GameNameEntryDestination> {
                     GameEntryScreen(
                         navigateBack = {
@@ -130,6 +133,7 @@ fun CluedoNavHost(
                     )
                 }
             }
+
             composable<GameDestination> {
                 GameScreen(
                     onNavigateUp = { navController.navigateUp() },
@@ -142,11 +146,13 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<GamePlayerDestination> {
                 GamePlayerScreen(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<GameEditDestination> {
                 GameEditScreen(
                     navigateBack = { navController.popBackStack() },
@@ -167,6 +173,7 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<PlayerGroupEntryDestination> {
                 GroupEntryScreen<PlayerGroupEntryViewModel, Player, PlayerGroup>(
                     titleResId = R.string.player_group_entry_title,
@@ -174,6 +181,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<PlayerGroupDestination> {
                 GroupScreen<PlayerGroupViewModel, Player, PlayerGroup>(
                     editContentDescriptionResId = R.string.player_group_edit_title,
@@ -192,6 +200,7 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<PlayerEntryDestination> {
                 ComponentEntryScreen<PlayerEntryViewModel, Player, PlayerGroup, PlayerDetails>(
                     titleResId = R.string.player_entry_title,
@@ -206,6 +215,7 @@ fun CluedoNavHost(
                     )
                 )
             }
+
             composable<PlayerEditDestination> {
                 ComponentEditScreen<PlayerEditViewModel, Player, PlayerGroup, PlayerDetails>(
                     titleResId = R.string.player_edit_title,
@@ -223,6 +233,7 @@ fun CluedoNavHost(
                     )
                 )
             }
+
             composable<PlayerGroupEditDestination> {
                 GroupEditScreen<PlayerGroupEditViewModel, Player, PlayerGroup>(
                     titleResId = R.string.player_group_edit_title,
@@ -244,6 +255,7 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<PlaceGroupEntryDestination> {
                 GroupEntryScreen<PlaceGroupEntryViewModel, Place, PlaceGroup>(
                     titleResId = R.string.place_group_entry_title,
@@ -251,6 +263,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<PlaceGroupDestination> {
                 GroupScreen<PlaceGroupViewModel, Place, PlaceGroup>(
                     editContentDescriptionResId = R.string.place_group_edit_title,
@@ -269,6 +282,7 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<PlaceEntryDestination> {
                 ComponentEntryScreen<PlaceEntryViewModel, Place, PlaceGroup, PlaceDetails>(
                     titleResId = R.string.place_entry_title,
@@ -276,6 +290,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<PlaceEditDestination> {
                 ComponentEditScreen<PlaceEditViewModel, Place, PlaceGroup, PlaceDetails>(
                     titleResId = R.string.place_edit_title,
@@ -286,6 +301,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<PlaceGroupEditDestination> {
                 GroupEditScreen<PlaceGroupEditViewModel, Place, PlaceGroup>(
                     titleResId = R.string.place_group_edit_title,
@@ -307,6 +323,7 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<WeaponGroupEntryDestination> {
                 GroupEntryScreen<WeaponGroupEntryViewModel, Weapon, WeaponGroup>(
                     titleResId = R.string.weapon_group_entry_title,
@@ -314,6 +331,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<WeaponGroupDestination> {
                 GroupScreen<WeaponGroupViewModel, Weapon, WeaponGroup>(
                     editContentDescriptionResId = R.string.weapon_group_edit_title,
@@ -332,6 +350,7 @@ fun CluedoNavHost(
                     },
                 )
             }
+
             composable<WeaponEntryDestination> {
                 ComponentEntryScreen<WeaponEntryViewModel, Weapon, WeaponGroup, WeaponDetails>(
                     titleResId = R.string.weapon_entry_title,
@@ -339,6 +358,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<WeaponEditDestination> {
                 ComponentEditScreen<WeaponEditViewModel, Weapon, WeaponGroup, WeaponDetails>(
                     titleResId = R.string.weapon_edit_title,
@@ -349,6 +369,7 @@ fun CluedoNavHost(
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
+
             composable<WeaponGroupEditDestination> {
                 GroupEditScreen<WeaponGroupEditViewModel, Weapon, WeaponGroup>(
                     titleResId = R.string.weapon_group_edit_title,
