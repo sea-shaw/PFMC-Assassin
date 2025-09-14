@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.github.charliecpshaw.cluedo.CluedoTopAppBar
 import io.github.charliecpshaw.cluedo.R
 import io.github.charliecpshaw.cluedo.ui.icons.Shuffle
 import io.github.charliecpshaw.cluedo.ui.viewmodels.AppViewModelProvider
