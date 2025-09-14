@@ -5,7 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
 
     // Kotlin serialization plugin for type safe routes and navigation arguments
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
 }
 
 android {
