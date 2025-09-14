@@ -76,17 +76,6 @@ class OfflineGameRepository(
         gamePlayerDao.killPlayer(gameId, playerId)
     }
 
-    override suspend fun killTarget(
-        gameId: Long,
-        playerId: Long,
-    ) {
-        val player = gamePlayerDao.get(gameId, playerId)
-        val target = gamePlayerDao.get(gameId, player.targetId)
-        val playerWithNewTarget = player.copy(targetId = target.targetId)
-        gamePlayerDao.update(playerWithNewTarget)
-        gamePlayerDao.delete(gameId, player.targetId)
-    }
-
     override suspend fun shuffleGame(gameId: Long) {
         val game = gameDao.getGame(gameId)!!
         val playerIds = gamePlayerDao.getAllPlayerIdsInGame(gameId)

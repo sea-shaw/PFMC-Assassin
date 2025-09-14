@@ -59,7 +59,6 @@ fun GamePlayerScreen(
     ) { innerPadding ->
         GamePlayerBody(
             playerInfo = uiState.playerInfo,
-            onKillTargetClick = viewModel::killTarget,
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
@@ -75,7 +74,6 @@ fun GamePlayerScreen(
 @Composable
 private fun GamePlayerBody(
     playerInfo: PlayerInfo,
-    onKillTargetClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -85,14 +83,6 @@ private fun GamePlayerBody(
         PlayerInfoCard(
             playerInfo = playerInfo,
         )
-        Button(
-            onClick = onKillTargetClick,
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.small,
-            enabled = playerInfo.playerId != playerInfo.targetId,
-        ) {
-            Text(stringResource(id = R.string.kill_target))
-        }
     }
 }
 
@@ -118,17 +108,17 @@ private fun PlayerInfoCard(
                 )
             }
             PlayerInfoDetailRow(
-                detailNameResId = R.string.target_name,
+                detailNameResId = R.string.person,
                 detailValue = playerInfo.targetName,
                 modifier = Modifier.fillMaxWidth(),
             )
             PlayerInfoDetailRow(
-                detailNameResId = R.string.place_name,
+                detailNameResId = R.string.place,
                 detailValue = playerInfo.placeName,
                 modifier = Modifier.fillMaxWidth(),
             )
             PlayerInfoDetailRow(
-                detailNameResId = R.string.weapon_name,
+                detailNameResId = R.string.weapon,
                 detailValue = playerInfo.weaponName,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -177,7 +167,6 @@ private fun GamePlayerBodyPreview() {
                 weaponId = 0,
                 weaponName = "Very long weapon name to test spacing",
             ),
-            onKillTargetClick = {},
         )
     }
 }

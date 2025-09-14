@@ -46,7 +46,7 @@
     <string name="place_group_entry_title">Add Place Group</string>
     <string name="place_group_placeholder">Place Group</string>
     <string name="place_groups_title">Place Groups</string>
-    <string name="place_name">Place</string>
+    <string name="place">Place</string>
     <string name="places_tab">Places</string>
     <string name="player_delete">Delete Player</string>
     <string name="player_delete_failed">Could not delete player.</string>
@@ -65,7 +65,7 @@
     <string name="send">Send</string>
     <string name="shuffle_game">Shuffle Game</string>
     <string name="start_date">Start Date</string>
-    <string name="target_name">Target</string>
+    <string name="person">Person</string>
     <string name="view">View</string>
     <string name="weapon_delete">Delete Weapon</string>
     <string name="weapon_delete_failed">Could not delete weapon as there is no other active weapon in the group to replace it with.</string>
@@ -77,6 +77,6 @@
     <string name="weapon_group_entry_title">Add Weapon Group</string>
     <string name="weapon_group_placeholder">Weapon Group</string>
     <string name="weapon_groups_title">Weapon Groups</string>
-    <string name="weapon_name">Weapon</string>
+    <string name="weapon">Weapon</string>
     <string name="weapons_tab">Weapons</string>
 </resources>

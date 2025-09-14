@@ -163,7 +163,7 @@ class RepositoryTests {
         val newTarget = gameRepository.getPlayerStream(gameId, target!!.targetId).first()
         assertNotNull(newTarget)
 
-        gameRepository.killTarget(gameId, player.playerId)
+        gameRepository.killPlayer(gameId, player.targetId)
 
         val updatedPlayer = gameRepository.getPlayerStream(gameId, player.playerId).first()
         assertNotNull(updatedPlayer)

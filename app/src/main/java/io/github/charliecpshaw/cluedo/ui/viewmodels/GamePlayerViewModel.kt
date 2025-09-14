@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class GamePlayerViewModel(
     savedStateHandle: SavedStateHandle,
-    private val gameRepository: GameRepository,
+    gameRepository: GameRepository,
 ) : ViewModel() {
 
     companion object {
@@ -40,10 +40,6 @@ class GamePlayerViewModel(
             started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
             initialValue = GamePlayerUiState()
         )
-
-    fun killTarget() = viewModelScope.launch {
-        gameRepository.killTarget(gameId, playerId)
-    }
 }
 
 data class GamePlayerUiState(
