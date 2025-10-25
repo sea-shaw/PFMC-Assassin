@@ -1,9 +1,9 @@
-# Cluedo Organiser
+# PFMC Assassin
 
 ## About
 
-This app allows you to organise a variant of the live-action game Assassin called Cluedo.
-In this game, each player is assigned a person, place, and a "weapon" (e.g. Alice needs to get Bob by the gate with an umbrella), hence the name "Cluedo".
+This app allows you to organise a variant of the live-action game Assassin.
+In this game, each player is assigned a person, place, and a "weapon" (e.g. Alice needs to get Bob by the gate with an umbrella).
 They then have to tag their target in that place with that item.
 The person who they just tags then tells them who their next person, place, and weapon is, and the game goes on until there is only one person left.
 
