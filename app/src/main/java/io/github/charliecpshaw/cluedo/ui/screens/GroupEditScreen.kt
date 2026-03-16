@@ -29,43 +29,43 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 inline fun <reified V : GroupEditViewModel<C, G>, C : Component, G : Group<C>> GroupEditScreen(
-    @StringRes titleResId: Int,
-    crossinline navigateBack: () -> Unit,
-    noinline onNavigateUp: () -> Unit,
-    canNavigateBack: Boolean = true,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
+  @StringRes titleResId: Int,
+  crossinline navigateBack: () -> Unit,
+  noinline onNavigateUp: () -> Unit,
+  canNavigateBack: Boolean = true,
+  viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    var canClickSave by rememberSaveable { mutableStateOf(true) }
-    Scaffold(
-        topBar = {
-            CluedoTopAppBar(
-                title = stringResource(titleResId),
-                canNavigateBack = canNavigateBack,
-                navigateUp = onNavigateUp,
-            )
-        }
-    ) { innerPadding ->
-        NameEntryBody(
-            uiState = viewModel.uiState,
-            onNameValueChange = viewModel::updateUiState,
-            saveActionResId = R.string.save_action,
-            canClickSave = canClickSave,
-            onSaveClick = {
-                coroutineScope.launch {
-                    canClickSave = false
-                    viewModel.saveGroup()
-                    navigateBack()
-                }
-            },
-            modifier = Modifier
-                .padding(
-                    start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                    top = innerPadding.calculateTopPadding(),
-                    end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-                )
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
-        )
+  val coroutineScope = rememberCoroutineScope()
+  var canClickSave by rememberSaveable { mutableStateOf(true) }
+  Scaffold(
+    topBar = {
+      CluedoTopAppBar(
+        title = stringResource(titleResId),
+        canNavigateBack = canNavigateBack,
+        navigateUp = onNavigateUp,
+      )
     }
+  ) { innerPadding ->
+    NameEntryBody(
+      uiState = viewModel.uiState,
+      onNameValueChange = viewModel::updateUiState,
+      saveActionResId = R.string.save_action,
+      canClickSave = canClickSave,
+      onSaveClick = {
+        coroutineScope.launch {
+          canClickSave = false
+          viewModel.saveGroup()
+          navigateBack()
+        }
+      },
+      modifier = Modifier
+        .padding(
+          start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+          top = innerPadding.calculateTopPadding(),
+          end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+        )
+        .verticalScroll(rememberScrollState())
+        .fillMaxWidth()
+    )
+  }
 }

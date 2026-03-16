@@ -15,47 +15,47 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class GameEditViewModel(
-    savedStateHandle: SavedStateHandle,
-    private val gameRepository: GameRepository,
+  savedStateHandle: SavedStateHandle,
+  private val gameRepository: GameRepository,
 ) : ViewModel() {
-    companion object {
-        private fun isValidInput(name: String): Boolean {
-            return name.isNotBlank()
+  companion object {
+    private fun isValidInput(name: String): Boolean {
+      return name.isNotBlank()
+    }
+  }
+
+  private val gameId: Long = savedStateHandle.toRoute<GameEditDestination>().id
+
+  var uiState by mutableStateOf(GameEntryUiState())
+
+  init {
+    viewModelScope.launch {
+      uiState = gameRepository
+        .getGameStream(gameId)
+        .filterNotNull()
+        .map {
+          GameEntryUiState(
+            name = it.name,
+            isValidInput = true,
+          )
         }
+        .first()
     }
+  }
 
-    private val gameId: Long = savedStateHandle.toRoute<GameEditDestination>().id
+  fun updateUiState(name: String) {
+    uiState = GameEntryUiState(name = name, isValidInput = isValidInput(name))
+  }
 
-    var uiState by mutableStateOf(GameEntryUiState())
-
-    init {
-        viewModelScope.launch {
-            uiState = gameRepository
-                .getGameStream(gameId)
-                .filterNotNull()
-                .map {
-                    GameEntryUiState(
-                        name = it.name,
-                        isValidInput = true,
-                    )
-                }
-                .first()
-        }
+  suspend fun saveGame() {
+    with(uiState) {
+      if (isValidInput(name)) {
+        gameRepository.updateGameName(gameId, name)
+      }
     }
+  }
 
-    fun updateUiState(name: String) {
-        uiState = GameEntryUiState(name = name, isValidInput = isValidInput(name))
-    }
-
-    suspend fun saveGame() {
-        with(uiState) {
-            if (isValidInput(name)) {
-                gameRepository.updateGameName(gameId, name)
-            }
-        }
-    }
-
-    fun shuffleGame() = viewModelScope.launch {
-        gameRepository.shuffleGame(gameId)
-    }
+  fun shuffleGame() = viewModelScope.launch {
+    gameRepository.shuffleGame(gameId)
+  }
 }

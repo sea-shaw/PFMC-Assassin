@@ -11,22 +11,22 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class GamesViewModel(
-    gameRepository: GameRepository,
+  gameRepository: GameRepository,
 ) : ViewModel() {
-    val uiState: StateFlow<GamesUiState> = gameRepository.getAllGamesStream()
-        .filterNotNull()
-        .map { GamesUiState(it) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-            initialValue = GamesUiState(),
-        )
+  val uiState: StateFlow<GamesUiState> = gameRepository.getAllGamesStream()
+    .filterNotNull()
+    .map { GamesUiState(it) }
+    .stateIn(
+      scope = viewModelScope,
+      started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+      initialValue = GamesUiState(),
+    )
 
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
-    }
+  companion object {
+    private const val TIMEOUT_MILLIS = 5_000L
+  }
 }
 
 data class GamesUiState(
-    val games: List<Game> = listOf(),
+  val games: List<Game> = listOf(),
 )

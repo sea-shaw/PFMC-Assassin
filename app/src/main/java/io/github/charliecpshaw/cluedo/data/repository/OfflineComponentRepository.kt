@@ -7,60 +7,60 @@ import io.github.charliecpshaw.cluedo.data.model.Group
 import kotlinx.coroutines.flow.Flow
 
 abstract class OfflineComponentRepository<C : Component, G : Group<C>>(
-    private val groupDao: GroupDao<G>,
-    private val componentDao: ComponentDao<C>,
+  private val groupDao: GroupDao<G>,
+  private val componentDao: ComponentDao<C>,
 ) : ComponentRepository<C, G> {
-    override fun getGroupStream(id: Long): Flow<G?> {
-        return groupDao.getStream(id)
+  override fun getGroupStream(id: Long): Flow<G?> {
+    return groupDao.getStream(id)
+  }
+
+  override fun getAllGroupsStream(): Flow<List<G>> {
+    return groupDao.getAllStream()
+  }
+
+  override fun getNonEmptyGroupsStream(): Flow<List<G>> {
+    return groupDao.getAllNonEmptyStream()
+  }
+
+  override fun getComponentStream(id: Long): Flow<C?> {
+    return componentDao.getStream(id)
+  }
+
+  override fun getAllComponentsInGroupStream(groupId: Long): Flow<List<C>> {
+    return componentDao.getAllInGroupStream(groupId)
+  }
+
+  override suspend fun insertGroup(name: String): Long {
+    return groupDao.insert(name)
+  }
+
+  override suspend fun insertComponent(component: C): Long {
+    return componentDao.insert(component)
+  }
+
+
+  override suspend fun updateGroup(id: Long, name: String): Int {
+    return groupDao.update(id, name)
+  }
+
+  override suspend fun updateComponent(component: C): Int {
+    return componentDao.update(component)
+  }
+
+  override suspend fun deleteGroup(id: Long): Int {
+    return groupDao.delete(id)
+  }
+
+  override suspend fun deleteComponent(id: Long): Int {
+    if (canDeleteComponent(id)) {
+      onDeleteComponent(id)
+      return componentDao.delete(id)
+    } else {
+      return 0
     }
+  }
 
-    override fun getAllGroupsStream(): Flow<List<G>> {
-        return groupDao.getAllStream()
-    }
+  protected abstract suspend fun canDeleteComponent(id: Long): Boolean
 
-    override fun getNonEmptyGroupsStream(): Flow<List<G>> {
-        return groupDao.getAllNonEmptyStream()
-    }
-
-    override fun getComponentStream(id: Long): Flow<C?> {
-        return componentDao.getStream(id)
-    }
-
-    override fun getAllComponentsInGroupStream(groupId: Long): Flow<List<C>> {
-        return componentDao.getAllInGroupStream(groupId)
-    }
-
-    override suspend fun insertGroup(name: String): Long {
-        return groupDao.insert(name)
-    }
-
-    override suspend fun insertComponent(component: C): Long {
-        return componentDao.insert(component)
-    }
-
-
-    override suspend fun updateGroup(id: Long, name: String): Int {
-        return groupDao.update(id, name)
-    }
-
-    override suspend fun updateComponent(component: C): Int {
-        return componentDao.update(component)
-    }
-
-    override suspend fun deleteGroup(id: Long): Int {
-        return groupDao.delete(id)
-    }
-
-    override suspend fun deleteComponent(id: Long): Int {
-        if (canDeleteComponent(id)) {
-            onDeleteComponent(id)
-            return componentDao.delete(id)
-        } else {
-            return 0
-        }
-    }
-
-    protected abstract suspend fun canDeleteComponent(id: Long): Boolean
-
-    protected abstract suspend fun onDeleteComponent(id: Long)
+  protected abstract suspend fun onDeleteComponent(id: Long)
 }

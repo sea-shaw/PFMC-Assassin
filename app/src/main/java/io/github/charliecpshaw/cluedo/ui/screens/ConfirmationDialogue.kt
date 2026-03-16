@@ -22,59 +22,59 @@ import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 @Composable
 fun ConfirmationDialogue(
-    dialogueText: String,
-    @StringRes confirmTextResId: Int,
-    @StringRes cancelTextResId: Int,
-    onConfirm: () -> Unit,
-    onCancel: () -> Unit,
-    modifier: Modifier = Modifier,
+  dialogueText: String,
+  @StringRes confirmTextResId: Int,
+  @StringRes cancelTextResId: Int,
+  onConfirm: () -> Unit,
+  onCancel: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Dialog(onDismissRequest = onCancel) {
-        Card(
-            modifier = modifier,
-            shape = RoundedCornerShape(dimensionResource(R.dimen.padding_medium)),
+  Dialog(onDismissRequest = onCancel) {
+    Card(
+      modifier = modifier,
+      shape = RoundedCornerShape(dimensionResource(R.dimen.padding_medium)),
+    ) {
+      Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+      ) {
+        Text(
+          text = dialogueText,
+          modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
+        )
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.End,
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = dialogueText,
-                    modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    TextButton(
-                        onClick = onCancel,
-                        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
-                    ) {
-                        Text(text = stringResource(id = cancelTextResId))
-                    }
-                    TextButton(
-                        onClick = onConfirm,
-                        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
-                    ) {
-                        Text(text = stringResource(id = confirmTextResId))
-                    }
-                }
-            }
+          TextButton(
+            onClick = onCancel,
+            modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
+          ) {
+            Text(text = stringResource(id = cancelTextResId))
+          }
+          TextButton(
+            onClick = onConfirm,
+            modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
+          ) {
+            Text(text = stringResource(id = confirmTextResId))
+          }
         }
+      }
     }
+  }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun DeleteConfirmationDialoguePreview() {
-    CluedoTheme {
-        ConfirmationDialogue(
-            dialogueText = stringResource(id = R.string.group_delete_question),
-            confirmTextResId = R.string.delete,
-            cancelTextResId = R.string.cancel,
-            onConfirm = {},
-            onCancel = {},
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-        )
-    }
+  CluedoTheme {
+    ConfirmationDialogue(
+      dialogueText = stringResource(id = R.string.group_delete_question),
+      confirmTextResId = R.string.delete,
+      cancelTextResId = R.string.cancel,
+      onConfirm = {},
+      onCancel = {},
+      modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+    )
+  }
 }

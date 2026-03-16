@@ -6,12 +6,12 @@ import javax.mail.PasswordAuthentication
 
 object CluedoAuthenticator : Authenticator() {
 
-    private val passWordAuthentication = PasswordAuthentication(
-        BuildConfig.GMAIL_ADDRESS,
-        BuildConfig.GMAIL_APP_PASSWORD,
-    )
+  private val passWordAuthentication = PasswordAuthentication(
+    BuildConfig.GMAIL_ADDRESS,
+    BuildConfig.GMAIL_APP_PASSWORD,
+  )
 
-    override fun getPasswordAuthentication(): PasswordAuthentication? {
-        return passWordAuthentication
-    }
+  override fun getPasswordAuthentication(): PasswordAuthentication? {
+    return passWordAuthentication
+  }
 }

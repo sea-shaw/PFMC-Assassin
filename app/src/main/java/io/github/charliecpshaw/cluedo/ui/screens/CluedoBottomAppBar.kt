@@ -22,63 +22,63 @@ import io.github.charliecpshaw.cluedo.ui.navigation.topLevelDestinations
 
 @Composable
 fun CluedoBottomAppBar(
-    navController: NavHostController,
+  navController: NavHostController,
 ) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+  val navBackStackEntry by navController.currentBackStackEntryAsState()
+  val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar(
-        windowInsets = NavigationBarDefaults.windowInsets,
-    ) {
-        topLevelDestinations.forEach { topLevelDestination ->
-            CluedoNavigationBarItem(
-                selected = currentDestination?.hierarchy?.any {
-                    it.hasRoute(topLevelDestination.destination::class)
-                } ?: false,
-                onClick = { alreadySelected ->
-                    navController.navigate(topLevelDestination.destination) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = !alreadySelected
-                        }
-                        launchSingleTop = true
-                        restoreState = !alreadySelected
-                    }
-                },
-                icon = topLevelDestination.icon,
-                contentDescriptionResId = topLevelDestination.nameResId,
-            )
-        }
+  NavigationBar(
+    windowInsets = NavigationBarDefaults.windowInsets,
+  ) {
+    topLevelDestinations.forEach { topLevelDestination ->
+      CluedoNavigationBarItem(
+        selected = currentDestination?.hierarchy?.any {
+          it.hasRoute(topLevelDestination.destination::class)
+        } ?: false,
+        onClick = { alreadySelected ->
+          navController.navigate(topLevelDestination.destination) {
+            popUpTo(navController.graph.findStartDestination().id) {
+              saveState = !alreadySelected
+            }
+            launchSingleTop = true
+            restoreState = !alreadySelected
+          }
+        },
+        icon = topLevelDestination.icon,
+        contentDescriptionResId = topLevelDestination.nameResId,
+      )
     }
+  }
 }
 
 @Composable
 private fun RowScope.CluedoNavigationBarItem(
-    selected: Boolean,
-    onClick: (Boolean) -> Unit,
-    icon: ImageVector,
-    @StringRes contentDescriptionResId: Int,
+  selected: Boolean,
+  onClick: (Boolean) -> Unit,
+  icon: ImageVector,
+  @StringRes contentDescriptionResId: Int,
 ) {
-    NavigationBarItem(
-        selected = selected,
-        onClick = { onClick(selected) },
-        icon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = stringResource(contentDescriptionResId),
-            )
-        },
-        label = {
-            Text(
-                text = stringResource(contentDescriptionResId),
-            )
-        },
-    )
+  NavigationBarItem(
+    selected = selected,
+    onClick = { onClick(selected) },
+    icon = {
+      Icon(
+        imageVector = icon,
+        contentDescription = stringResource(contentDescriptionResId),
+      )
+    },
+    label = {
+      Text(
+        text = stringResource(contentDescriptionResId),
+      )
+    },
+  )
 }
 
 @Preview
 @Composable
 private fun CluedoBottomAppBarPreview() {
-    CluedoBottomAppBar(
-        navController = rememberNavController(),
-    )
+  CluedoBottomAppBar(
+    navController = rememberNavController(),
+  )
 }

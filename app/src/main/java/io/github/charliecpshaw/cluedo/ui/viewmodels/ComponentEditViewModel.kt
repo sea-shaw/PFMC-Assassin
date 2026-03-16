@@ -13,46 +13,46 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 abstract class ComponentEditViewModel<C : Component, G : Group<C>, D : ComponentDetails<C, D>>(
-    private val id: Long,
-    private val componentRepository: ComponentRepository<C, G>,
-    private val detailsFactory: ComponentDetailsFactory<C, D>
+  private val id: Long,
+  private val componentRepository: ComponentRepository<C, G>,
+  private val detailsFactory: ComponentDetailsFactory<C, D>
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(
-        value = ComponentEntryUiState(
-            details = detailsFactory.defaultDetails(),
-            isValidInput = false
-        ),
+  var uiState by mutableStateOf(
+    value = ComponentEntryUiState(
+      details = detailsFactory.defaultDetails(),
+      isValidInput = false
+    ),
+  )
+    private set
+
+  init {
+    viewModelScope.launch {
+      uiState = componentRepository
+        .getComponentStream(id)
+        .filterNotNull()
+        .first()
+        .toEntryUiState(detailsFactory = detailsFactory, isValidInput = true)
+    }
+  }
+
+  fun updateUiState(details: D) {
+    uiState = ComponentEntryUiState(
+      details = details,
+      isValidInput = details.isValid()
     )
-        private set
+  }
 
-    init {
-        viewModelScope.launch {
-            uiState = componentRepository
-                .getComponentStream(id)
-                .filterNotNull()
-                .first()
-                .toEntryUiState(detailsFactory = detailsFactory, isValidInput = true)
-        }
+  suspend fun saveComponent() {
+    with(uiState.details) {
+      if (isValid()) {
+        val component = toComponent(id, 0)
+        componentRepository.updateComponent(component)
+      }
     }
+  }
 
-    fun updateUiState(details: D) {
-        uiState = ComponentEntryUiState(
-            details = details,
-            isValidInput = details.isValid()
-        )
-    }
-
-    suspend fun saveComponent() {
-        with(uiState.details) {
-            if (isValid()) {
-                val component = toComponent(id, 0)
-                componentRepository.updateComponent(component)
-            }
-        }
-    }
-
-    suspend fun deleteComponent(): Boolean {
-        return componentRepository.deleteComponent(id) > 0
-    }
+  suspend fun deleteComponent(): Boolean {
+    return componentRepository.deleteComponent(id) > 0
+  }
 }

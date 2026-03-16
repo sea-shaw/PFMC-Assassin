@@ -6,17 +6,17 @@ import io.github.charliecpshaw.cluedo.data.model.Player
 import io.github.charliecpshaw.cluedo.data.model.PlayerGroup
 
 class OfflinePlayerRepository(
-    playerGroupDao: PlayerGroupDao,
-    private val playerDao: PlayerDao,
+  playerGroupDao: PlayerGroupDao,
+  private val playerDao: PlayerDao,
 ) : OfflineComponentRepository<Player, PlayerGroup>(
-    groupDao = playerGroupDao,
-    componentDao = playerDao,
+  groupDao = playerGroupDao,
+  componentDao = playerDao,
 ) {
-    override suspend fun canDeleteComponent(id: Long): Boolean {
-        return true
-    }
+  override suspend fun canDeleteComponent(id: Long): Boolean {
+    return true
+  }
 
-    override suspend fun onDeleteComponent(id: Long) {
-        playerDao.removeFromGames(id)
-    }
+  override suspend fun onDeleteComponent(id: Long) {
+    playerDao.removeFromGames(id)
+  }
 }

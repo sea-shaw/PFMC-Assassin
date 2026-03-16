@@ -33,61 +33,61 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameEditScreen(
-    navigateBack: () -> Unit,
-    onNavigateUp: () -> Unit,
-    viewModel: GameEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
+  navigateBack: () -> Unit,
+  onNavigateUp: () -> Unit,
+  viewModel: GameEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    var canClickSave by rememberSaveable { mutableStateOf(true) }
+  val coroutineScope = rememberCoroutineScope()
+  var canClickSave by rememberSaveable { mutableStateOf(true) }
 
-    Scaffold(
-        topBar = {
-            CluedoTopAppBar(
-                title = stringResource(R.string.game_edit_title),
-                canNavigateBack = true,
-                navigateUp = onNavigateUp,
-            )
+  Scaffold(
+    topBar = {
+      CluedoTopAppBar(
+        title = stringResource(R.string.game_edit_title),
+        canNavigateBack = true,
+        navigateUp = onNavigateUp,
+      )
+    },
+    floatingActionButton = {
+      FloatingActionButton(
+        onClick = {
+          viewModel.shuffleGame()
+          navigateBack()
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.shuffleGame()
-                    navigateBack()
-                },
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier
-                    .padding(
-                        end = WindowInsets.safeDrawing.asPaddingValues()
-                            .calculateEndPadding(LocalLayoutDirection.current)
-                    ),
-            ) {
-                Icon(
-                    imageVector = Shuffle,
-                    contentDescription = stringResource(R.string.shuffle_game),
-                )
-            }
-        },
-    ) { innerPadding ->
-        NameEntryBody(
-            uiState = viewModel.uiState,
-            onNameValueChange = viewModel::updateUiState,
-            saveActionResId = R.string.save_action,
-            canClickSave = canClickSave,
-            onSaveClick = {
-                coroutineScope.launch {
-                    canClickSave = false
-                    viewModel.saveGame()
-                    navigateBack()
-                }
-            },
-            modifier = Modifier
-                .padding(
-                    start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                    top = innerPadding.calculateTopPadding(),
-                    end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-                )
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
+          .padding(
+            end = WindowInsets.safeDrawing.asPaddingValues()
+              .calculateEndPadding(LocalLayoutDirection.current)
+          ),
+      ) {
+        Icon(
+          imageVector = Shuffle,
+          contentDescription = stringResource(R.string.shuffle_game),
         )
-    }
+      }
+    },
+  ) { innerPadding ->
+    NameEntryBody(
+      uiState = viewModel.uiState,
+      onNameValueChange = viewModel::updateUiState,
+      saveActionResId = R.string.save_action,
+      canClickSave = canClickSave,
+      onSaveClick = {
+        coroutineScope.launch {
+          canClickSave = false
+          viewModel.saveGame()
+          navigateBack()
+        }
+      },
+      modifier = Modifier
+        .padding(
+          start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+          top = innerPadding.calculateTopPadding(),
+          end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+        )
+        .verticalScroll(rememberScrollState())
+        .fillMaxWidth()
+    )
+  }
 }

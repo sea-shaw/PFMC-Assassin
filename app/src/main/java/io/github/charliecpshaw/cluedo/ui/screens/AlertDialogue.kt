@@ -19,37 +19,37 @@ import io.github.charliecpshaw.cluedo.R
 
 @Composable
 fun AlertDialogue(
-    text: String,
-    onDismiss: () -> Unit,
-    modifier: Modifier = Modifier,
+  text: String,
+  onDismiss: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Dialog(
-        onDismissRequest = onDismiss,
+  Dialog(
+    onDismissRequest = onDismiss,
+  ) {
+    Card(
+      modifier = modifier,
+      shape = RoundedCornerShape(dimensionResource(R.dimen.padding_medium)),
     ) {
-        Card(
-            modifier = modifier,
-            shape = RoundedCornerShape(dimensionResource(R.dimen.padding_medium)),
+      Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+      ) {
+        Text(
+          text = text,
+          modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
+        )
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.End,
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    TextButton(
-                        onClick = onDismiss,
-                        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
-                    ) {
-                        Text(text = stringResource(id = R.string.ok))
-                    }
-                }
-            }
+          TextButton(
+            onClick = onDismiss,
+            modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
+          ) {
+            Text(text = stringResource(id = R.string.ok))
+          }
         }
+      }
     }
+  }
 }

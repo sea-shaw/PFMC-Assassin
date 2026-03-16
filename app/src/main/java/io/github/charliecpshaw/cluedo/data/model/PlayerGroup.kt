@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "player_group")
 data class PlayerGroup(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    override val id: Long = 0,
+  @PrimaryKey(autoGenerate = true)
+  @ColumnInfo(name = "id")
+  override val id: Long = 0,
 
-    @ColumnInfo(name = "name")
-    override val name: String,
+  @ColumnInfo(name = "name")
+  override val name: String,
 ) : Group<Player>

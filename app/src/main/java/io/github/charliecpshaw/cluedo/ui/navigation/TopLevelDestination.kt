@@ -8,14 +8,14 @@ import io.github.charliecpshaw.cluedo.ui.icons.Swords
 import io.github.charliecpshaw.cluedo.ui.icons.Trophy
 
 data class TopLevelDestination<T : Any>(
-    val nameResId: Int,
-    val destination: T,
-    val icon: ImageVector,
+  val nameResId: Int,
+  val destination: T,
+  val icon: ImageVector,
 )
 
 val topLevelDestinations = listOf(
-    TopLevelDestination(R.string.games_tab, GamesTabDestination, Trophy),
-    TopLevelDestination(R.string.players_tab, PlayersTabDestination, Person),
-    TopLevelDestination(R.string.places_tab, PlacesTabDestination, Camping),
-    TopLevelDestination(R.string.weapons_tab, WeaponsTabDestination, Swords),
+  TopLevelDestination(R.string.games_tab, GamesTabDestination, Trophy),
+  TopLevelDestination(R.string.players_tab, PlayersTabDestination, Person),
+  TopLevelDestination(R.string.places_tab, PlacesTabDestination, Camping),
+  TopLevelDestination(R.string.weapons_tab, WeaponsTabDestination, Swords),
 )

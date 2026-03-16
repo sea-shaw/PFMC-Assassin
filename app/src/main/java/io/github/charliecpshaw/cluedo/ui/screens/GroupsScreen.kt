@@ -33,58 +33,58 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 inline fun <reified V : GroupsViewModel<C, G>, C : Component, G : Group<C>> GroupsScreen(
-    @StringRes titleResId: Int,
-    noinline navigateToGroupEntry: () -> Unit,
-    noinline navigateToGroup: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
+  @StringRes titleResId: Int,
+  noinline navigateToGroupEntry: () -> Unit,
+  noinline navigateToGroup: (Long) -> Unit,
+  modifier: Modifier = Modifier,
+  viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+  val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            CluedoTopAppBar(
-                title = stringResource(titleResId),
-                canNavigateBack = false,
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToGroupEntry,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier
-                    .padding(
-                        end = WindowInsets.safeDrawing.asPaddingValues()
-                            .calculateEndPadding(LocalLayoutDirection.current)
-                    )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.player_group_entry_title)
-                )
-            }
-        },
-    ) { innerPadding ->
-        GroupsBody(
-            groupList = uiState.groups,
-            onGroupClick = navigateToGroup,
-            modifier = modifier.fillMaxSize(),
-            contentPadding = innerPadding,
+  Scaffold(
+    modifier = modifier,
+    topBar = {
+      CluedoTopAppBar(
+        title = stringResource(titleResId),
+        canNavigateBack = false,
+      )
+    },
+    floatingActionButton = {
+      FloatingActionButton(
+        onClick = navigateToGroupEntry,
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
+          .padding(
+            end = WindowInsets.safeDrawing.asPaddingValues()
+              .calculateEndPadding(LocalLayoutDirection.current)
+          )
+      ) {
+        Icon(
+          imageVector = Icons.Default.Add,
+          contentDescription = stringResource(R.string.player_group_entry_title)
         )
-    }
+      }
+    },
+  ) { innerPadding ->
+    GroupsBody(
+      groupList = uiState.groups,
+      onGroupClick = navigateToGroup,
+      modifier = modifier.fillMaxSize(),
+      contentPadding = innerPadding,
+    )
+  }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun GroupsBodyPreview() {
-    CluedoTheme {
-        GroupsBody(
-            groupList = listOf(
-                PlayerGroup(id = 0, name = "PFMC"),
-                PlayerGroup(id = 1, name = "PFMC+"),
-            ),
-            onGroupClick = {},
-        )
-    }
+  CluedoTheme {
+    GroupsBody(
+      groupList = listOf(
+        PlayerGroup(id = 0, name = "PFMC"),
+        PlayerGroup(id = 1, name = "PFMC+"),
+      ),
+      onGroupClick = {},
+    )
+  }
 }

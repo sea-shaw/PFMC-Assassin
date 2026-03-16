@@ -17,44 +17,44 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class GameViewModel(
-    savedStateHandle: SavedStateHandle,
-    private val gameRepository: GameRepository,
+  savedStateHandle: SavedStateHandle,
+  private val gameRepository: GameRepository,
 ) : ViewModel() {
 
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
-    }
+  companion object {
+    private const val TIMEOUT_MILLIS = 5_000L
+  }
 
-    val gameId: Long = savedStateHandle.toRoute<GameDestination>().id
+  val gameId: Long = savedStateHandle.toRoute<GameDestination>().id
 
-    var uiState: StateFlow<GameUiState> = gameRepository.getGameStream(gameId)
-        .filterNotNull()
-        .map { GameUiState(name = it.name) }
-        .combine(
-            flow = gameRepository.getAllAlivePlayersInGameStream(gameId),
-        ) { uiState, players ->
-            uiState.copy(players = players)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-            initialValue = GameUiState(),
-        )
+  var uiState: StateFlow<GameUiState> = gameRepository.getGameStream(gameId)
+    .filterNotNull()
+    .map { GameUiState(name = it.name) }
+    .combine(
+      flow = gameRepository.getAllAlivePlayersInGameStream(gameId),
+    ) { uiState, players ->
+      uiState.copy(players = players)
+    }.stateIn(
+      scope = viewModelScope,
+      started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+      initialValue = GameUiState(),
+    )
 
-    suspend fun killPlayer(playerId: Long) {
-        gameRepository.killPlayer(gameId, playerId)
-    }
+  suspend fun killPlayer(playerId: Long) {
+    gameRepository.killPlayer(gameId, playerId)
+  }
 
-    suspend fun deleteGame() {
-        gameRepository.deleteGame(gameId)
-    }
+  suspend fun deleteGame() {
+    gameRepository.deleteGame(gameId)
+  }
 
-    fun emailPlayer(context: Context, playerInfo: PlayerInfo) {
-        val gameName = uiState.value.name
-        MailSender.sendPlayerInfo(context, playerInfo, gameName)
-    }
+  fun emailPlayer(context: Context, playerInfo: PlayerInfo) {
+    val gameName = uiState.value.name
+    MailSender.sendPlayerInfo(context, playerInfo, gameName)
+  }
 }
 
 data class GameUiState(
-    val name: String = "",
-    val players: List<PlayerInfo> = listOf(),
+  val name: String = "",
+  val players: List<PlayerInfo> = listOf(),
 )

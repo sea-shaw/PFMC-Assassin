@@ -12,22 +12,22 @@ import io.github.charliecpshaw.cluedo.ui.navigation.GamesTabDestination
 
 @Composable
 fun CluedoApp(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
+  modifier: Modifier = Modifier,
+  navController: NavHostController = rememberNavController(),
 ) {
-    val startDestination = GamesTabDestination
-    Scaffold(
-        bottomBar = {
-            CluedoBottomAppBar(
-                navController = navController,
-            )
-        },
-        modifier = modifier,
-    ) { contentPadding ->
-        CluedoNavHost(
-            navController = navController,
-            startDestination = startDestination,
-            modifier = Modifier.padding(bottom = contentPadding.calculateBottomPadding())
-        )
-    }
+  val startDestination = GamesTabDestination
+  Scaffold(
+    bottomBar = {
+      CluedoBottomAppBar(
+        navController = navController,
+      )
+    },
+    modifier = modifier,
+  ) { contentPadding ->
+    CluedoNavHost(
+      navController = navController,
+      startDestination = startDestination,
+      modifier = Modifier.padding(bottom = contentPadding.calculateBottomPadding())
+    )
+  }
 }

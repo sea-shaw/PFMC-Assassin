@@ -18,29 +18,29 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GroupSelectionViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 inline fun <reified V : GroupSelectionViewModel<C, G>, C : Component, G : Group<C>> GroupSelectionScreen(
-    @StringRes titleResId: Int,
-    noinline onGroupClick: (Long) -> Unit,
-    noinline onNavigateUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
+  @StringRes titleResId: Int,
+  noinline onGroupClick: (Long) -> Unit,
+  noinline onNavigateUp: () -> Unit,
+  modifier: Modifier = Modifier,
+  viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+  val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            CluedoTopAppBar(
-                title = stringResource(titleResId),
-                canNavigateBack = true,
-                navigateUp = onNavigateUp,
-            )
-        },
-    ) { innerPadding ->
-        GroupsBody(
-            groupList = uiState.groups,
-            onGroupClick = onGroupClick,
-            modifier = modifier.fillMaxSize(),
-            contentPadding = innerPadding,
-        )
-    }
+  Scaffold(
+    modifier = modifier,
+    topBar = {
+      CluedoTopAppBar(
+        title = stringResource(titleResId),
+        canNavigateBack = true,
+        navigateUp = onNavigateUp,
+      )
+    },
+  ) { innerPadding ->
+    GroupsBody(
+      groupList = uiState.groups,
+      onGroupClick = onGroupClick,
+      modifier = modifier.fillMaxSize(),
+      contentPadding = innerPadding,
+    )
+  }
 }

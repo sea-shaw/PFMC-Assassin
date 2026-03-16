@@ -57,20 +57,20 @@ object GamePlayerGroupSelectionDestination
 object GameEntryDestination
 @Serializable
 data class GamePlaceGroupSelectionDestination(
-    val playerGroupId: Long,
+  val playerGroupId: Long,
 )
 
 @Serializable
 data class GameWeaponGroupSelectionDestination(
-    val playerGroupId: Long,
-    val placeGroupId: Long,
+  val playerGroupId: Long,
+  val placeGroupId: Long,
 )
 
 @Serializable
 data class GameNameEntryDestination(
-    val playerGroupId: Long,
-    val placeGroupId: Long,
-    val weaponGroupId: Long,
+  val playerGroupId: Long,
+  val placeGroupId: Long,
+  val weaponGroupId: Long,
 )
 
 @Serializable

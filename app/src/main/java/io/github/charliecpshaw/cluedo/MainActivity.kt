@@ -10,17 +10,17 @@ import androidx.compose.ui.Modifier
 import io.github.charliecpshaw.cluedo.ui.theme.CluedoTheme
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-        super.onCreate(savedInstanceState)
-        setContent {
-            CluedoTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CluedoApp()
-                }
-            }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    enableEdgeToEdge()
+    super.onCreate(savedInstanceState)
+    setContent {
+      CluedoTheme {
+        Surface(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          CluedoApp()
         }
+      }
     }
+  }
 }

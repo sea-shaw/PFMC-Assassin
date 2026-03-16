@@ -44,141 +44,141 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.GamesViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamesScreen(
-    navigateToGameEntry: () -> Unit,
-    navigateToGame: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: GamesViewModel = viewModel(factory = AppViewModelProvider.Factory),
+  navigateToGameEntry: () -> Unit,
+  navigateToGame: (Long) -> Unit,
+  modifier: Modifier = Modifier,
+  viewModel: GamesViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+  val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            CluedoTopAppBar(
-                title = stringResource(R.string.games_title),
-                canNavigateBack = false,
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToGameEntry,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier
-                    .padding(
-                        end = WindowInsets.safeDrawing.asPaddingValues()
-                            .calculateEndPadding(LocalLayoutDirection.current)
-                    )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.player_group_entry_title)
-                )
-            }
-        },
-    ) { innerPadding ->
-        GamesBody(
-            gameList = uiState.games,
-            onGameClick = navigateToGame,
-            modifier = modifier.fillMaxSize(),
-            contentPadding = innerPadding,
+  Scaffold(
+    modifier = modifier,
+    topBar = {
+      CluedoTopAppBar(
+        title = stringResource(R.string.games_title),
+        canNavigateBack = false,
+      )
+    },
+    floatingActionButton = {
+      FloatingActionButton(
+        onClick = navigateToGameEntry,
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
+          .padding(
+            end = WindowInsets.safeDrawing.asPaddingValues()
+              .calculateEndPadding(LocalLayoutDirection.current)
+          )
+      ) {
+        Icon(
+          imageVector = Icons.Default.Add,
+          contentDescription = stringResource(R.string.player_group_entry_title)
         )
-    }
+      }
+    },
+  ) { innerPadding ->
+    GamesBody(
+      gameList = uiState.games,
+      onGameClick = navigateToGame,
+      modifier = modifier.fillMaxSize(),
+      contentPadding = innerPadding,
+    )
+  }
 }
 
 @Composable
 fun GamesBody(
-    gameList: List<Game>,
-    onGameClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+  gameList: List<Game>,
+  onGameClick: (Long) -> Unit,
+  modifier: Modifier = Modifier,
+  contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
-    ) {
-        GamesList(
-            gameList = gameList,
-            onGameClick = { onGameClick(it.id) },
-            contentPadding = contentPadding,
-            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
-        )
-    }
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier,
+  ) {
+    GamesList(
+      gameList = gameList,
+      onGameClick = { onGameClick(it.id) },
+      contentPadding = contentPadding,
+      modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
+    )
+  }
 }
 
 @Composable
 private fun GamesList(
-    gameList: List<Game>,
-    onGameClick: (Game) -> Unit,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier,
+  gameList: List<Game>,
+  onGameClick: (Game) -> Unit,
+  contentPadding: PaddingValues,
+  modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = contentPadding,
-    ) {
-        if (gameList.isNotEmpty()) {
-            items(
-                items = gameList,
-                key = { it.id },
-            ) { game ->
-                GameCard(
-                    game = game,
-                    modifier = modifier
-                        .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onGameClick(game) }
-                )
-            }
-        }
+  LazyColumn(
+    modifier = modifier,
+    contentPadding = contentPadding,
+  ) {
+    if (gameList.isNotEmpty()) {
+      items(
+        items = gameList,
+        key = { it.id },
+      ) { game ->
+        GameCard(
+          game = game,
+          modifier = modifier
+            .padding(dimensionResource(id = R.dimen.padding_small))
+            .clickable { onGameClick(game) }
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun GameCard(
-    game: Game,
-    modifier: Modifier = Modifier,
+  game: Game,
+  modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+  Card(
+    modifier = modifier,
+    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+  ) {
+    Column(
+      modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+      verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
     ) {
-        Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = game.name,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-        }
+      Row(
+        modifier = Modifier.fillMaxWidth()
+      ) {
+        Text(
+          text = game.name,
+          style = MaterialTheme.typography.titleLarge,
+        )
+      }
     }
+  }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun GamesBodyPreview() {
-    CluedoTheme {
-        GamesBody(
-            gameList = listOf(
-                Game(
-                    id = 0,
-                    name = "PFMC",
-                    playerGroupId = 0,
-                    placeGroupId = 0,
-                    weaponGroupId = 0,
-                ),
-                Game(
-                    id = 1,
-                    name = "PFMC+",
-                    playerGroupId = 0,
-                    placeGroupId = 0,
-                    weaponGroupId = 0,
-                ),
-            ),
-            onGameClick = {},
-        )
-    }
+  CluedoTheme {
+    GamesBody(
+      gameList = listOf(
+        Game(
+          id = 0,
+          name = "PFMC",
+          playerGroupId = 0,
+          placeGroupId = 0,
+          weaponGroupId = 0,
+        ),
+        Game(
+          id = 1,
+          name = "PFMC+",
+          playerGroupId = 0,
+          placeGroupId = 0,
+          weaponGroupId = 0,
+        ),
+      ),
+      onGameClick = {},
+    )
+  }
 }

@@ -55,171 +55,171 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 inline fun <reified V : GroupViewModel<C, G>, C : Component, G : Group<C>> GroupScreen(
-    @StringRes editContentDescriptionResId: Int,
-    @StringRes deleteContentDescriptionResId: Int,
-    @StringRes componentEntryContentDescriptionResId: Int,
-    @StringRes deleteQuestionResId: Int,
-    crossinline navigateToGroupEdit: (Long) -> Unit,
-    noinline navigateToComponentEdit: (Long) -> Unit,
-    crossinline navigateToComponentEntry: (Long) -> Unit,
-    noinline navigateBack: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
+  @StringRes editContentDescriptionResId: Int,
+  @StringRes deleteContentDescriptionResId: Int,
+  @StringRes componentEntryContentDescriptionResId: Int,
+  @StringRes deleteQuestionResId: Int,
+  crossinline navigateToGroupEdit: (Long) -> Unit,
+  noinline navigateToComponentEdit: (Long) -> Unit,
+  crossinline navigateToComponentEntry: (Long) -> Unit,
+  noinline navigateBack: () -> Unit,
+  modifier: Modifier = Modifier,
+  viewModel: V = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
-    val coroutineScope = rememberCoroutineScope()
-    Scaffold(
-        topBar = {
-            CluedoTopAppBar(
-                title = uiState.name,
-                canNavigateBack = true,
-                navigateUp = navigateBack,
-                hasEditButton = true,
-                onEditClick = { navigateToGroupEdit(viewModel.groupId) },
-                editContentDescriptionRes = editContentDescriptionResId,
-                hasDeleteButton = true,
-                onDeleteClick = { deleteConformationRequired = true },
-                deleteContentDescriptionResId = deleteContentDescriptionResId,
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navigateToComponentEntry(viewModel.groupId) },
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier
-                    .padding(
-                        end = WindowInsets.safeDrawing.asPaddingValues()
-                            .calculateEndPadding(LocalLayoutDirection.current)
-                    ),
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(componentEntryContentDescriptionResId),
-                )
-            }
-        },
-        modifier = modifier,
-    ) { innerPadding ->
-        GroupBody(
-            componentList = uiState.components,
-            onComponentClick = navigateToComponentEdit,
-            modifier = modifier.fillMaxSize(),
-            contentPadding = innerPadding,
+  val uiState by viewModel.uiState.collectAsState()
+  var deleteConformationRequired by rememberSaveable { mutableStateOf(false) }
+  val coroutineScope = rememberCoroutineScope()
+  Scaffold(
+    topBar = {
+      CluedoTopAppBar(
+        title = uiState.name,
+        canNavigateBack = true,
+        navigateUp = navigateBack,
+        hasEditButton = true,
+        onEditClick = { navigateToGroupEdit(viewModel.groupId) },
+        editContentDescriptionRes = editContentDescriptionResId,
+        hasDeleteButton = true,
+        onDeleteClick = { deleteConformationRequired = true },
+        deleteContentDescriptionResId = deleteContentDescriptionResId,
+      )
+    },
+    floatingActionButton = {
+      FloatingActionButton(
+        onClick = { navigateToComponentEntry(viewModel.groupId) },
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
+          .padding(
+            end = WindowInsets.safeDrawing.asPaddingValues()
+              .calculateEndPadding(LocalLayoutDirection.current)
+          ),
+      ) {
+        Icon(
+          imageVector = Icons.Default.Add,
+          contentDescription = stringResource(componentEntryContentDescriptionResId),
         )
-        if (deleteConformationRequired) {
-            ConfirmationDialogue(
-                dialogueText = stringResource(id = deleteQuestionResId),
-                confirmTextResId = R.string.delete,
-                cancelTextResId = R.string.cancel,
-                onConfirm = {
-                    deleteConformationRequired = false
-                    coroutineScope.launch {
-                        viewModel.deleteGroup()
-                        navigateBack()
-                    }
-                },
-                onCancel = { deleteConformationRequired = false },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-            )
-        }
+      }
+    },
+    modifier = modifier,
+  ) { innerPadding ->
+    GroupBody(
+      componentList = uiState.components,
+      onComponentClick = navigateToComponentEdit,
+      modifier = modifier.fillMaxSize(),
+      contentPadding = innerPadding,
+    )
+    if (deleteConformationRequired) {
+      ConfirmationDialogue(
+        dialogueText = stringResource(id = deleteQuestionResId),
+        confirmTextResId = R.string.delete,
+        cancelTextResId = R.string.cancel,
+        onConfirm = {
+          deleteConformationRequired = false
+          coroutineScope.launch {
+            viewModel.deleteGroup()
+            navigateBack()
+          }
+        },
+        onCancel = { deleteConformationRequired = false },
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+      )
     }
+  }
 }
 
 @Composable
 fun <C : Component> GroupBody(
-    componentList: List<C>,
-    onComponentClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+  componentList: List<C>,
+  onComponentClick: (Long) -> Unit,
+  modifier: Modifier = Modifier,
+  contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
-    ) {
-        ComponentList(
-            componentList = componentList,
-            contentPadding = contentPadding,
-            onComponentClick = onComponentClick,
-            modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
-        )
-    }
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier,
+  ) {
+    ComponentList(
+      componentList = componentList,
+      contentPadding = contentPadding,
+      onComponentClick = onComponentClick,
+      modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
+    )
+  }
 }
 
 @Composable
 private fun <C : Component> ComponentList(
-    componentList: List<C>,
-    contentPadding: PaddingValues,
-    onComponentClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
+  componentList: List<C>,
+  contentPadding: PaddingValues,
+  onComponentClick: (Long) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = contentPadding,
-    ) {
-        if (componentList.isNotEmpty()) {
-            items(
-                items = componentList,
-                key = { it.id },
-            ) { player ->
-                ComponentCard(
-                    component = player,
-                    modifier = modifier
-                        .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onComponentClick(player.id) },
-                )
-            }
-        }
+  LazyColumn(
+    modifier = modifier,
+    contentPadding = contentPadding,
+  ) {
+    if (componentList.isNotEmpty()) {
+      items(
+        items = componentList,
+        key = { it.id },
+      ) { player ->
+        ComponentCard(
+          component = player,
+          modifier = modifier
+            .padding(dimensionResource(id = R.dimen.padding_small))
+            .clickable { onComponentClick(player.id) },
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun <C : Component> ComponentCard(
-    component: C,
-    modifier: Modifier = Modifier,
+  component: C,
+  modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier,
-        elevation = CardDefaults.cardElevation(2.dp),
+  Card(
+    modifier = modifier,
+    elevation = CardDefaults.cardElevation(2.dp),
+  ) {
+    Column(
+      modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+      verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
     ) {
-        Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = component.name,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                if (component.isActive) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = stringResource(id = R.string.active),
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = stringResource(id = R.string.inactive),
-                    )
-                }
-            }
+      Row(
+        modifier = Modifier.fillMaxWidth()
+      ) {
+        Text(
+          text = component.name,
+          style = MaterialTheme.typography.titleLarge,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        if (component.isActive) {
+          Icon(
+            imageVector = Icons.Default.Check,
+            contentDescription = stringResource(id = R.string.active),
+          )
+        } else {
+          Icon(
+            imageVector = Icons.Default.Clear,
+            contentDescription = stringResource(id = R.string.inactive),
+          )
         }
+      }
     }
+  }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PlayerGroupBodyPreview() {
-    CluedoTheme {
-        GroupBody(
-            componentList = listOf(
-                Player(id = 0, name = "Player 0", emailAddress = "player0@gmail.com", isActive = true, groupId = 0),
-                Player(id = 1, name = "Player 1", emailAddress = "player1@gmail.com", isActive = false, groupId = 0),
-            ),
-            onComponentClick = {},
-        )
-    }
+  CluedoTheme {
+    GroupBody(
+      componentList = listOf(
+        Player(id = 0, name = "Player 0", emailAddress = "player0@gmail.com", isActive = true, groupId = 0),
+        Player(id = 1, name = "Player 1", emailAddress = "player1@gmail.com", isActive = false, groupId = 0),
+      ),
+      onComponentClick = {},
+    )
+  }
 }

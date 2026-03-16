@@ -14,43 +14,43 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 abstract class GroupEditViewModel<C : Component, G : Group<C>>(
-    private val id: Long,
-    private val componentRepository: ComponentRepository<C, G>,
+  private val id: Long,
+  private val componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
-    companion object {
-        private fun isValidInput(name: String): Boolean {
-            return name.isNotBlank()
+  companion object {
+    private fun isValidInput(name: String): Boolean {
+      return name.isNotBlank()
+    }
+  }
+
+  var uiState by mutableStateOf(GroupEntryUiState())
+    private set
+
+  init {
+    viewModelScope.launch {
+      uiState = componentRepository
+        .getGroupStream(id)
+        .filterNotNull()
+        .map {
+          GroupEntryUiState(
+            name = it.name,
+            isValidInput = true,
+          )
         }
+        .first()
     }
+  }
 
-    var uiState by mutableStateOf(GroupEntryUiState())
-        private set
+  fun updateUiState(name: String) {
+    uiState = GroupEntryUiState(name = name, isValidInput = isValidInput(name))
+  }
 
-    init {
-        viewModelScope.launch {
-            uiState = componentRepository
-                .getGroupStream(id)
-                .filterNotNull()
-                .map {
-                    GroupEntryUiState(
-                        name = it.name,
-                        isValidInput = true,
-                    )
-                }
-                .first()
-        }
+  suspend fun saveGroup() {
+    with(uiState) {
+      if (isValidInput(name)) {
+        componentRepository.updateGroup(id = id, name = name)
+      }
     }
-
-    fun updateUiState(name: String) {
-        uiState = GroupEntryUiState(name = name, isValidInput = isValidInput(name))
-    }
-
-    suspend fun saveGroup() {
-        with(uiState) {
-            if (isValidInput(name)) {
-                componentRepository.updateGroup(id = id, name = name)
-            }
-        }
-    }
+  }
 }

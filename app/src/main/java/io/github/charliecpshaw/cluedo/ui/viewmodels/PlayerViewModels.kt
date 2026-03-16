@@ -11,47 +11,47 @@ import io.github.charliecpshaw.cluedo.ui.navigation.PlayerGroupDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.PlayerGroupEditDestination
 
 class PlayerEditViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Player, PlayerGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : ComponentEditViewModel<Player, PlayerGroup, PlayerDetails>(
-    id = savedStateHandle.toRoute<PlayerEditDestination>().id,
-    componentRepository = componentRepository,
-    detailsFactory = PlayerDetailsFactory,
+  id = savedStateHandle.toRoute<PlayerEditDestination>().id,
+  componentRepository = componentRepository,
+  detailsFactory = PlayerDetailsFactory,
 )
 
 class PlayerEntryViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Player, PlayerGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : ComponentEntryViewModel<Player, PlayerGroup, PlayerDetails>(
-    groupId = savedStateHandle.toRoute<PlayerEntryDestination>().groupId,
-    componentRepository = componentRepository,
-    detailsFactory = PlayerDetailsFactory,
+  groupId = savedStateHandle.toRoute<PlayerEntryDestination>().groupId,
+  componentRepository = componentRepository,
+  detailsFactory = PlayerDetailsFactory,
 )
 
 class PlayerGroupEntryViewModel(
-    componentRepository: ComponentRepository<Player, PlayerGroup>,
+  componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupEntryViewModel<Player, PlayerGroup>(
-    componentRepository,
+  componentRepository,
 )
 
 class PlayerGroupEditViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Player, PlayerGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupEditViewModel<Player, PlayerGroup>(
-    id = savedStateHandle.toRoute<PlayerGroupEditDestination>().id,
-    componentRepository = componentRepository,
+  id = savedStateHandle.toRoute<PlayerGroupEditDestination>().id,
+  componentRepository = componentRepository,
 )
 
 class PlayerGroupsViewModel(
-    componentRepository: ComponentRepository<Player, PlayerGroup>,
+  componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupsViewModel<Player, PlayerGroup>(
-    componentRepository,
+  componentRepository,
 )
 
 class PlayerGroupViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Player, PlayerGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupViewModel<Player, PlayerGroup>(
-    groupId = savedStateHandle.toRoute<PlayerGroupDestination>().id,
-    componentRepository = componentRepository,
+  groupId = savedStateHandle.toRoute<PlayerGroupDestination>().id,
+  componentRepository = componentRepository,
 )

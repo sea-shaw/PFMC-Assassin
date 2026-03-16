@@ -23,72 +23,72 @@ import io.github.charliecpshaw.cluedo.data.model.Group
 
 @Composable
 fun <G : Group<*>> GroupsBody(
-    groupList: List<G>,
-    onGroupClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+  groupList: List<G>,
+  onGroupClick: (Long) -> Unit,
+  modifier: Modifier = Modifier,
+  contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
-    ) {
-        GroupsList(
-            groupList = groupList,
-            onGroupClick = { onGroupClick(it.id) },
-            contentPadding = contentPadding,
-            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
-        )
-    }
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier,
+  ) {
+    GroupsList(
+      groupList = groupList,
+      onGroupClick = { onGroupClick(it.id) },
+      contentPadding = contentPadding,
+      modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
+    )
+  }
 }
 
 @Composable
 private fun <G : Group<*>> GroupsList(
-    groupList: List<G>,
-    onGroupClick: (G) -> Unit,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier,
+  groupList: List<G>,
+  onGroupClick: (G) -> Unit,
+  contentPadding: PaddingValues,
+  modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = contentPadding,
-    ) {
-        if (groupList.isNotEmpty()) {
-            items(
-                items = groupList,
-                key = { it.id },
-            ) { group ->
-                GroupCard(
-                    group = group,
-                    modifier = modifier
-                        .padding(dimensionResource(id = R.dimen.padding_small))
-                        .clickable { onGroupClick(group) }
-                )
-            }
-        }
+  LazyColumn(
+    modifier = modifier,
+    contentPadding = contentPadding,
+  ) {
+    if (groupList.isNotEmpty()) {
+      items(
+        items = groupList,
+        key = { it.id },
+      ) { group ->
+        GroupCard(
+          group = group,
+          modifier = modifier
+            .padding(dimensionResource(id = R.dimen.padding_small))
+            .clickable { onGroupClick(group) }
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun <G : Group<*>> GroupCard(
-    group: G,
-    modifier: Modifier = Modifier,
+  group: G,
+  modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+  Card(
+    modifier = modifier,
+    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+  ) {
+    Column(
+      modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+      verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
     ) {
-        Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = group.name,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-        }
+      Row(
+        modifier = Modifier.fillMaxWidth()
+      ) {
+        Text(
+          text = group.name,
+          style = MaterialTheme.typography.titleLarge,
+        )
+      }
     }
+  }
 }

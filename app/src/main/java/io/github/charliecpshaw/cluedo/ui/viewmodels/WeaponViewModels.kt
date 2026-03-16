@@ -11,48 +11,48 @@ import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupDestination
 import io.github.charliecpshaw.cluedo.ui.navigation.WeaponGroupEditDestination
 
 class WeaponEditViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : ComponentEditViewModel<Weapon, WeaponGroup, WeaponDetails>(
-    id = savedStateHandle.toRoute<WeaponEditDestination>().id,
-    componentRepository = componentRepository,
-    detailsFactory = WeaponDetailsFactory,
+  id = savedStateHandle.toRoute<WeaponEditDestination>().id,
+  componentRepository = componentRepository,
+  detailsFactory = WeaponDetailsFactory,
 )
 
 class WeaponEntryViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : ComponentEntryViewModel<Weapon, WeaponGroup, WeaponDetails>(
-    groupId = savedStateHandle.toRoute<WeaponEntryDestination>().groupId,
-    componentRepository = componentRepository,
-    detailsFactory = WeaponDetailsFactory,
+  groupId = savedStateHandle.toRoute<WeaponEntryDestination>().groupId,
+  componentRepository = componentRepository,
+  detailsFactory = WeaponDetailsFactory,
 )
 
 class WeaponGroupEntryViewModel(
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
+  componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupEntryViewModel<Weapon, WeaponGroup>(
-    componentRepository,
+  componentRepository,
 )
 
 
 class WeaponGroupEditViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupEditViewModel<Weapon, WeaponGroup>(
-    id = savedStateHandle.toRoute<WeaponGroupEditDestination>().id,
-    componentRepository = componentRepository,
+  id = savedStateHandle.toRoute<WeaponGroupEditDestination>().id,
+  componentRepository = componentRepository,
 )
 
 class WeaponGroupsViewModel(
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
+  componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupsViewModel<Weapon, WeaponGroup>(
-    componentRepository,
+  componentRepository,
 )
 
 class WeaponGroupViewModel(
-    savedStateHandle: SavedStateHandle,
-    componentRepository: ComponentRepository<Weapon, WeaponGroup>,
+  savedStateHandle: SavedStateHandle,
+  componentRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupViewModel<Weapon, WeaponGroup>(
-    groupId = savedStateHandle.toRoute<WeaponGroupDestination>().id,
-    componentRepository = componentRepository,
+  groupId = savedStateHandle.toRoute<WeaponGroupDestination>().id,
+  componentRepository = componentRepository,
 )

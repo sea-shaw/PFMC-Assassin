@@ -19,54 +19,54 @@ import io.github.charliecpshaw.cluedo.ui.viewmodels.NameEntryUiState
 
 @Composable
 fun NameEntryBody(
-    uiState: NameEntryUiState,
-    onNameValueChange: (String) -> Unit,
-    @StringRes saveActionResId: Int,
-    canClickSave: Boolean,
-    onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier,
+  uiState: NameEntryUiState,
+  onNameValueChange: (String) -> Unit,
+  @StringRes saveActionResId: Int,
+  canClickSave: Boolean,
+  onSaveClick: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
+  Column(
+    modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
+    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
+  ) {
+    GroupEntryForm(
+      name = uiState.name,
+      onValueChange = onNameValueChange,
+      modifier = Modifier.fillMaxWidth(),
+    )
+    Button(
+      onClick = onSaveClick,
+      enabled = uiState.isValidInput && canClickSave,
+      shape = MaterialTheme.shapes.small,
+      modifier = Modifier.fillMaxWidth(),
     ) {
-        GroupEntryForm(
-            name = uiState.name,
-            onValueChange = onNameValueChange,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Button(
-            onClick = onSaveClick,
-            enabled = uiState.isValidInput && canClickSave,
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = stringResource(saveActionResId))
-        }
+      Text(text = stringResource(saveActionResId))
     }
+  }
 }
 
 @Composable
 private fun GroupEntryForm(
-    name: String,
-    modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit,
+  name: String,
+  modifier: Modifier = Modifier,
+  onValueChange: (String) -> Unit,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
-    ) {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { onValueChange(it) },
-            label = { Text(stringResource(R.string.name_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
-        )
-    }
+  Column(
+    modifier = modifier,
+    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
+  ) {
+    OutlinedTextField(
+      value = name,
+      onValueChange = { onValueChange(it) },
+      label = { Text(stringResource(R.string.name_req)) },
+      colors = OutlinedTextFieldDefaults.colors(
+        focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+        unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+        disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+      ),
+      modifier = Modifier.fillMaxWidth(),
+      singleLine = true,
+    )
+  }
 }

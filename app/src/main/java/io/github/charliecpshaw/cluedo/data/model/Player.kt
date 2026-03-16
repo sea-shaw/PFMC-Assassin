@@ -6,31 +6,31 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "player",
-    foreignKeys = [
-        ForeignKey(
-            entity = PlayerGroup::class,
-            parentColumns = ["id"],
-            childColumns = ["group_id"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.CASCADE,
-        ),
-    ],
+  tableName = "player",
+  foreignKeys = [
+    ForeignKey(
+      entity = PlayerGroup::class,
+      parentColumns = ["id"],
+      childColumns = ["group_id"],
+      onUpdate = ForeignKey.CASCADE,
+      onDelete = ForeignKey.CASCADE,
+    ),
+  ],
 )
 data class Player(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    override val id: Long = 0,
+  @PrimaryKey(autoGenerate = true)
+  @ColumnInfo(name = "id")
+  override val id: Long = 0,
 
-    @ColumnInfo(name = "name")
-    override val name: String,
+  @ColumnInfo(name = "name")
+  override val name: String,
 
-    @ColumnInfo(name = "email_address")
-    val emailAddress: String?,
+  @ColumnInfo(name = "email_address")
+  val emailAddress: String?,
 
-    @ColumnInfo(name = "group_id", index = true)
-    override val groupId: Long,
+  @ColumnInfo(name = "group_id", index = true)
+  override val groupId: Long,
 
-    @ColumnInfo(name = "is_active")
-    override val isActive: Boolean,
+  @ColumnInfo(name = "is_active")
+  override val isActive: Boolean,
 ) : Component

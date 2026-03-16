@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "place_group")
 data class PlaceGroup(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    override val id: Long = 0,
+  @PrimaryKey(autoGenerate = true)
+  @ColumnInfo(name = "id")
+  override val id: Long = 0,
 
-    @ColumnInfo(name = "name")
-    override val name: String,
+  @ColumnInfo(name = "name")
+  override val name: String,
 ) : Group<Place>

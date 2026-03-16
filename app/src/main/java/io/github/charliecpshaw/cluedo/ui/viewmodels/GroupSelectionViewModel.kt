@@ -18,37 +18,37 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 abstract class GroupSelectionViewModel<C : Component, G : Group<C>>(
-    componentRepository: ComponentRepository<C, G>,
+  componentRepository: ComponentRepository<C, G>,
 ) : ViewModel() {
 
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
-    }
+  companion object {
+    private const val TIMEOUT_MILLIS = 5_000L
+  }
 
-    val uiState: StateFlow<GroupsUiState<G>> = componentRepository.getNonEmptyGroupsStream()
-        .filterNotNull()
-        .map { GroupsUiState(it) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-            initialValue = GroupsUiState(),
-        )
+  val uiState: StateFlow<GroupsUiState<G>> = componentRepository.getNonEmptyGroupsStream()
+    .filterNotNull()
+    .map { GroupsUiState(it) }
+    .stateIn(
+      scope = viewModelScope,
+      started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+      initialValue = GroupsUiState(),
+    )
 }
 
 class PlayerGroupSelectionViewModel(
-    playerRepository: ComponentRepository<Player, PlayerGroup>,
+  playerRepository: ComponentRepository<Player, PlayerGroup>,
 ) : GroupSelectionViewModel<Player, PlayerGroup>(
-    componentRepository = playerRepository,
+  componentRepository = playerRepository,
 )
 
 class PlaceGroupSelectionViewModel(
-    placeRepository: ComponentRepository<Place, PlaceGroup>,
+  placeRepository: ComponentRepository<Place, PlaceGroup>,
 ) : GroupSelectionViewModel<Place, PlaceGroup>(
-    componentRepository = placeRepository,
+  componentRepository = placeRepository,
 )
 
 class WeaponGroupSelectionViewModel(
-    weaponRepository: ComponentRepository<Weapon, WeaponGroup>,
+  weaponRepository: ComponentRepository<Weapon, WeaponGroup>,
 ) : GroupSelectionViewModel<Weapon, WeaponGroup>(
-    componentRepository = weaponRepository,
+  componentRepository = weaponRepository,
 )

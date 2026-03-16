@@ -15,49 +15,49 @@ import io.github.charliecpshaw.cluedo.data.repository.OfflinePlayerRepository
 import io.github.charliecpshaw.cluedo.data.repository.OfflineWeaponRepository
 
 interface AppContainer {
-    val playerRepository: ComponentRepository<Player, PlayerGroup>
-    val placeRepository: ComponentRepository<Place, PlaceGroup>
-    val weaponRepository: ComponentRepository<Weapon, WeaponGroup>
+  val playerRepository: ComponentRepository<Player, PlayerGroup>
+  val placeRepository: ComponentRepository<Place, PlaceGroup>
+  val weaponRepository: ComponentRepository<Weapon, WeaponGroup>
 
-    val gameRepository: GameRepository
+  val gameRepository: GameRepository
 }
 
 class AppDataContainer(
-    private val context: Context,
+  private val context: Context,
 ) : AppContainer {
-    override val playerRepository: ComponentRepository<Player, PlayerGroup> by lazy {
-        val database = CluedoDatabase.getDatabase(context)
-        OfflinePlayerRepository(
-            playerGroupDao = database.playerGroupDao(),
-            playerDao = database.playerDao(),
-        )
-    }
+  override val playerRepository: ComponentRepository<Player, PlayerGroup> by lazy {
+    val database = CluedoDatabase.getDatabase(context)
+    OfflinePlayerRepository(
+      playerGroupDao = database.playerGroupDao(),
+      playerDao = database.playerDao(),
+    )
+  }
 
-    override val placeRepository: ComponentRepository<Place, PlaceGroup> by lazy {
-        val database = CluedoDatabase.getDatabase(context)
-        OfflinePlaceRepository(
-            placeGroupDao = database.placeGroupDao(),
-            placeDao = database.placeDao(),
-        )
-    }
+  override val placeRepository: ComponentRepository<Place, PlaceGroup> by lazy {
+    val database = CluedoDatabase.getDatabase(context)
+    OfflinePlaceRepository(
+      placeGroupDao = database.placeGroupDao(),
+      placeDao = database.placeDao(),
+    )
+  }
 
-    override val weaponRepository: ComponentRepository<Weapon, WeaponGroup> by lazy {
-        val database = CluedoDatabase.getDatabase(context)
-        OfflineWeaponRepository(
-            weaponGroupDao = database.weaponGroupDao(),
-            weaponDao = database.weaponDao(),
-        )
-    }
+  override val weaponRepository: ComponentRepository<Weapon, WeaponGroup> by lazy {
+    val database = CluedoDatabase.getDatabase(context)
+    OfflineWeaponRepository(
+      weaponGroupDao = database.weaponGroupDao(),
+      weaponDao = database.weaponDao(),
+    )
+  }
 
-    override val gameRepository: GameRepository by lazy {
-        val database = CluedoDatabase.getDatabase(context)
-        OfflineGameRepository(
-            gameDao = database.gameDao(),
-            gamePlayerDao = database.gamePlayerDao(),
-            playerInfoDao = database.playerInfoDao(),
-            playerDao = database.playerDao(),
-            placeDao = database.placeDao(),
-            weaponDao = database.weaponDao(),
-        )
-    }
+  override val gameRepository: GameRepository by lazy {
+    val database = CluedoDatabase.getDatabase(context)
+    OfflineGameRepository(
+      gameDao = database.gameDao(),
+      gamePlayerDao = database.gamePlayerDao(),
+      playerInfoDao = database.playerInfoDao(),
+      playerDao = database.playerDao(),
+      placeDao = database.placeDao(),
+      weaponDao = database.weaponDao(),
+    )
+  }
 }

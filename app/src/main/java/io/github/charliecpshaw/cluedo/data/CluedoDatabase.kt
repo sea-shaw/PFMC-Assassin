@@ -25,47 +25,47 @@ import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 private const val CURRENT_VERSION = 6
 
 @Database(
-    entities = [
-        Game::class,
-        GamePlayer::class,
-        Place::class,
-        PlaceGroup::class,
-        Player::class,
-        PlayerGroup::class,
-        Weapon::class,
-        WeaponGroup::class,
-    ],
-    version = CURRENT_VERSION,
-    exportSchema = false,
+  entities = [
+    Game::class,
+    GamePlayer::class,
+    Place::class,
+    PlaceGroup::class,
+    Player::class,
+    PlayerGroup::class,
+    Weapon::class,
+    WeaponGroup::class,
+  ],
+  version = CURRENT_VERSION,
+  exportSchema = false,
 )
 abstract class CluedoDatabase : RoomDatabase() {
 
-    abstract fun gameDao(): GameDao
-    abstract fun gamePlayerDao(): GamePlayerDao
-    abstract fun placeDao(): PlaceDao
-    abstract fun placeGroupDao(): PlaceGroupDao
-    abstract fun playerDao(): PlayerDao
-    abstract fun playerGroupDao(): PlayerGroupDao
+  abstract fun gameDao(): GameDao
+  abstract fun gamePlayerDao(): GamePlayerDao
+  abstract fun placeDao(): PlaceDao
+  abstract fun placeGroupDao(): PlaceGroupDao
+  abstract fun playerDao(): PlayerDao
+  abstract fun playerGroupDao(): PlayerGroupDao
 
-    abstract fun playerInfoDao(): PlayerInfoDao
+  abstract fun playerInfoDao(): PlayerInfoDao
 
-    abstract fun weaponDao(): WeaponDao
-    abstract fun weaponGroupDao(): WeaponGroupDao
+  abstract fun weaponDao(): WeaponDao
+  abstract fun weaponGroupDao(): WeaponGroupDao
 
-    companion object {
-        @Volatile
-        private var Instance: CluedoDatabase? = null
+  companion object {
+    @Volatile
+    private var Instance: CluedoDatabase? = null
 
-        fun getDatabase(context: Context): CluedoDatabase {
-            return Instance ?: synchronized(this) {
-                Room.databaseBuilder(
-                    context,
-                    CluedoDatabase::class.java,
-                    "cluedo_database"
-                ).fallbackToDestructiveMigration(true)
-                    .build()
-                    .also { Instance = it }
-            }
-        }
+    fun getDatabase(context: Context): CluedoDatabase {
+      return Instance ?: synchronized(this) {
+        Room.databaseBuilder(
+          context,
+          CluedoDatabase::class.java,
+          "cluedo_database"
+        ).fallbackToDestructiveMigration(true)
+          .build()
+          .also { Instance = it }
+      }
     }
+  }
 }

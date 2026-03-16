@@ -6,17 +6,17 @@ import io.github.charliecpshaw.cluedo.data.model.Weapon
 import io.github.charliecpshaw.cluedo.data.model.WeaponGroup
 
 class OfflineWeaponRepository(
-    weaponGroupDao: WeaponGroupDao,
-    private val weaponDao: WeaponDao,
+  weaponGroupDao: WeaponGroupDao,
+  private val weaponDao: WeaponDao,
 ) : OfflineComponentRepository<Weapon, WeaponGroup>(
-    groupDao = weaponGroupDao,
-    componentDao = weaponDao,
+  groupDao = weaponGroupDao,
+  componentDao = weaponDao,
 ) {
-    override suspend fun canDeleteComponent(id: Long): Boolean {
-        return weaponDao.canDelete(id)
-    }
+  override suspend fun canDeleteComponent(id: Long): Boolean {
+    return weaponDao.canDelete(id)
+  }
 
-    override suspend fun onDeleteComponent(id: Long) {
-        weaponDao.replaceWithRandomInGames(id)
-    }
+  override suspend fun onDeleteComponent(id: Long) {
+    weaponDao.replaceWithRandomInGames(id)
+  }
 }
